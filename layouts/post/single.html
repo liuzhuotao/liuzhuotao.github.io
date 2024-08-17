@@ -1,0 +1,12 @@
+{{ define "main" }}
+<div>
+	<header>
+		{{ if .Params.author }}
+			<p>{{ .Params.author }}<br>{{ .Date.Format $.Site.Params.time_format_default }}</p>
+		{{ end }}
+	</header>
+	<article>
+		{{ .Content }}
+	</article>
+</div>
+{{ end }}

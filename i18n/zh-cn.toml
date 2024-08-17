@@ -1,0 +1,62 @@
+# See https://github.com/nicksnyder/go-i18n for format documentation and some tools.
+
+[home_hero_title]
+other = "Let&rsquo;s Encrypt is a <span>free</span>, <span>automated</span>, and <span>open</span> Certificate Authority."
+
+[home_hero_getting_started]
+other = "Get Started"
+
+[home_hero_donate]
+other = "Donate"
+
+[home_major_sponsors]
+other = "Major Sponsors and Donors"
+
+[home_from_our_blog]
+other = "From our blog"
+
+[read_more]
+other = "Read more"
+
+[footer_support_us]
+other = "Support a more secure and privacy-respecting Web."
+
+[footer_mailing]
+other = "Send all mail or inquiries to:"
+
+[last_updated]
+other = "Last updated:"
+
+[see_all_doc]
+other = "See all Documentation"
+
+[footer_affiliations_title]
+other = "相关单位"
+
+
+[languages]
+other = "Languages"
+
+[research]
+other = "研究"
+
+[join_us]
+other = "加入我们"
+
+[team]
+other = "团队"
+
+[publications]
+other = "发表"
+
+[news]
+other = "动态"
+
+[address]
+other = "北京市海淀区清华大学FIT楼"
+
+[copyright]
+other = "© 2024 InspiringGroup. 保留所有权利。"
+
+[more_news]
+other = "更多动态"
