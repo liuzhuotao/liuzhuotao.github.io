@@ -50,7 +50,6 @@
             {{ .Date.Format $.Site.Params.time_format_chinese }}
           {{ end }}
           <h5 class="heading">{{ .Title }}</h5>
-          {{ with .Params.excerpt }} <p>{{ . | markdownify }}</p> {{ else }} <p>{{ .Summary }}</p> {{ end }}
           {{ if .Params.has_more }}
             <a href="{{ .Permalink }}" class="link font-weight-bold" data-link="1">{{ i18n "read_more" }}</a>
           {{ end }}
