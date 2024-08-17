@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  {{ partial "head.html" . }} {{ partial "header.html" . }}
+  <section class="slice slice-isrg bg-cover bg-size--cover overflow-hidden" data-spotlight="fullscreen" data-separator="rounded-left" data-separator-orientation="bottom">
+    <span class="mask bg-gradient-secondary opacity-8"></span>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="pt-lg-md pb-lg-md">
+            <h1 id="page-title" class="heading display-4 font-weight-300 lh-110 mb-4">InspiringGroup</h1>
+            <p class="lead lh-180">
+              {{ if eq .Site.Language.Lang "en" }}
+                The InspiringGroup is a dynamic research group here @ <a href='https://www.insc.tsinghua.edu.cn/'>Tsinghua University INSC</a>. We have worked on a wide range of topics centering around data. We build secure and efficient underlying systems infrastructure to support data transmissions and computations. Meanwhile, we create various data-centric applications with special interests on data security and privacy.
+              {{ else if eq .Site.Language.Lang "zh-cn" }}
+                InspiringGroup 是<a href='https://www.insc.tsinghua.edu.cn/'>清华大学网络科学与网络空间研究院</a>的一个研究小组。我们致力于数据相关的研究，包括数据传输和计算的安全和效率的基础设施，以及数据安全和隐私的应用。
+              {{ end }}
+            </p>
+            <div class="mt-5">
+              <a href={{ "/publications/" | relLangURL }} class="btn btn-primary btn-sm btn-circle btn-translate--hover mr-2 mt-2">{{ i18n "publications" }}</a>
+              <a href={{ "/join/" | relLangURL }} class="btn btn-primary btn-sm btn-circle btn-translate--hover mr-2 mt-2">{{ i18n "join_us" }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 homepage-logos-column">
+          <div class="pt-lg-md pb-lg-md">
+            <div>
+              <a href="https://www.tsinghua.edu.cn/en/"><img src="/images/tsinghua.png" /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slice">
+    <div class="container">
+      <h3>【TODO】there is main page intro</h3>
+    </div>
+  </section>
+
+  <section class="slice">
+    <div class="container">
+      <h2 class="eyebrow-text"><a href={{ "/news" | relLangURL }}>Latest News</a></h2>
+      {{ $posts := where .Site.RegularPages "Type" "in" (slice "post") | first 7 }} {{ range $posts }}
+      <div class="row row-grid">
+        <div class="col-md-12 col-lg-12">
+          {{ if eq .Site.Language.Lang "en" }}
+            {{ .Date.Format $.Site.Params.time_format_default }}
+          {{ else if eq .Site.Language.Lang "zh-cn" }}
+            {{ .Date.Format $.Site.Params.time_format_chinese }}
+          {{ end }}
+          <h5 class="heading">{{ .Title }}</h5>
+          {{ with .Params.excerpt }} <p>{{ . | markdownify }}</p> {{ else }} <p>{{ .Summary }}</p> {{ end }}
+          {{ if .Params.has_more }}
+            <a href="{{ .Permalink }}" class="link font-weight-bold" data-link="1">{{ i18n "read_more" }}</a>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+      <div class="row row-grid">
+        <div class="col-md-12 col-lg-12">
+        <a href={{ "/news" | relLangURL }} class="">{{ i18n "more_news" }}</a>
+        </div>  
+      </div>
+    </div>
+  </section>
+
+  <!-- {{ partial "projects/projects-column.html" }} -->
+
+
+  {{ partial "footer.html" . }}
+</html>

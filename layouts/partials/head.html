@@ -1,0 +1,27 @@
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <title>{{ if ne .Title .Site.Title }}{{ .Title }} - {{ end }} {{ .Site.Title }}</title>
+  <link href="/favicon.png" rel="icon" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  <link type="text/css" href="/purpose-theme/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.css" rel="stylesheet" />
+  <link type="text/css" href="/purpose-theme/css/theme.min.css" rel="stylesheet" />
+  <link type="text/css" href="/_additional-styles.css" rel="stylesheet" />
+  {{ if .Params.include_tenthanniversary_assets }}
+  <script src="/tenth-anniversary.js"></script>
+  <link type="text/css" rel="stylesheet" href="/tenth-anniversary.css" />
+  {{ end }} {{ template "_internal/opengraph.html" . }}
+  <!-- -->
+  <meta name="twitter:card" content="{{ .Param "twitter_card_format" }}" />
+  <!-- -->
+  <meta name="twitter:image" content="{{ .Site.BaseURL }}{{ if eq (.Param "twitter_card_format") "summary" }}{{ .Param "social_share_twitter_square" }}{{ end }}{{ if ne (.Param "twitter_card_format") "summary" }}{{ .Param "social_share_twitter_wide" }}{{ end }}" />
+  <!-- -->
+  <meta name="twitter:image:src" content="{{ .Site.BaseURL }}{{ if eq (.Param "twitter_card_format") "summary" }}{{ .Param "social_share_twitter_square" }}{{ end }}{{ if ne (.Param "twitter_card_format") "summary" }}{{ .Param "social_share_twitter_wide" }}{{ end }}" />
+  {{ if .Param "math" }}
+    {{ partialCached "math.html" . }}
+  {{ end }}
+  <!-- -->
+</head>

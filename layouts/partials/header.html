@@ -1,0 +1,57 @@
+<body>
+  <header class="header-transparent">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary py-3" id="navbar-main">
+      <div class="container">
+        <a class="navbar-brand mr-lg-5" href={{ "/" | relLangURL }}>InspiringGroup</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-main-collapse" aria-controls="navbar-main" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-main-collapse">
+          <ul class="navbar-nav align-items-lg-center">
+            <!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
+              <div class="dropdown-menu dropdown-menu-lg py-0">
+                <div class="list-group list-group-flush">
+                  <a href="https://example.com/" target="_blank" class="list-group-item list-group-item-action">
+                    <div class="media d-flex align-items-center">
+                      <div class="media-body ml-3">
+                        <h2 class="heading h6 mb-1">Test dropdown item</h2>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </li> -->
+            <!-- <li class="nav-item">
+              <a class="nav-link" href={{ "/research/" | relLangURL }}>{{ i18n "research" }}</a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href={{ "/publications/" | relLangURL }}>{{ i18n "publications" }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href={{ "/team/" | relLangURL }}>{{ i18n "team" }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href={{ "/news/" | relLangURL }}>{{ i18n "news" }}</a>
+            </li>
+
+          </ul>
+          <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+            <li class="nav-item mr-0">
+              <a href={{ "/join/" | relLangURL }} class="btn btn-sm btn-primary btn-circle btn-icon d-none d-lg-inline-flex">
+                <span class="btn-inner--text">{{ i18n "join_us" }}</span>
+              </a>
+            </li>
+            {{ range .Translations }}
+            <li class="nav-item mr-0">
+            <a class="nav-link" href="{{ .Permalink }}">{{ .Site.Language.LanguageName }}</a>
+            </li>
+            {{ end }}
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main></main>
+</body>

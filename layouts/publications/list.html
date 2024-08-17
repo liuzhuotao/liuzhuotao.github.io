@@ -1,0 +1,74 @@
+{{ define "main" }}
+<div>
+    {{ $postsByCategory := ((where .Site.RegularPages "Type" "in" (slice "publications")).GroupByParam "category") }}
+    <p><h5>* indicates primary authors. Undererlined students are from inspiring group.</h5></p>
+    {{ range $category, $posts := $postsByCategory }}
+      <h3>{{ if ne $category "" }}{{ .Key }}{{ else }}{{ "Undefined" }}{{ end }}</h3>
+      {{ $sorted_posts := ($posts.ByParam "seq").Reverse }}
+      {{ range $sorted_posts }}
+        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+          <a href="{{ .Permalink }}" style="text-decoration: none; color: black;">
+            <h4 style="margin-bottom: 5px;">{{ .Title }}</h4>
+          </a>
+          
+          {{ if .Params.conference }}
+            {{ if .Params.conference_url}}
+              <a href="{{ .Params.conference_url }}" target="_blank" style="background-color: GREY; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px; white-space: nowrap;">{{ .Params.conference }}</a>
+            {{ else }}
+              <p style="background-color: GREY; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px; white-space: nowrap;"> {{ .Params.conference }} </p>
+            {{ end }}
+          {{ end }}
+        </div>
+
+          {{ with .Params.authors }}
+            <p>{{ . | safeHTML }}</p>
+          {{ end }}
+          
+          {{ with .Params.excerpt }}
+            <p><em>{{ . }}</em></p>
+          {{ end }}
+
+          {{ with .Params.award }}
+            <p style="color: red;"><strong>{{ . }}</strong></p>
+          {{ end }}
+          
+          <div style="margin-top: 10px;">
+
+            {{ with .Params.doi }}
+              <a href="{{ . }}" style="margin-right: 10px; background-color: #008CBA; color: white; padding: 5px 10px; text-decoration: none;">DOI</a>
+            {{ end }}
+
+            {{ with .Params.pdf }}
+              <a href="{{ . }}" style="margin-right: 10px; background-color: #f44336; color: white; padding: 5px 10px; text-decoration: none;">PDF</a>
+            {{ end }}
+
+            {{ with .Params.code }}
+              <a href="{{ . }}" style="margin-right: 10px; background-color: #f89304; color: white; padding: 5px 10px; text-decoration: none;">Code</a>
+            {{ end }}
+
+            {{ with .Params.slides }}
+              <a href="{{ . }}" style="margin-right: 10px; background-color: #e7e7e7; color: black; padding: 5px 10px; text-decoration: none;">Slides</a>
+            {{ end }}
+
+            {{ with .Params.patent }}
+              <a href="{{ . }}" style="margin-right: 10px; background-color: #e7e7e7; color: black; padding: 5px 10px; text-decoration: none;">Patent</a>
+            {{ end }}
+
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+</div>
+<script>
+  $(document).ready(function() {
+    $('.toggle-abstract').on('click', function() {
+      $(this).next('.content-abstract').slideToggle();
+    });
+
+    $('.toggle-bib').on('click', function() {
+      $(this).next('.content-bib').slideToggle();
+    });
+  });
+</script>
+{{ end }}

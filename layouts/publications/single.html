@@ -1,0 +1,25 @@
+{{ define "main" }}
+<div style="padding: 20px; border: 1px solid #ddd;">
+    <h1>{{ .Title }}</h1>
+    <p><strong>Authors:</strong> {{ .Params.authors | markdownify }}</p>
+
+    {{ with .Params.abstract }}
+    <h3>Abstract</h3>
+    <p>{{ . | markdownify }}</p>
+    {{ end }}
+
+    {{ with .Params.bib }}
+    <h3>BibTeX</h3>
+    <p>{{ . | markdownify }}</p>
+    {{ end }}
+
+    {{ with .Params.pdf }}
+    <p><a href="{{ . }}" style="background-color: #f44336; color: white; padding: 10px 15px; text-decoration: none;">Download PDF</a></p>
+    {{ end }}
+    <br>
+    {{ with .Params.slides }}
+    <p><a href="{{ . }}" style="background-color: #e7e7e7; color: black; padding: 10px 15px; text-decoration: none;">View Slides</a></p>
+    {{ end }}
+
+</div>
+{{ end }}

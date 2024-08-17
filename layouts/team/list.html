@@ -1,0 +1,62 @@
+{{ define "main" }}
+<div>
+    {{ if eq .Site.Language.Lang "en" }}
+    <h3> Principal Investigator (PI) </h3>
+    {{ else if eq .Site.Language.Lang "zh-cn" }}
+    <h3> 研究员 (PI) </h3>
+    {{ end }}
+    {{ $posts := ((where .Site.RegularPages "Type" "in" (slice "pi")).ByParam "seq")}}
+    {{ range $posts }}
+    <div class="avatar-container">
+      <img src="{{ .Params.image }}"/>
+      <div  class="info-container">
+      <p>{{ .Content | markdownify }}</p>
+      </div>
+    </div>
+    {{ end }}
+    
+    <div class="container">
+    {{ if eq .Site.Language.Lang "en" }}
+    <h3> Ph.D. Students </h3>
+    {{ else if eq .Site.Language.Lang "zh-cn" }}
+    <h3> 博士生 </h3>
+    {{ end }}
+    {{ $posts := ((where .Site.RegularPages "Type" "in" (slice "phd_members")).ByParam "seq")}}
+    
+    {{ range $posts }}
+      <div class="student-avatar-container">
+        <img src="{{ .Params.image }}"/>
+        <div class="info-container">
+        <p>{{ .Content | markdownify }}</p>
+        </div>
+      </div>
+    {{ end }}
+    </div>
+
+    <div class="container">
+    {{ if eq .Site.Language.Lang "en" }}
+    <h3> Master Students </h3>
+    {{ else if eq .Site.Language.Lang "zh-cn" }}
+    <h3> 硕士生 </h3>
+    {{ end }}
+    {{ $posts := ((where .Site.RegularPages "Type" "in" (slice "master_members")).ByParam "seq")}}
+    {{ range $posts }}
+      <div class="student-avatar-container">
+        <img src="{{ .Params.image }}"/>
+        <div class="info-container">
+        <p>{{ .Content | markdownify }}</p>
+        </div>
+      </div>
+    {{ end }}
+    </div>
+    <br>
+    <!-- <div class="container">
+    {{ $posts := ((where .Site.RegularPages "Type" "in" (slice "team")).ByParam "seq")}}
+    {{ range $posts }}
+      <div class="team-container">
+        <article>{{ .Content | markdownify }}</article>
+      </div>
+    {{ end }}
+    </div> -->
+</div>
+{{ end }}
