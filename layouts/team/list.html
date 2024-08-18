@@ -8,8 +8,8 @@
     {{ $posts := ((where .Site.RegularPages "Type" "in" (slice "pi")).ByParam "seq")}}
     {{ range $posts }}
     <div class="avatar-container">
-      <img width=20% class="img-responsive" src="{{ .Params.image }}"/>
-      <div  class="info-container">
+      <img width=20% class="card border-0 pic-quote-left" src="{{ .Params.image }}"/>
+      <div>
       <p>{{ .Content | markdownify }}</p>
       </div>
     </div>
@@ -27,18 +27,25 @@
       <div class="student-avatar-container">
         <div class="info-container">
         <p>{{ .Content | markdownify }}</p>
-        {{ if .Params.publications}}
-        <p>publications: 
-        {{ range .Params.publications }}
-          {{ $p := site.GetPage .}}
-          {{ with $p }}
-            <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
-              [{{ .Params.tag}}]
-            </a>
+        <ul>
+          {{ range .Params.infos }}
+            <li> {{.}} </li>
           {{ end }}
-        {{ end }}
-        </p>
-      {{ end }}
+          
+            {{ if .Params.publications}}
+            <li>
+            publications: 
+              {{ range .Params.publications }}
+                {{ $p := site.GetPage .}}
+                {{ with $p }}
+                  <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+                    [{{ .Params.tag}}]
+                  </a>
+                {{ end }}
+              {{ end }}
+            {{ end }}
+            </li>
+        </ul>
         </div>
       </div>
     {{ end }}
@@ -55,18 +62,24 @@
       <div class="student-avatar-container">
         <div class="info-container">
         <p>{{ .Content | markdownify }}</p>
-        {{ if .Params.publications}}
-          <p>publications: 
-          {{ range .Params.publications }}
-            {{ $p := site.GetPage .}}
-            {{ with $p }}
-              <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
-                [{{ .Params.tag}}]
-              </a>
-            {{ end }}
+        <ul>
+          {{ range .Params.infos }}
+            <li> {{.}} </li>
           {{ end }}
-          </p>
-        {{ end }}
+            {{ if .Params.publications}}
+            <li>
+            publications: 
+              {{ range .Params.publications }}
+                {{ $p := site.GetPage .}}
+                {{ with $p }}
+                  <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+                    [{{ .Params.tag}}]
+                  </a>
+                {{ end }}
+              {{ end }}
+            {{ end }}
+            </li>
+        </ul>
         </div>
       </div>
     {{ end }}
