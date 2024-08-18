@@ -39,16 +39,19 @@
         {{ $pub_section := .Site.GetPage "section" "publications" }}
         {{ range $pub_section.Sections.ByParam "rank" }}
         <li>
-          {{.Title}} : 
+          <strong>{{.Title}}</strong> : 
+          <ul>
           {{ range .Sections.ByParam "rank"}}
-            {{.Title}} 
+          <li>
+            {{.Title}} : 
               {{ range .Pages.ByParam "seq"}}
               <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
                 [{{.Params.tag}}]
               </a>
               {{ end }}
-            .
+          </li>
           {{ end }}
+            </ul>
         </li>
         {{ end }}
       </ul>
