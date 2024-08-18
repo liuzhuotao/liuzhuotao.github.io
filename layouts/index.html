@@ -34,7 +34,25 @@
 
   <section class="slice">
     <div class="container">
-      <h3>【TODO】there is main page intro</h3>
+      <h2 class="eyebrow-text">Research</h2>
+      <ul>
+        {{ $pub_section := .Site.GetPage "section" "publications" }}
+        {{ range $pub_section.Sections.ByParam "rank" }}
+        <li>
+          {{.Title}} : 
+          {{ range .Sections.ByParam "rank"}}
+            {{.Title}} 
+              {{ range .Pages.ByParam "seq"}}
+              <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+                [{{.Params.tag}}]
+              </a>
+              {{ end }}
+            .
+          {{ end }}
+        </li>
+        {{ end }}
+      </ul>
+      
     </div>
   </section>
 

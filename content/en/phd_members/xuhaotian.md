@@ -1,6 +1,8 @@
 ---
 seq: 4
 image: /images/team/xuhaotian.jpg
+publications:
+  - 3-2-1.md
 ---
 
 ### Haotian Xu

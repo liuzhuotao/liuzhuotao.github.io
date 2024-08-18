@@ -25,9 +25,20 @@
     
     {{ range $posts }}
       <div class="student-avatar-container">
-        <img src="{{ .Params.image }}"/>
         <div class="info-container">
         <p>{{ .Content | markdownify }}</p>
+        {{ if .Params.publications}}
+        <p>publications: 
+        {{ range .Params.publications }}
+          {{ $p := site.GetPage .}}
+          {{ with $p }}
+            <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+              [{{ .Params.tag}}]
+            </a>
+          {{ end }}
+        {{ end }}
+        </p>
+      {{ end }}
         </div>
       </div>
     {{ end }}
@@ -42,9 +53,20 @@
     {{ $posts := ((where .Site.RegularPages "Type" "in" (slice "master_members")).ByParam "seq")}}
     {{ range $posts }}
       <div class="student-avatar-container">
-        <img src="{{ .Params.image }}"/>
         <div class="info-container">
         <p>{{ .Content | markdownify }}</p>
+        {{ if .Params.publications}}
+          <p>publications: 
+          {{ range .Params.publications }}
+            {{ $p := site.GetPage .}}
+            {{ with $p }}
+              <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+                [{{ .Params.tag}}]
+              </a>
+            {{ end }}
+          {{ end }}
+          </p>
+        {{ end }}
         </div>
       </div>
     {{ end }}
