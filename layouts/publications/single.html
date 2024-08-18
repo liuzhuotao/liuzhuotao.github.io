@@ -18,12 +18,13 @@
     {{ end }}
 
     {{ with .Params.pdf }}
-    <p><a href="{{ . }}" style="background-color: #f44336; color: white; padding: 10px 15px; text-decoration: none;">Download PDF</a></p>
+    <p><a href="{{ . }}" style="background-color: #f44336; color: white; padding: 10px 15px; text-decoration: none;">Download PDF</a></p><br>
     {{ end }}
-    <br>
     {{ with .Params.slides }}
-    <p><a href="{{ . }}" style="background-color: #e7e7e7; color: black; padding: 10px 15px; text-decoration: none;">View Slides</a></p>
+    <p><a href="{{ . }}" style="background-color: #e7e7e7; color: black; padding: 10px 15px; text-decoration: none;">View Slides</a></p><br>
     {{ end }}
-
+    {{ with .Params.doi }}
+    <p><a href="{{ . }}" style="background-color: #008CBA; color: white; padding: 10px 15px; text-decoration: none;">DOI Link</a></p><br>
+    {{ end }}
 </div>
 {{ end }}

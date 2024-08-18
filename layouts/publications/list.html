@@ -2,7 +2,7 @@
 
 <div>
 {{ $pub_section := .Site.GetPage "section" "publications" }}
-<p><h5>* indicates primary authors. Undererlined students are from inspiring group.</h5></p>
+<p><h5><sup>✉️</sup> indicates corresponding authors. Undererlined students are from my group.</h5></p>
 {{ range $pub_section.Sections.ByParam "rank" }}
   <h3 style="margin-top:2rem;"> {{ .Title }} </h3>
   {{ $direc_section := .}}
