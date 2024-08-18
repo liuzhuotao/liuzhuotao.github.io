@@ -1,6 +1,8 @@
 ---
 seq: 3
 image: /images/team/yanjinzhu.jpeg
+publications:
+  - 3-2-1.md
 ---
 
 ### Jinzhu Yan

@@ -3,9 +3,13 @@
     <h1>{{ .Title }}</h1>
     <p><strong>Authors:</strong> {{ .Params.authors | markdownify }}</p>
 
-    {{ with .Params.abstract }}
-    <h3>Abstract</h3>
-    <p>{{ . | markdownify }}</p>
+    {{ if .Params.abstract }}
+        {{ with .Params.abstract }}
+        <h3>Abstract</h3>
+        <p>{{ . | markdownify }}</p>
+        {{ end }}
+    {{ else }}
+        <p> To appear in {{.Params.conference}} .</p>
     {{ end }}
 
     {{ with .Params.bib }}

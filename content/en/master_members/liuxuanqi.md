@@ -1,6 +1,8 @@
 ---
 seq: 1
 image: /images/team/liuxuanqi.jpeg
+publications:
+  - 2-1-1.md
 ---
 
 ### Xuanqi Liu

@@ -1,6 +1,8 @@
 ---
 seq: 0
 image: /images/team/liqi.jpg
+publications:
+  - 4-3-1.md
 ---
 
 ### Qi Li
@@ -8,4 +10,3 @@ image: /images/team/liqi.jpg
 
 - Working on Privacy Computing; Blockchain
 - B.E. in Information Security, Beijing University of Posts and Telecommunications
-
