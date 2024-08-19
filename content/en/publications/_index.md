@@ -1,4 +1,4 @@
 ---
-title: Publications
+title: Selected Publications
 url: "/publications/"
 ---

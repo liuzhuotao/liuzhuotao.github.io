@@ -457,7 +457,7 @@
 
 .eyebrow-text,
 .eyebrow-text a {
-  font-size: 20px;
+  font-size: 2.25rem;
   font-weight: bold;
   text-transform: uppercase;
   color: #444;
@@ -638,6 +638,12 @@
   border-radius: 30px;
 }
 
+.text-main-research {
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  /* color: rgb(70, 112, 183); */
+}
+
 .text-xl-36 {
   font-size: 36px;
   line-height: 43px;
@@ -705,4 +711,13 @@
 .bg-gradient-secondary
 {
     background: linear-gradient(80deg, #c2e9e9 0, #c2e9e1 100%) !important;
+}
+
+.main_news
+{
+  border-radius: 2%;
+  background-color: #fafafa;
+  border:#fafafa;
+  border-width: 3px;
+  border-style: ridge;
 }
