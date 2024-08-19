@@ -3,6 +3,7 @@
 <div>
 {{ $pub_section := .Site.GetPage "section" "publications" }}
 <p><h5><sup>✉️</sup> indicates corresponding authors. Undererlined students are from my group.</h5></p>
+<p><h5>Full publication list: <a href="https://scholar.google.com/citations?user=F8gi4rcAAAAJ&hl=en"> [google scholar] </a></h5></p>
 {{ range $pub_section.Sections.ByParam "rank" }}
   <h3 style="margin-top:2rem;"> {{ .Title }} </h3>
   {{ $direc_section := .}}

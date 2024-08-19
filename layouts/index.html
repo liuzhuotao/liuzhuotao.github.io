@@ -10,7 +10,7 @@
             <h1 id="page-title" class="heading display-4 font-weight-300 lh-110 mb-4">InspiringGroup</h1>
             <p class="lead lh-180">
               {{ if eq .Site.Language.Lang "en" }}
-                The InspiringGroup is a dynamic research group here @ <a href='https://www.insc.tsinghua.edu.cn/'>Tsinghua University INSC</a>. We have worked on a wide range of topics centering around data. We build secure and efficient underlying systems infrastructure to support data transmissions and computations. Meanwhile, we create various data-centric applications with special interests on data security and privacy.
+                The InspiringGroup is a dynamic research group led by <a href="./team">Prof. Zhuotao Liu</a>. We have worked on a wide range of topics centering around data. We build secure and efficient underlying systems infrastructure to support data transmissions and computations. Meanwhile, we create various data-centric applications with special interests on data security and privacy.
               {{ else if eq .Site.Language.Lang "zh-cn" }}
                 InspiringGroup 是<a href='https://www.insc.tsinghua.edu.cn/'>清华大学网络科学与网络空间研究院</a>的一个研究小组。我们致力于数据相关的研究，包括数据传输和计算的安全和效率的基础设施，以及数据安全和隐私的应用。
               {{ end }}
@@ -39,6 +39,7 @@
         {{ $pub_section := .Site.GetPage "section" "publications" }}
         {{ range $pub_section.Sections.ByParam "rank" }}
         <li>
+          <div class="text-main-research">
           <strong>{{.Title}}</strong> : 
           <ul>
           {{ range .Sections.ByParam "rank"}}
@@ -51,7 +52,8 @@
               {{ end }}
           </li>
           {{ end }}
-            </ul>
+          </ul>
+        </div>
         </li>
         {{ end }}
       </ul>
@@ -60,7 +62,7 @@
   </section>
 
   <section class="slice">
-    <div class="container">
+    <div class="container main_news">
       <h2 class="eyebrow-text"><a href={{ "/news" | relLangURL }}>Latest News</a></h2>
       {{ $posts := where .Site.RegularPages "Type" "in" (slice "post") | first 7 }} {{ range $posts }}
       <div class="row row-grid">
@@ -70,7 +72,7 @@
           {{ else if eq .Site.Language.Lang "zh-cn" }}
             {{ .Date.Format $.Site.Params.time_format_chinese }}
           {{ end }}
-          <h5 class="heading">{{ .Title }}</h5>
+          <p class="heading">{{ .Title }}</p>
           {{ if .Params.has_more }}
             <a href="{{ .Permalink }}" class="link font-weight-bold" data-link="1">{{ i18n "read_more" }}</a>
           {{ end }}
