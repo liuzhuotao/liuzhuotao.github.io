@@ -32,7 +32,7 @@
           <p><em>{{ . }}</em></p>
         {{ end }}
 
-        {{ with .Params.award }}
+        {{ range .Params.award }}
           <p style="color: red;"><strong>{{ . }}</strong></p>
         {{ end }}
         
