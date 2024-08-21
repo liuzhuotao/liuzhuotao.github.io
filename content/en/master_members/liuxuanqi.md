@@ -1,5 +1,5 @@
 ---
-seq: 1
+seq: 2
 image: /images/team/liuxuanqi.jpeg
 publications:
   - 2-1-1.md
