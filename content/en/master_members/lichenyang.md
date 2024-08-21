@@ -1,5 +1,5 @@
 ---
-seq: 2
+seq: 3
 image: /images/team/lichenyang.jpg
 infos:
   - Working on Hardware Acceleration of Privacy Computing

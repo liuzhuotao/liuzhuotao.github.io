@@ -1,5 +1,5 @@
 ---
-seq: 0
+seq: 1
 image: /images/team/liqi.jpg
 publications:
   - 4-3-1.md
