@@ -1,27 +1,14 @@
 {{ define "main" }}
 <div>
-    {{ $posts := where .Site.RegularPages "Type" "in" (slice "post") }}
+    {{ $posts := (.Site.GetPage "news.md").Params.data }}
     {{ range $posts }}
-      {{ if eq .Site.Language.Lang "en" }}
-        {{ .Date.Format $.Site.Params.time_format_default }}
-      {{ else if eq .Site.Language.Lang "zh-cn" }}
-        {{ .Date.Format $.Site.Params.time_format_chinese }}
+      {{ range $date, $title := .}}
+        <p style="margin-bottom: 0rem;">{{ .date }}</p>
+        <h5 style="margin-top: -0.5rem;">{{ .title | markdownify }}</h5> <br>
       {{ end }}
-      <h5>{{ .Title }}</h5>
-      {{ with .Params.excerpt }}
-      {{ . | markdownify }}
-      {{ else }}
-      {{ .Summary }}
-      {{ end }}
-      <br>
-      {{ if .Params.has_more }}
-        <a href="{{ .Permalink }}">{{ i18n "read_more" }}</a><br>
-      {{ end }}
+
       <br>
     {{ end }}
-  {{ with .Site.Home.OutputFormats.Get "RSS" -}}
-  <p>{{ i18n "subscribe_rss" . | safeHTML }}</p>
-  {{ end  }}
 </div>
 {{ end }}
 
