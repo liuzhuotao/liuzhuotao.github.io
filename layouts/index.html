@@ -64,18 +64,13 @@
   <section class="slice">
     <div class="container main_news">
       <h2 class="eyebrow-text"><a href={{ "/news" | relLangURL }}>Latest News</a></h2>
-      {{ $posts := where .Site.RegularPages "Type" "in" (slice "post") | first 7 }} {{ range $posts }}
+      {{ $posts := (.Site.GetPage "news.md").Params.data | first 7 }} {{ range $posts }}
       <div class="row row-grid">
         <div class="col-md-12 col-lg-12">
-          {{ if eq .Site.Language.Lang "en" }}
-            {{ .Date.Format $.Site.Params.time_format_default }}
-          {{ else if eq .Site.Language.Lang "zh-cn" }}
-            {{ .Date.Format $.Site.Params.time_format_chinese }}
-          {{ end }}
-          <p class="heading">{{ .Title }}</p>
-          {{ if .Params.has_more }}
-            <a href="{{ .Permalink }}" class="link font-weight-bold" data-link="1">{{ i18n "read_more" }}</a>
-          {{ end }}
+          {{ range $date, $title := .}}
+          <p style="margin-bottom: 0rem;">{{ .date }}</p>
+          <h5 style="margin-top: -0.5rem;">{{ .title | markdownify }}</h5> <br>
+        {{ end }}
         </div>
       </div>
       {{ end }}
