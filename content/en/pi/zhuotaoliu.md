@@ -10,7 +10,7 @@ image: "/images/team/zhuotaoliu.jpg"
 </div>
 email: zhuotaoliu [at] tsinghua.edu.cn, zhuotaoliu [at] gmail.com
 
-- PI for projects of multiple NSFC projects and other national research programs
+- PI of multiple NSFC projects and other national research programs
 - Former Technical Lead @ Google’s NetInfra (Network Infrastructure) and GGN (Google Global Networking) team
 - Two-time "Feats of Engineering" Awards at Google for Datacenter Networking
 - Ph.D. from University of Illinois at Urbana-Champaign (UIUC), 2017
