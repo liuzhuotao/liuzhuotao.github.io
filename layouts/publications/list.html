@@ -4,6 +4,10 @@
 {{ $pub_section := .Site.GetPage "section" "publications" }}
 <p><h5><sup>✉️</sup> indicates corresponding authors. Undererlined students are from my group.</h5></p>
 <p><h5>Full publication list: <a href="https://scholar.google.com/citations?user=F8gi4rcAAAAJ&hl=en"> [google scholar] </a></h5></p>
+
+<button id="toggleButton" onclick="togglePosts()">Listed By Date</button>
+
+<div id="topic-section" style="display: block;">
 {{ range $pub_section.Sections.ByParam "rank" }}
   <h3 style="margin-top:2rem;"> {{ .Title }} </h3>
   {{ $direc_section := .}}
@@ -64,7 +68,144 @@
     {{ end }}
   {{ end }}
 {{ end }}
+</div>
+
+<div id="date-section" style="display: none;">
+{{ $new_posts := ((where (where .Site.RegularPages "Type" "in" (slice "publications")) ".Params.year" ">" 2020).GroupByParam "year").Reverse }}
+{{ range $new_posts}}
+  <h3 style="margin-top:2rem;"> {{ .Key }} </h3>
+  {{ range .Pages}}
+  <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+    <a href="{{ .Permalink }}" style="text-decoration: none; color: black;">
+      <h4 style="margin-bottom: 5px;">{{ .Title }}</h4>
+    </a>
+    
+    {{ if .Params.conference }}
+      {{ if .Params.conference_url}}
+        <a href="{{ .Params.conference_url }}" target="_blank" style="background-color: GREY; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px; white-space: nowrap;">{{ .Params.conference }}</a>
+      {{ else }}
+        <p style="background-color: GREY; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px; white-space: nowrap;"> {{ .Params.conference }} </p>
+      {{ end }}
+    {{ end }}
+  </div>
+
+    {{ with .Params.authors }}
+      <p>{{ . | safeHTML }}</p>
+    {{ end }}
+    
+    {{ with .Params.excerpt }}
+      <p><em>{{ . }}</em></p>
+    {{ end }}
+
+    {{ range .Params.award }}
+      <p style="color: red;"><strong>{{ . }}</strong></p>
+    {{ end }}
+    
+    <div style="margin-top: 10px;">
+
+      {{ with .Params.doi }}
+        <a href="{{ . }}" style="margin-right: 10px; background-color: #008CBA; color: white; padding: 5px 10px; text-decoration: none;">DOI</a>
+      {{ end }}
+
+      {{ with .Params.pdf }}
+        <a href="{{ . }}" style="margin-right: 10px; background-color: #f44336; color: white; padding: 5px 10px; text-decoration: none;">arxiv</a>
+      {{ end }}
+
+      {{ with .Params.code }}
+        <a href="{{ . }}" style="margin-right: 10px; background-color: #f89304; color: white; padding: 5px 10px; text-decoration: none;">Code</a>
+      {{ end }}
+
+      {{ with .Params.slides }}
+        <a href="{{ . }}" style="margin-right: 10px; background-color: #e7e7e7; color: black; padding: 5px 10px; text-decoration: none;">Slides</a>
+      {{ end }}
+
+      {{ with .Params.patent }}
+        <a href="{{ . }}" style="margin-right: 10px; background-color: #e7e7e7; color: black; padding: 5px 10px; text-decoration: none;">Patent</a>
+      {{ end }}
+
+    </div>
+  </div>
+  {{ end }}
+{{ end }}
+
+{{ $old_posts := ((where (where .Site.RegularPages "Type" "in" (slice "publications")) ".Params.year" "<=" 2020 ).ByParam "year").Reverse}}
+<h3 style="margin-top:2rem;"> Before 2020 </h3>
+{{ range $old_posts}}
+      <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+        <a href="{{ .Permalink }}" style="text-decoration: none; color: black;">
+          <h4 style="margin-bottom: 5px;">{{ .Title }}</h4>
+        </a>
+        
+        {{ if .Params.conference }}
+          {{ if .Params.conference_url}}
+            <a href="{{ .Params.conference_url }}" target="_blank" style="background-color: GREY; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px; white-space: nowrap;">{{ .Params.conference }}</a>
+          {{ else }}
+            <p style="background-color: GREY; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px; white-space: nowrap;"> {{ .Params.conference }} </p>
+          {{ end }}
+        {{ end }}
+      </div>
+
+        {{ with .Params.authors }}
+          <p>{{ . | safeHTML }}</p>
+        {{ end }}
+        
+        {{ with .Params.excerpt }}
+          <p><em>{{ . }}</em></p>
+        {{ end }}
+
+        {{ range .Params.award }}
+          <p style="color: red;"><strong>{{ . }}</strong></p>
+        {{ end }}
+        
+        <div style="margin-top: 10px;">
+
+          {{ with .Params.doi }}
+            <a href="{{ . }}" style="margin-right: 10px; background-color: #008CBA; color: white; padding: 5px 10px; text-decoration: none;">DOI</a>
+          {{ end }}
+
+          {{ with .Params.pdf }}
+            <a href="{{ . }}" style="margin-right: 10px; background-color: #f44336; color: white; padding: 5px 10px; text-decoration: none;">arxiv</a>
+          {{ end }}
+
+          {{ with .Params.code }}
+            <a href="{{ . }}" style="margin-right: 10px; background-color: #f89304; color: white; padding: 5px 10px; text-decoration: none;">Code</a>
+          {{ end }}
+
+          {{ with .Params.slides }}
+            <a href="{{ . }}" style="margin-right: 10px; background-color: #e7e7e7; color: black; padding: 5px 10px; text-decoration: none;">Slides</a>
+          {{ end }}
+
+          {{ with .Params.patent }}
+            <a href="{{ . }}" style="margin-right: 10px; background-color: #e7e7e7; color: black; padding: 5px 10px; text-decoration: none;">Patent</a>
+          {{ end }}
+
+        </div>
+      </div>
+{{ end }}
+</div>
+
 
 </div>
+
+<script>
+  function togglePosts() {
+    var topicSection = document.getElementById("topic-section");
+    var dateSection = document.getElementById("date-section");
+    var toggleButton = document.getElementById("toggleButton");
+    
+    if (topicSection.style.display === "none") {
+      topicSection.style.display = "block";
+      dateSection.style.display = "none";
+      toggleButton.textContent = "Listed By Date";
+    } else {
+      topicSection.style.display = "none";
+      dateSection.style.display = "block";
+      toggleButton.textContent = "Listed By Topic";
+    }
+  }
+
+</script>
 
 {{ end }}
