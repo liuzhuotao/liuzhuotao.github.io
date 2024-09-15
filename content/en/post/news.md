@@ -1,7 +1,9 @@
 ---
 data:
+  - - date: Sep 2024
+    - title: "<b>[Network Security]</b> Our paper on pre-training transformer models for analyzing network-traffic data is accepted by IEEE S&P 2025.
   - - date: August 2024
-    - title: "<b>[Award]</b> Our paper on Secure Internet Routing won USENIX Security 2024 Distinguished Paper Award and the Internet Defense Prize, simultaneously!"
+    - title: "<b>[Award]</b> Our paper on Secure Internet Routing won USENIX Security 2024 Distinguished Paper Award and the Internet Defense Prize, simultaneously!
   - - date: July 2024
     - title: <b>[Datacenter Networking]</b> Our paper on rearchitecting the Random Early Detection for high performance transport in DCN is accepted by NSDI 2025.
   - - date: July 2024
