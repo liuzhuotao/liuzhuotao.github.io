@@ -1,13 +1,21 @@
 {{ define "main" }}
 
 <div>
+  <div class="pubheader-container">
+    <div>
+    <p><h5><sup>✉️</sup> indicates corresponding authors. Undererlined students are from my group.</h5></p>
+    <p><h5>Full publication list: <a href="https://scholar.google.com/citations?user=F8gi4rcAAAAJ&hl=en"> [google scholar] </a></h5></p>
+    </div>
+
+  <div class="button-container">
+    <button class="custom-btn" id="topicbutton" onclick="displayTopic()">Listed By Topic</button>
+    <button class="custom-btn" id="datebutton" onclick="displayDate()">Listed By Date</button>
+  </div>
+<!-- <button id="toggleButton" onclick="togglePosts()">Listed By Topic</button> -->
+  </div>
+
+<div id="topic-section" style="display: none;">
 {{ $pub_section := .Site.GetPage "section" "publications" }}
-<p><h5><sup>✉️</sup> indicates corresponding authors. Undererlined students are from my group.</h5></p>
-<p><h5>Full publication list: <a href="https://scholar.google.com/citations?user=F8gi4rcAAAAJ&hl=en"> [google scholar] </a></h5></p>
-
-<button id="toggleButton" onclick="togglePosts()">Listed By Date</button>
-
-<div id="topic-section" style="display: block;">
 {{ range $pub_section.Sections.ByParam "rank" }}
   <h3 style="margin-top:2rem;"> {{ .Title }} </h3>
   {{ $direc_section := .}}
@@ -70,8 +78,8 @@
 {{ end }}
 </div>
 
-<div id="date-section" style="display: none;">
-{{ $new_posts := ((where (where .Site.RegularPages "Type" "in" (slice "publications")) ".Params.year" ">" 2020).GroupByParam "year").Reverse }}
+<div id="date-section" style="display: block;">
+{{ $new_posts := ((where (where .Site.RegularPages "Type" "in" (slice "publications")) ".Params.year" ">" 2021).GroupByParam "year").Reverse }}
 {{ range $new_posts}}
   <h3 style="margin-top:2rem;"> {{ .Key }} </h3>
   {{ range .Pages}}
@@ -129,8 +137,8 @@
   {{ end }}
 {{ end }}
 
-{{ $old_posts := ((where (where .Site.RegularPages "Type" "in" (slice "publications")) ".Params.year" "<=" 2020 ).ByParam "year").Reverse}}
-<h3 style="margin-top:2rem;"> Before 2020 </h3>
+{{ $old_posts := ((where (where .Site.RegularPages "Type" "in" (slice "publications")) ".Params.year" "<=" 2021 ).ByParam "year").Reverse}}
+<h3 style="margin-top:2rem;"> Before 2021 </h3>
 {{ range $old_posts}}
       <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
         <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -186,26 +194,6 @@
 {{ end }}
 </div>
 
-
 </div>
-
-<script>
-  function togglePosts() {
-    var topicSection = document.getElementById("topic-section");
-    var dateSection = document.getElementById("date-section");
-    var toggleButton = document.getElementById("toggleButton");
-    
-    if (topicSection.style.display === "none") {
-      topicSection.style.display = "block";
-      dateSection.style.display = "none";
-      toggleButton.textContent = "Listed By Date";
-    } else {
-      topicSection.style.display = "none";
-      dateSection.style.display = "block";
-      toggleButton.textContent = "Listed By Topic";
-    }
-  }
-
-</script>
 
 {{ end }}
