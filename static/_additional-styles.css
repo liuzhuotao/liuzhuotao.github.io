@@ -721,3 +721,38 @@
   border-width: 3px;
   border-style: ridge;
 }
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+.pubheader-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.custom-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.custom-btn:hover {
+  background-color: #0056b3;
+}
