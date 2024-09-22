@@ -1,9 +1,10 @@
 ---
-seq: 4
+seq: 3
+image: /images/team/lichenyang.jpg
 infos:
-  - Working on Systems Security
-  - B.E. in Computer Science and Technology, University of Electronic Science and Technology of China
+  - Working on Hardware Acceleration of Privacy Computing
+  - B.E. in Electronic Engineering, Tsinghua University
 ---
 
-### Qiuyang Zhan
+### Chenyang Li
 <p><i>Master Student</i></p>
