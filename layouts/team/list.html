@@ -37,6 +37,9 @@
             publications: 
               {{ range .Params.publications }}
                 {{ $p := site.GetPage .}}
+                {{ if not $p}}
+                  {{ . | markdownify}}
+                {{ end }}
                 {{ with $p }}
                   <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
                     [{{ .Params.tag}}]
