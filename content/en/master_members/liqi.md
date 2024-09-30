@@ -9,5 +9,5 @@ infos:
 ---
 
 ### Qi Li
-<p><i>Master Student (Graudated in 2024)</i></p>
+<p><i>Master Student (Graduated in 2024)</i></p>
 
