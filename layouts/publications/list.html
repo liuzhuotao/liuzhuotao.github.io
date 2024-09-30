@@ -21,7 +21,9 @@
   {{ $direc_section := .}}
   {{ range $direc_section.Sections }}
     <h5> {{ .Title }} </h5>
-    {{ range .Pages.ByParam "seq" }}
+    {{ range .Params.publications }}
+    {{ $p := site.GetPage .}}
+    {{ with $p}}
       <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
         <div style="display: flex; align-items: center; justify-content: space-between;">
         <a href="{{ .Permalink }}" style="text-decoration: none; color: black;">
@@ -73,6 +75,7 @@
 
         </div>
       </div>
+    {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
