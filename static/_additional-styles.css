@@ -722,20 +722,35 @@
   border-style: ridge;
 }
 
-.button-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-grow: 1;
-  margin-left: 20px;
+
+@media screen and (orientation: landscape) {
+  .pubheader-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    margin-left: 20px;
+  }
 }
 
-.pubheader-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  width: 100%;
+@media screen and (orientation: portrait) {
+  .pubheader-container {
+    align-items: center;
+  }
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    /* margin-left: 20px; */
+  }
 }
 
 .custom-btn {
@@ -755,4 +770,71 @@
 
 .custom-btn:hover {
   background-color: #0056b3;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (orientation: landscape) {
+  .avatar-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    display: flex;
+  }
+  .pi-avatar {
+    max-width: 30%;
+    height: auto;
+    margin-right: 20px;
+    vertical-align: middle;
+    border-style: none;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .avatar-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* align-items: center;
+    display: flex; */
+  }
+  .pi-avatar {
+    width: 60%;
+    height: auto;
+    margin-right: 20px;
+    vertical-align: middle;
+    border-style: none;
+  }
+}
+
+.student-avatar-container {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  display: flex;
+  max-width: 100%;
+  margin-left: 2%;
+}
+
+.student-avatar-container img {
+  max-width: 30%;
+  height: auto;
+  margin-right: 20px;
+}
+
+.info-container {
+  margin-left: 20px;
+}
+
+.team-container {
+  margin-top: 20px;
 }

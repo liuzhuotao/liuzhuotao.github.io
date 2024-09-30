@@ -8,7 +8,7 @@
     {{ $posts := ((where .Site.RegularPages "Type" "in" (slice "pi")).ByParam "seq")}}
     {{ range $posts }}
     <div class="avatar-container">
-      <img width=20% class="card border-0 pic-quote-left" src="{{ .Params.image }}"/>
+      <img width=20% class="pi-avatar" src="{{ .Params.image }}"/>
       <div>
       <p>{{ .Content | markdownify }}</p>
       </div>
