@@ -838,3 +838,7 @@
 .team-container {
   margin-top: 20px;
 }
+
+.ref-paper {
+  text-decoration: none; color: rgb(0, 81, 255);
+}

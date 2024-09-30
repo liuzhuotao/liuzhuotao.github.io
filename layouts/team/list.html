@@ -38,10 +38,10 @@
               {{ range .Params.publications }}
                 {{ $p := site.GetPage .}}
                 {{ if not $p}}
-                  {{ . | markdownify}}
+                  {{ . | safeHTML}}
                 {{ end }}
                 {{ with $p }}
-                  <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+                  <a href="{{ .Permalink }}" class="ref-paper">
                     [{{ .Params.tag}}]
                   </a>
                 {{ end }}
@@ -74,8 +74,11 @@
             publications: 
               {{ range .Params.publications }}
                 {{ $p := site.GetPage .}}
+                {{ if not $p}}
+                  {{ . | safeHTML}}
+                {{ end }}
                 {{ with $p }}
-                  <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+                  <a href="{{ .Permalink }}" class="ref-paper">
                     [{{ .Params.tag}}]
                   </a>
                 {{ end }}
