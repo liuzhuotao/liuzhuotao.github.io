@@ -46,7 +46,7 @@
           <li>
             {{.Title}} : 
               {{ range .Pages.ByParam "seq"}}
-              <a href="{{ .Permalink }}" style="text-decoration: none; color: rgb(0, 81, 255);">
+              <a href="{{ .Permalink }}" class="ref-paper">
                 [{{.Params.tag}}]
               </a>
               {{ end }}
