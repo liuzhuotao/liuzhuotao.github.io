@@ -45,10 +45,16 @@
           {{ range .Sections.ByParam "rank"}}
           <li>
             {{.Title}} : 
-              {{ range .Pages.ByParam "seq"}}
-              <a href="{{ .Permalink }}" class="ref-paper">
-                [{{.Params.tag}}]
-              </a>
+              {{ range .Params.publications}}
+                {{ $p := site.GetPage .}}
+                {{ if not $p}}
+                  {{ . | safeHTML}}
+                {{ end }}
+                {{ with $p }}
+                  <a href="{{ .Permalink }}" class="ref-paper">
+                    [{{ .Params.tag}}]
+                  </a>
+                {{ end }}
               {{ end }}
           </li>
           {{ end }}
