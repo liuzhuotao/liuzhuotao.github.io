@@ -1,7 +1,7 @@
 ---
 data:
   - - date: Jan 2025
-    - title: <b>[[Academic Service]</b> Another year of CCS cycle. Welcome to your contribution.
+    - title: <b>[Academic Service]</b> Another year of CCS cycle. Welcome to your contribution.
   - - date: Sep 2024
     - title: <b>[Network Security]</b> Our paper on pre-training transformer models for analyzing network-traffic data is accepted by IEEE S&P 2025.
   - - date: August 2024
