@@ -34,7 +34,7 @@
           
             {{ if .Params.publications}}
             <li>
-            publications: 
+            Selected Publications: 
               {{ range .Params.publications }}
                 {{ $p := site.GetPage .}}
                 {{ if not $p}}
@@ -71,7 +71,7 @@
           {{ end }}
             {{ if .Params.publications}}
             <li>
-            publications: 
+            Selected Publications: 
               {{ range .Params.publications }}
                 {{ $p := site.GetPage .}}
                 {{ if not $p}}
