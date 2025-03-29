@@ -1,9 +1,13 @@
 ---
 data:
+  - - date: March 2025
+    - title: <b>[Privacy Computing for AI]</b> Our paper (RingSG) on optimal secure vertex-centric computation for collaborative graph processing is accepted by ACM CCS 2025. This work features the optimal communication and computation complexity within the MPC-based vertex-centric abstraction for collaborative graph processing.
+  - - date: March 2025
+    - title: <b>[Applied AI in Networking]</b> Our paper (MM4flow) on constructing multi-modal pre-trained large models for traffic analysis is accepted by ACM CCS 2025. 
   - - date: Jan 2025
     - title: <b>[Academic Service]</b> Another year of CCS cycle. Your contribution is welcome.
   - - date: Sep 2024
-    - title: <b>[Network Security]</b> Our paper on pre-training transformer models for analyzing network-traffic data is accepted by IEEE S&P 2025.
+    - title: <b>[Applied AI in Networking]</b> Our paper on pre-training transformer models for analyzing network-traffic data is accepted by IEEE S&P 2025.
   - - date: August 2024
     - title: <b>[Award]</b> Our paper on Secure Internet Routing won USENIX Security 2024 Distinguished Paper Award and the Internet Defense Prize, simultaneously!
   - - date: July 2024
@@ -17,7 +21,7 @@ data:
   - - date: May 2024
     - title: <b>[Privacy Computing for AI]</b> CoGNN is awarded all three badges from ACM CCS 2024 artifact evaluation committee. 
   - - date: April 2024
-    - title: <b>[Privacy Computing for AI]</b> Our paper CoGNN on training graph nerual networks (GNNs) over distributed and private graph data across multiple data providers is accepted by ACM CCS 2024. This work features multiple novel crypto constructions to realize fully-distributed and scalable GNN training/inference over distributed private graph data. 
+    - title: <b>[Privacy Computing for AI]</b> Our paper (CoGNN) on training graph nerual networks (GNNs) over distributed and private graph data across multiple data providers is accepted by ACM CCS 2024. This work features multiple novel crypto constructions to realize fully-distributed and scalable GNN training/inference over distributed private graph data. 
   - - date: Feb 2024
     - title: <b>[Privacy Theory in ML]</b> Our paper on understanding the data privacy in FL is accepted by USENIX Secuirty 2024. 
   - - date: Jan 2024
