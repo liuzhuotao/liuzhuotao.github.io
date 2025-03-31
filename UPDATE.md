@@ -28,6 +28,7 @@
    | **AI and Data Security**                         | Privacy-Preserving Machine Learning | 2-1  |
    |                                                  | Federated Learning                  | 2-2  |
    |                                                  | AI Security                         | 2-3  |
+   |                                                  | AI-Driven Traffic Analysis          | 2-4  |
    | **Networking Infrastructure for AI**             | Datacenter Networking               | 3-1  |
    |                                                  | Intelligent Network Architecture    | 3-2  |
    | **Web3.0 and Blockchain**                        | Interoperability                    | 4-1  |
