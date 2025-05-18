@@ -1,5 +1,7 @@
 ---
 data:
+  - - date: April 2025
+    - title: <b>[Intelligent Network]</b> Our paper on scaling neural network inference on the intelligent network dataplane is accepted by ACM SIGCOMM 2025. The era of Network AI Agent arrives!
   - - date: March 2025
     - title: <b>[Privacy Computing for AI]</b> Our paper (RingSG) on optimal secure vertex-centric computation for collaborative graph processing is accepted by ACM CCS 2025. This work features the optimal communication and computation complexity within the MPC-based vertex-centric abstraction for collaborative graph processing.
   - - date: March 2025
