@@ -68,6 +68,19 @@
   </section>
 
   <section class="slice">
+    <div class="container">
+      <h2 class="eyebrow-text">Awards</h2>
+      {{ range (.Site.GetPage "awards.md").Params.data }}
+        <div class="award-entry">
+          <p class="award-year">{{ .year }}</p>
+          <p class="award-title">{{ .title | markdownify }}</p>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+
+
+  <section class="slice">
     <div class="container main_news">
       <h2 class="eyebrow-text"><a href={{ "/news" | relLangURL }}>Latest News</a></h2>
       {{ $posts := (.Site.GetPage "news.md").Params.data | first 7 }} {{ range $posts }}

@@ -842,3 +842,27 @@
 .ref-paper {
   text-decoration: none; color: rgb(0, 81, 255);
 }
+
+
+.award-entry {
+  display: grid;
+  grid-template-columns: 7ch 1fr;
+  column-gap: 2rem;
+  align-items: start;
+}
+
+
+.award-year {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 1500;
+  color: #333;
+}
+
+.award-title {
+  margin: 0;
+  position: relative;
+  padding-left: 1.0rem;
+  line-height: 1.3;
+  font-size: 1.5rem;
+}
