@@ -119,3 +119,11 @@
 
    - 如果没有发表，publications一栏不要填，不然介绍页会出现`publications: `这样的空行。
 
+### 4.更新awards
+
+如需要添加新的news，以如下方式进行：
+
+1. 进入`content/en/post`文件夹下。
+
+2. 在`awards.md`中添加即可
+
