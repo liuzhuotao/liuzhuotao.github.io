@@ -4,7 +4,7 @@ data:
     title: <b>中国电子学会科技进步一等奖</b>
   - year: 2024
     title: <b>Distinguished Paper Award, USENIX Security</b>, on secure Internet routing.
-  - year: 
+  - year: 2024
     title: <b>Internet Defense Prize, USENIX Security</b>, on secure Internet routing.
   - year: 2023
     title: <b>Distinguished Paper Award, USENIX Security</b>, on on-chip AI for network
