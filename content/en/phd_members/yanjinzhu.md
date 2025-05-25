@@ -3,6 +3,7 @@ seq: 3
 image: /images/team/yanjinzhu.jpeg
 publications:
   - 3-2-1.md
+  - 1-2-8.md
 infos:
   - Working on Applied ML; Privacy Computing
   - B.E. in Computer Science and Technology, Beihang University
