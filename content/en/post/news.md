@@ -1,7 +1,7 @@
 ---
 data:
   - - date: May 2025
-    - title: <b>[Applied AI in Networking]</b> Our paper on certified robustness of AI-driven traffic analysis is accepted by USENIX Security 2025. This work features provable robustness of AI models, in the domain of network traffic analysis!
+    - title: <b>[Applied AI in Networking]</b> Our paper on certified robustness of AI-driven traffic analysis is accepted by USENIX Security 2025. This work features the most advanced provable robustness of AI models, in the domain of network traffic analysis!
   - - date: May 2025
     - title: <b>[Academic Service]</b> Another edition of IEEE S&P. Looking forward to your submissions.  
   - - date: April 2025
