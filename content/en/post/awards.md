@@ -1,13 +1,13 @@
 ---
 data:
   - year: 2025
-    title: <b>中国电子学会科技进步一等奖</b>
+    title: <b>中国电子学会科技进步一等奖：高效协作的互联网动态行为安全可信关键技术与应用</b>
   - year: 2024
     title: <b>Distinguished Paper Award, USENIX Security</b>, on secure Internet routing.
   - year: 2024
     title: <b>Internet Defense Prize, USENIX Security</b>, on secure Internet routing.
   - year: 2023
-    title: <b>Distinguished Paper Award, USENIX Security</b>, on on-chip AI for network
+    title: <b>Distinguished Paper Award, USENIX Security</b>, on on-chip AI for networking
   - year: 2020
     title: <b>Google Feats of Engineering Award</b>, on automated data center network management and capacity augmentation.
   - year: 2019
