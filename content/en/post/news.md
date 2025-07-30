@@ -1,5 +1,11 @@
 ---
 data:
+  - - date: July 2025
+    - title: <b>[AI-Driven Secure Internet Routing]</b> Our paper on understanding the BGP hijacking in ROV era is accepted by ISOC NDSS 2026.
+  - - date: July 2025
+    - title: <b>[Academic Service]</b> Another edition of USENIX Security. Looking forward to your submissions.  
+  - - date: June 2025
+    - title: <b>[Applied AI in Networking]</b> Our paper on addressing the robustness of AI-driven traffic analysis in dynamic networking conditions is accepted by ACM  CCS 2025. 
   - - date: May 2025
     - title: <b>[Applied AI in Networking]</b> Our paper on certified robustness of AI-driven traffic analysis is accepted by USENIX Security 2025. This work features the most advanced provable robustness of AI models, in the domain of network traffic analysis!
   - - date: May 2025
