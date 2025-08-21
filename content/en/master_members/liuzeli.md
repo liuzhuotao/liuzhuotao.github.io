@@ -6,4 +6,4 @@ infos:
 ---
 
 ### Zeli Liu
-<p><i>Incoming Master Student</i></p>
+<p><i>Master Student</i></p>

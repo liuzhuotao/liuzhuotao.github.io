@@ -6,4 +6,4 @@ infos:
 ---
 
 ### Wang You
-<p><i>Incoming Ph.D. Student</i></p>
+<p><i>Ph.D. Student</i></p>
