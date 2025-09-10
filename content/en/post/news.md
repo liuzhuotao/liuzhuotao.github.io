@@ -1,5 +1,7 @@
 ---
 data:
+  - - date: Sep 2025
+    - title: <b>[AI and Cryptography]</b> Our paper on confidential/private inference over Transfomer-based large models via novel cryptography constructions is accepted by IEEE S&P 2026. 
   - - date: Aug 2025
     - title: <b>[Applied AI for Traffic Analysis]</b> Another three papers on RL-driven traffic analysis, website fingerprinting, and website application firewall are accepted by ISOC NDSS 2026. 
   - - date: July 2025
