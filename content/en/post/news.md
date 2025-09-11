@@ -31,8 +31,6 @@ data:
   - - date: July 2024
     - title: <b>[Applied AI]</b> Our paper on performing fine-grained and large-scale webpage fingerprinting via encrypted traffic analysis is accepted by ACM CCS 2024. 
   - - date: June 2024
-    - title: <b>[LLM Security / Privacy]</b> Our paper on protecting LLM models by identifying key parameters is accepted by ICML 2024 NextGenAISafety workshop. 
-  - - date: June 2024
     - title: <b>[Academic Service]</b> Invited to serve on the TPC of IEEE S&P 2025. Please consider to submit.  
   - - date: May 2024
     - title: <b>[Privacy Computing for AI]</b> CoGNN is awarded all three badges from ACM CCS 2024 artifact evaluation committee. 
