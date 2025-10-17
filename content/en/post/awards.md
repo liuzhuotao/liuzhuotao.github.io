@@ -1,8 +1,8 @@
 ---
 data:
-  - year 2025
+  - year: 2025
     title: <b>Distinguished Paper Award, ACM CCS</b>, on applied cryptography for AI.
-  - year 2025
+  - year: 2025
     title: 中国电子学会2025电子信息教学成果大赛特等奖：“强化教材、科研驱动、实践引领”：网络空间安全导论创新教学体系
   - year: 2025
     title: 中国电子学会科技进步一等奖：高效协作的互联网动态行为安全可信关键技术与应用
