@@ -1,5 +1,7 @@
 ---
 data:
+  - - date: Oct 2025
+    - title: <b>[Awards]</b> Our paper on cryptography-based secure graph processing wins the Distinguished Paper Award in CCS 2025. 
   - - date: Sep 2025
     - title: <b>[AI and Cryptography]</b> Our paper on confidential/private inference over Transfomer-based large models via novel cryptography constructions is accepted by IEEE S&P 2026. 
   - - date: Aug 2025
