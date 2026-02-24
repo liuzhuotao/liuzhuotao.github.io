@@ -1,4 +1,4 @@
 ---
-title: Networking Infrastructure for AI
+title: Intelligent Networking for AI Infra
 rank: 3
 ---
