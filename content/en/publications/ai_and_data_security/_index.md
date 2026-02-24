@@ -1,4 +1,4 @@
 ---
-title: "AI and Data Security (with Applied Cryptography)"
+title: "AI/Agent and Data Security"
 rank: 2
 ---
