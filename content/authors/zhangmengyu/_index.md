@@ -58,7 +58,7 @@ education:
 
 show_in_directory: true
 student_level: "phd"
-enrollment_year: "2023"
+enrollment_year: 2023
 ---
 
 <!-- 张梦雨 -->

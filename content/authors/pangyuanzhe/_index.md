@@ -59,7 +59,7 @@ education:
 
 show_in_directory: true
 student_level: "phd"
-enrollment_year: "2024"
+enrollment_year: 2024
 ---
 
 Hi, I am Pang Yuanzhe (庞元喆). My work focuses on building practical privacy-preserving large model inference system via trusted hardware. I also enjoy playing volleyball and commentating sports.

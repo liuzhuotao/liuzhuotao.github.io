@@ -57,7 +57,7 @@ education:
 
 show_in_directory: true
 student_level: "phd"
-enrollment_year: "2025"
+enrollment_year: 2025
 ---
 
 <!-- 谢宇阳 -->
