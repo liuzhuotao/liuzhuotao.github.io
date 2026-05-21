@@ -7,7 +7,7 @@ env:
 on:
   # Trigger the workflow every time you push to the `main` branch
   push:
-    branches: ['homepage-update', 'homepage-v3']
+    branches: ['homepage-update', 'homepage-v3', 'main']
   # Allows you to run this workflow manually from the Actions tab on GitHub
   workflow_dispatch:
 
