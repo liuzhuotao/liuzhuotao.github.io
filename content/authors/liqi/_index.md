@@ -23,7 +23,7 @@ superuser: false
 highlight_name: true
 
 # Role/position/tagline
-role: Master
+role: PhD Student
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
@@ -60,8 +60,8 @@ education:
 
 
 show_in_directory: true
-student_level: "alumni"
-enrollment_year: 2020
+student_level: "phd"
+enrollment_year: 2025
 ---
 
 Hi, this is Qi LI (李琪). I am currently a Ph.D. student with a research background in privacy-preserving computation, secure federated learning, and blockchain. My current research focuses on building trustworthy Agentic AI based on applied cryptography, specifically leveraging secure multi-party computation (MPC) and zero-knowledge proofs (ZKP). Previously, I gained valuable industry experience as a security engineer at Zhongguancun Laboratory, where I worked on routing security and RPKI.
