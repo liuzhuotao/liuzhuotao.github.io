@@ -14,7 +14,7 @@ sections:
       title: About InspiringGroup
       text: >-
         The InspiringGroup is a dynamic research group led by [Prof. Zhuotao
-        Liu](/authors/liuzhuotao/). We build trustworthy AI systems for
+        Liu](/#section-resume-biography-3). We build trustworthy AI systems for
         real-world networked and distributed environments. Our research spans
         networking, systems, security, and applied cryptography, with a focus on
         deployable AI, robust learning-based systems, and privacy-preserving
