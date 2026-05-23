@@ -1,0 +1,17 @@
+{{/* InspiringGroup intro block */}}
+
+{{ $page := .wcPage }}
+{{ $block := .wcBlock }}
+{{ $title := $block.content.title | default "InspiringGroup" | emojify | $page.RenderString }}
+{{ $text := $block.content.text | emojify | $page.RenderString | safeHTML }}
+
+<div class="group-intro">
+  <div class="group-intro__inner">
+    <h2 class="group-intro__title">{{ $title }}</h2>
+    {{ with $text }}
+      <div class="group-intro__text">
+        {{ . }}
+      </div>
+    {{ end }}
+  </div>
+</div>

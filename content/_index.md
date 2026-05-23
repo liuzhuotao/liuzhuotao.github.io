@@ -9,6 +9,18 @@ design:
   spacing: '6rem'
 
 sections:
+  - block: group-intro
+    content:
+      title: About InspiringGroup
+      text: >-
+        The InspiringGroup is a dynamic research group led by [Prof. Zhuotao
+        Liu](/authors/liuzhuotao/). We build trustworthy AI systems for
+        real-world networked and distributed environments. Our research spans
+        networking, systems, security, and applied cryptography, with a focus on
+        deployable AI, robust learning-based systems, and privacy-preserving
+        collaboration.
+    design:
+      css_class: hbx-bg-gradient
   - block: resume-biography-3
     content:
       # Choose a user profile to display (a folder name within `content/authors/`)
