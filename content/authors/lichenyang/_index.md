@@ -58,7 +58,7 @@ education:
 
 
 show_in_directory: true
-student_level: "master"
+student_level: "alumni"
 enrollment_year: 2023
 ---
 
