@@ -39,7 +39,7 @@ profiles:
     url: 'mailto:zhuotaoliu [at] tsinghua.edu.cn'
     label: E-mail Me
   - icon: brands/github
-    url: https://github.com/liuzhuotao
+    url: https://github.com/InspiringGroup-NeoLab
   - icon: academicons/google-scholar
     url: https://scholar.google.com/citations?user=F8gi4rcAAAAJ
   - icon: academicons/orcid
