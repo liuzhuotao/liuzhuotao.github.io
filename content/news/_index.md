@@ -16,7 +16,9 @@ sections:
     content:
       title: News
       text: |-
-        - **Oct 2025**<br><b>[Awards]</b> Our paper on cryptography-based secure graph processing wins the Distinguished Paper Award in CCS 2025. 
+        - **August 2026**<br><b>[Trust-native AI Infra]</b> Our paper on understanding and realizing the trust-native AI inference infra based on legacy GPUs is accepted by ACM CCS 2026, this work features the most advanced obfuscation-based LLM inference algorithm.
+        - **May 2026**<br><b>[Meta Learning for Continuous Flow-Data]</b> Our paper on applying meta-learning to address the continual learning in traffic analysis domain is accepted by USENIX Security 2026.
+        - **Oct 2025**<br><b>[Awards]</b> Our paper on cryptography-based secure graph processing wins the Distinguished Paper Award in ACM CCS 2025. 
         - **Sep 2025**<br><b>[AI and Cryptography]</b> Our paper on confidential/private inference over Transfomer-based large models via novel cryptography constructions is accepted by IEEE S&P 2026. 
         - **Aug 2025**<br><b>[Applied AI for Traffic Analysis]</b> Another three papers on RL-driven traffic analysis, website fingerprinting, and website application firewall are accepted by ISOC NDSS 2026.
         - **July 2025**<br><b>[AI-Driven Secure Internet Routing]</b> Our paper on understanding BGP hijacking attacks given partially deployed ROV is accepted by ISOC NDSS 2026.
