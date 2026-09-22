@@ -6,6 +6,8 @@ year: 2019
 paper: "https://dl.acm.org/doi/10.1145/3319535.3355503"
 code: "https://github.com/HyperService-Consortium"
 conference: "https://www.sigsac.org/ccs/CCS2019/"
+selected: true
+corresponding: ["Zhuotao Liu"]
 topics: ["Web3.0 and Blockchain","Interoperability","Web3 & Block Chain"]
 aliases: ["/publications/web3_and_block_chain/interoperability/4-1-1/"]
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:L8Ckcad2t8MC"
