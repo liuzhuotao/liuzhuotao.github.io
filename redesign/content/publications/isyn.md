@@ -6,6 +6,7 @@ year: 2023
 paper: "https://dl.acm.org/doi/abs/10.1145/3597926.3598091"
 conference: "https://conf.researchr.org/home/issta-2023"
 corresponding: ["Zhuotao Liu"]
+selected: true
 group_authors: [2]
 topics: ["Web3.0 and Blockchain","Web3.0 Infra and Application","Web3 & Block Chain"]
 aliases: ["/publications/web3_and_block_chain/web3_infra_and_application/4-2-2/"]
