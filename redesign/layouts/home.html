@@ -1,0 +1,64 @@
+{{ define "main" }}
+{{ $profile := .Site.Data.profile }}
+<section class="hero" aria-labelledby="profile-name">
+  <div class="hero-copy">
+    <p class="eyebrow">{{ $profile.affiliation }} <span aria-hidden="true">/</span> {{ $profile.role }}</p>
+    <h1 id="profile-name">{{ $profile.name }}</h1>
+    <p class="research-statement">{{ $profile.intro }}</p>
+    <p class="affiliation">{{ $profile.department }}<br>{{ $profile.affiliation }}</p>
+    <div class="profile-links" aria-label="Profile links">
+      <a href="mailto:{{ $profile.email }}">Email <span aria-hidden="true">↗</span></a>
+      <a href="{{ $profile.scholar }}">Google Scholar <span aria-hidden="true">↗</span></a>
+      <a href="{{ $profile.github }}">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="{{ $profile.orcid }}">ORCID <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <figure class="portrait">
+    <img src="{{ strings.TrimPrefix "/" $profile.portrait | relURL }}" alt="Portrait of Zhuotao Liu" width="240" height="280" fetchpriority="high">
+    <figcaption>Leading <a href="{{ .Site.Params.groupURL }}">InspiringGroup ↗</a></figcaption>
+  </figure>
+</section>
+
+<section class="editorial-section about" aria-labelledby="about-heading">
+  <div class="section-label"><span class="section-number">01</span><h2 id="about-heading">About</h2></div>
+  <div class="section-body prose">{{ $profile.bio | markdownify }}</div>
+</section>
+
+<section id="research" class="editorial-section" aria-labelledby="research-heading">
+  <div class="section-label"><span class="section-number">02</span><h2 id="research-heading">Research</h2></div>
+  <div class="section-body research-grid">
+    {{ range $profile.research }}
+    <article class="research-area"><h3>{{ .title }}</h3><p>{{ .description }}</p></article>
+    {{ end }}
+  </div>
+</section>
+
+<section id="publications" class="editorial-section publications-section" aria-labelledby="publications-heading">
+  <div class="section-label"><span class="section-number">03</span><h2 id="publications-heading">Selected publications</h2><a class="section-link" href="{{ "publications/" | relURL }}">Browse selections →</a></div>
+  <div class="section-body">
+    {{ $papers := where (where .Site.RegularPages "Section" "publications") "Params.selected" true }}
+    {{ range sort $papers "Params.year" "desc" }}{{ partial "publication.html" . }}{{ end }}
+    <p class="archive-link"><a href="{{ .Site.Params.archiveURL }}">Full publication archive ↗</a></p>
+  </div>
+</section>
+
+<section id="awards" class="editorial-section" aria-labelledby="awards-heading">
+  <div class="section-label"><span class="section-number">04</span><h2 id="awards-heading">Awards &amp; recognition</h2></div>
+  <div class="section-body"><ul class="award-list">
+    {{ range .Site.Data.awards }}
+    <li><span class="award-year">{{ .year }}</span><div><h3>{{ .title }}</h3>{{ with .description }}<p>{{ . }}</p>{{ end }}{{ with .organization }}<p>{{ . }}</p>{{ end }}</div></li>
+    {{ end }}
+  </ul></div>
+</section>
+
+<section id="news" class="editorial-section" aria-labelledby="news-heading">
+  <div class="section-label"><span class="section-number">05</span><h2 id="news-heading">Recent news</h2></div>
+  <div class="section-body"><ul class="news-list">
+    {{ range first 3 .Site.Data.news }}
+    <li><span class="news-date">{{ .date }}</span><p>{{ .text | markdownify }}</p></li>
+    {{ end }}
+  </ul>
+    <div class="contact-note"><h3>Work with us</h3><p>I welcome students and collaborators interested in secure networking, systems, and trustworthy AI.</p><a href="{{ .Site.Params.joinURL }}">Openings at InspiringGroup ↗</a></div>
+  </div>
+</section>
+{{ end }}

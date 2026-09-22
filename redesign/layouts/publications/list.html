@@ -1,0 +1,9 @@
+{{ define "main" }}
+<div class="page-heading"><p class="eyebrow">Research output</p><h1>Selected publications</h1><p>Representative papers in this design preview. <a href="{{ .Site.Params.archiveURL }}">View the full publication archive ↗</a></p></div>
+{{ $papers := sort .RegularPages "Params.year" "desc" }}
+{{ $years := slice }}{{ range $papers }}{{ $years = $years | append (printf "%v" .Params.year) }}{{ end }}
+{{ range uniq $years }}
+{{ $year := . }}
+<section class="editorial-section year-section" aria-labelledby="year-{{ $year }}"><div class="section-label"><h2 id="year-{{ $year }}">{{ $year }}</h2></div><div class="section-body">{{ range $papers }}{{ if eq (printf "%v" .Params.year) $year }}{{ partial "publication.html" . }}{{ end }}{{ end }}</div></section>
+{{ end }}
+{{ end }}

@@ -1,0 +1,26 @@
+name: "Zhuotao Liu"
+role: "Associate Professor"
+affiliation: "Tsinghua University"
+department: "Institute for Network Sciences and Cyberspace"
+email: "zhuotaoliu@tsinghua.edu.cn"
+scholar: "https://scholar.google.com/citations?user=F8gi4rcAAAAJ"
+github: "https://github.com/InspiringGroup-NeoLab"
+orcid: "https://orcid.org/0000-0002-7532-0434"
+portrait: "/images/portrait.jpg"
+intro: >-
+  I study how to make networked systems and AI secure, private, and efficient.
+bio: >-
+  I am an Associate Professor and Distinguished Researcher at Tsinghua University,
+  where I lead InspiringGroup. Before joining Tsinghua, I was a Technical Lead in
+  Google's Network Infrastructure and Global Networking teams. I received my Ph.D.
+  from the University of Illinois at Urbana-Champaign in 2017 and my B.S. from
+  Shanghai Jiao Tong University in 2012.
+research:
+  - title: "Secure networked systems"
+    description: "Secure Internet routing, encrypted traffic analysis, DDoS prevention, and systems security."
+  - title: "AI security & privacy"
+    description: "Applied cryptography for private machine learning, federated learning, and secure AI agents."
+  - title: "Networking for AI"
+    description: "Datacenter networks and intelligent network architectures for efficient AI infrastructure."
+  - title: "Blockchain infrastructure"
+    description: "Interoperability, zero-knowledge proofs, and applications for Web3."

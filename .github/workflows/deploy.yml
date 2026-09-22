@@ -7,7 +7,7 @@ env:
 on:
   # Trigger the workflow every time you push to the `main` branch
   push:
-    branches: ['homepage-update', 'homepage-v3', 'main']
+    branches: ['main']
   # Allows you to run this workflow manually from the Actions tab on GitHub
   workflow_dispatch:
 
@@ -102,7 +102,7 @@ jobs:
 
   # Deploy website to GitHub Pages hosting
   deploy:
-    if: github.repository_owner != 'HugoBlox'
+    if: github.repository_owner != 'HugoBlox' && github.ref == 'refs/heads/main'
     needs: build
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:

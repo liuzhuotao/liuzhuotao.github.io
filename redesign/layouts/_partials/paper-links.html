@@ -1,0 +1,9 @@
+<div class="paper-links">
+  {{ range $field := slice "paper" "pdf" "code" }}
+  {{ with index $.page.Params $field }}
+    {{ $url := . }}{{ if hasPrefix $url "/" }}{{ $url = strings.TrimPrefix "/" $url | relURL }}{{ end }}
+    <a href="{{ $url }}">{{ if eq $field "pdf" }}PDF{{ else }}{{ title $field }}{{ end }} ↗</a>
+  {{ end }}
+  {{ end }}
+  {{ if and .abstract .page.Content }}<a href="{{ .page.RelPermalink }}">Abstract →</a>{{ end }}
+</div>

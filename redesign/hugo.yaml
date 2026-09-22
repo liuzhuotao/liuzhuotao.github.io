@@ -1,0 +1,17 @@
+baseURL: https://liuzhuotao.github.io/
+languageCode: en-us
+title: Zhuotao Liu
+enableRobotsTXT: true
+disableKinds: [taxonomy, term, RSS, sitemap]
+buildDrafts: false
+params:
+  description: Zhuotao Liu is an Associate Professor at Tsinghua University working on secure networking, trustworthy AI, and privacy-preserving systems.
+  archiveURL: https://liuzhuotao.github.io/publications/
+  groupURL: https://liuzhuotao.github.io/authors/
+  joinURL: https://liuzhuotao.github.io/join/
+markup:
+  goldmark:
+    renderer:
+      unsafe: false
+  highlight:
+    noClasses: false
