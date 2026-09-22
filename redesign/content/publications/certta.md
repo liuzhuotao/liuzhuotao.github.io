@@ -7,6 +7,7 @@ paper: "https://www.usenix.org/conference/usenixsecurity25/presentation/yan-jinz
 code: "https://github.com/InspiringGroup-NeoLab/CertTA"
 conference: "https://www.usenix.org/conference/usenixsecurity25"
 corresponding: ["Zhuotao Liu"]
+selected: true
 group_authors: [1,3]
 topics: ["Secure Networking and Systems Infrastructure","AI-Driven Traffic Analysis","Encrypted Traffic Analysis"]
 aliases: ["/publications/secure_networking_and_systems_infrastructure/encrypted_traffic_analysis/1-2-8/"]
