@@ -7,6 +7,7 @@ paper: "https://eprint.iacr.org/2024/987"
 code: "https://github.com/InspiringGroup-Lab/CoGNN"
 conference: "https://www.sigsac.org/ccs/CCS2024/"
 corresponding: ["Zhuotao Liu"]
+selected: true
 group_authors: [1]
 topics: ["AI and Data Security (with Applied Cryptography)","Privacy-Preserving Machine Learning","Data Security"]
 aliases: ["/publications/ai_and_data_security/privacy-preserving_machinelearning/2-1-2/"]
