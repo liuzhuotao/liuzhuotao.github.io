@@ -6,4 +6,5 @@ year: 2024
 paper: "https://patents.google.com/patent/US20240171617A1/en"
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:tOudhMTPpwUC"
 category: "patent"
+draft: true
 ---

@@ -1,0 +1,11 @@
+{{- $entries := slice -}}
+{{- range . -}}
+  {{- $year := int (.Params.since | default 0) -}}
+  {{- $key := printf "%04d-%s-%s" (sub 9999 $year) (lower .Title) .RelPermalink -}}
+  {{- $entries = $entries | append (dict "key" $key "page" .) -}}
+{{- end -}}
+{{- $students := slice -}}
+{{- range sort $entries "key" -}}
+  {{- $students = $students | append .page -}}
+{{- end -}}
+{{- return $students -}}

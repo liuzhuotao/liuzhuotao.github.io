@@ -124,6 +124,8 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .join-prose ul{padding-left:22px;margin:18px 0 0}
 .join-prose li+li{margin-top:12px}
 .join-contact{margin-top:30px}
+.mentoring-note{margin-bottom:29px}
+.teaching-list li:last-child{margin-bottom:0}
 @media(max-width:850px){
   .wrap{padding-left:30px;padding-right:30px}
   .hero{gap:20px 32px;grid-template-columns:minmax(0,1fr) 150px;padding-top:39px;padding-bottom:39px}

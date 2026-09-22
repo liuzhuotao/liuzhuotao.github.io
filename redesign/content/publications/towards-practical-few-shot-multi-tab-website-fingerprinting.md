@@ -3,6 +3,7 @@ title: "Towards Practical Few-shot Multi-tab Website Fingerprinting"
 authors: ["Lin Liu","Ziling Wei","Zhuotao Liu","Xinhao Deng","Zixuan Dong","Shuhui Chen"]
 venue: "USENIX Security"
 year: 2026
+corresponding: ["Zhuotao Liu"]
 paper: "https://www.usenix.org/conference/usenixsecurity26/presentation/liu-lin"
 conference: "https://www.usenix.org/conference/usenixsecurity26/"
 topics: ["Secure Networking and Systems Infrastructure","AI-Driven Traffic Analysis","Encrypted Traffic Analysis"]

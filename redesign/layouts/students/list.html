@@ -1,14 +1,14 @@
 {{ define "main" }}
-<div class="page-heading student-directory-heading"><p class="eyebrow">InspiringGroup · Tsinghua University</p><h1>Students</h1><p>The people behind our research. Explore each student's interests and publications.</p><a class="section-link" href="{{ "join/" | relURL }}">Join the group →</a></div>
+<div class="page-heading student-directory-heading"><p class="eyebrow">InspiringGroup · Tsinghua University</p><h1>Students</h1><p>Our students, postdoctoral researchers, and alumni. Explore their research interests and publications.</p><a class="section-link" href="{{ "join/" | relURL }}">Join the group →</a></div>
 {{ range .RegularPages }}{{ partial "validate-student.html" . }}{{ end }}
-{{ $students := .RegularPages.ByTitle }}
-{{ range slice (dict "key" "phd" "label" "PhD students") (dict "key" "master" "label" "Master's students") (dict "key" "alumni" "label" "Alumni") }}
+{{ $students := partial "student-sort.html" .RegularPages }}
+{{ range slice (dict "key" "postdoc" "label" "Postdoctoral researchers") (dict "key" "phd" "label" "PhD students") (dict "key" "master" "label" "Master's students") (dict "key" "alumni" "label" "Alumni") }}
 {{ $group := where $students "Params.group" .key }}
 {{ if $group }}
 <section class="editorial-section student-section" aria-labelledby="students-{{ .key }}"><div class="section-label"><h2 id="students-{{ .key }}">{{ .label }}</h2><p class="student-group-count">{{ len $group }} {{ if eq (len $group) 1 }}member{{ else }}members{{ end }}</p></div><div class="section-body"><ul class="student-list">
 {{ range $group }}
 {{ $papers := partial "student-papers.html" . }}
-<li class="student-row"><div class="student-overview"><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>{{ with .Params.since }}<p class="student-since">Joined {{ . }}</p>{{ end }}{{ with .Params.interests }}<p class="student-interests">{{ delimit . " · " }}</p>{{ end }}</div><a class="student-papers-link" href="{{ .RelPermalink }}#publications" aria-label="{{ .Title }}: {{ len $papers }} {{ if eq (len $papers) 1 }}paper{{ else }}papers{{ end }}">{{ len $papers }} {{ if eq (len $papers) 1 }}paper{{ else }}papers{{ end }} <span aria-hidden="true">→</span></a></li>
+<li class="student-row"><div class="student-overview"><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>{{ with .Params.since }}<p class="student-since">Joined {{ . }}</p>{{ end }}{{ with .Params.interests }}<p class="student-interests">{{ delimit . " · " }}</p>{{ end }}</div>{{ if $papers }}<a class="student-papers-link" href="{{ .RelPermalink }}#publications" aria-label="{{ .Title }}: Publications">Publications <span aria-hidden="true">→</span></a>{{ end }}</li>
 {{ end }}
 </ul></div></section>
 {{ end }}

@@ -1,6 +1,6 @@
 ---
 title: "FlowTele: Remotely Shaping Traffic on Internet-Scale Networks"
-authors: ["Bo-Rong Chen","Zhuotao Liu","Fanhui Zeng","Zhoushi Zhu","Siva Phani Keshav Bachu","Yih-Chun Hu"]
+authors: ["Bo-Rong Chen","Zhuotao Liu","Jinhui Song","Fanhui Zeng","Zhoushi Zhu","Siva Phani Keshav Bachu","Yih-Chun Hu"]
 venue: "ACM CoNEXT"
 year: 2022
 paper: "https://dl.acm.org/doi/abs/10.1145/3555050.3569139"

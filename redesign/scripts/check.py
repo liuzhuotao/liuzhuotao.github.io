@@ -113,7 +113,13 @@ def published_papers(hugo, source):
     )
     require(result.returncode == 0, "Could not list published content:\n" + result.stderr)
     records = csv.DictReader(io.StringIO(result.stdout))
-    papers = [row for row in records if row["kind"] == "page" and row["section"] == "publications"]
+    papers = []
+    for row in records:
+        if row["kind"] != "page" or row["section"] != "publications":
+            continue
+        frontmatter = (source / row["path"]).read_text(encoding="utf-8").split("---", 2)[1]
+        if not re.search(r'''(?m)^category:\s*["']?patent["']?\s*(?:#.*)?$''', frontmatter):
+            papers.append(row)
     require(papers, "No published publications found")
     return papers
 
@@ -132,6 +138,10 @@ def check_initial(output, papers):
     require(years and years == sorted(set(years), reverse=True), "Year groups are not descending")
     require(all(year >= 2020 for year in years), "Pre-2020 papers still have individual year groups")
     require("year-before-2020" in listing.ids, "The combined Before 2020 group is missing")
+    require("patents" not in listing.ids and not any(ref.endswith("#patents") for ref in listing.refs),
+            "A patent section or navigation link remains on the publication listing")
+    require("patents or applications" not in listing.text,
+            "The publication count still includes patents")
     require(not any("citation_for_view=" in ref for ref in listing.refs),
             "A per-paper Scholar citation link remains on the publication listing")
     ringsg = next((article for article in listing.articles if RINGSG_TITLE in article), "")
@@ -145,9 +155,42 @@ def check_initial(output, papers):
     qi_papers = Page(output / "students/qi-li/index.html")
     require(any("martFL:" in article for article in qi_papers.articles),
             "The student Qi Li's marked martFL authorship is missing from their paper list")
+    directory = Page(output / "students/index.html")
+    paper_links = [(attrs, text) for attrs, text in directory.links
+                   if "student-papers-link" in attrs.get("class", "").split()]
+    require(not re.search(r"\b\d+\s+papers?\b", directory.text),
+            "A student directory row still displays a numeric paper count")
+    for attrs, text in paper_links:
+        require("Publications" in text and not re.search(r"\d+\s+papers?", attrs.get("aria-label", "")),
+                "A student publication link still uses a numeric paper label")
     for student_page in (output / "students").rglob("*.html"):
-        require(not Page(student_page).images, f"Student page still contains a portrait: {student_page}")
+        profile = Page(student_page)
+        require(not profile.images, f"Student page still contains a portrait: {student_page}")
+        if student_page.parent == output / "students":
+            continue
+        heading = re.search(r'<div class="student-publications-heading">(.*?)</div>',
+                            student_page.read_text(encoding="utf-8"), re.S)
+        require(heading and not re.search(r"\b\d+\s+papers?\b", heading.group(1)),
+                f"A student profile still displays a numeric paper count: {student_page}")
+        suffix = "/" + student_page.parent.relative_to(output).as_posix() + "/#publications"
+        linked = any(attrs.get("href", "").endswith(suffix) for attrs, _ in paper_links)
+        require(linked == bool(profile.articles),
+                f"The directory must offer a Publications link only when papers exist: {student_page}")
     return len(home.articles)
+
+
+def student_group_names(output, group):
+    html = (output / "students/index.html").read_text(encoding="utf-8")
+    section = re.search(rf'<section[^>]+aria-labelledby="students-{group}">(.*?)</section>', html, re.S)
+    require(section, f"Student group is missing: {group}")
+    return re.findall(r'<h3><a[^>]*>([^<]+)</a></h3>', section.group(1))
+
+
+def student_publication_links(output, slug):
+    directory = Page(output / "students/index.html")
+    return [(attrs, text) for attrs, text in directory.links
+            if "student-papers-link" in attrs.get("class", "").split()
+            and attrs.get("href", "").endswith(f"/students/{slug}/#publications")]
 
 
 def article_index(page, title):
@@ -271,6 +314,14 @@ def main():
         student.parent.mkdir()
         student_minimal = f'---\ntitle: "{student_name}"\ngroup: master\n---\n'
         student.write_text(student_minimal, encoding="utf-8")
+        for slug, name, group, since in (
+            ("fixture-newest", "Zebra Newest Fixture", "master", 3001),
+            ("fixture-tie-zeta", "Zeta Tie Fixture", "master", 3000),
+            ("fixture-tie-alpha", "Alpha Tie Fixture", "master", 3000),
+            ("fixture-postdoc", "Fixture Postdoc", "postdoc", 3002),
+        ):
+            (source / f"content/students/{slug}.md").write_text(
+                f'---\ntitle: "{name}"\ngroup: {group}\nsince: {since}\n---\n', encoding="utf-8")
         output, base = scratch / "student-minimal", "https://preview.invalid/"
         build(hugo, source, output, base)
         directory_html = (output / "students/index.html").read_text(encoding="utf-8")
@@ -283,7 +334,19 @@ def main():
                 "A two-field student did not receive an empty publication page")
         require("Publications will appear here" in profile.text,
                 "A student without publications has no explanation")
+        require(not student_publication_links(output, "fixture-student"),
+                "A student without papers has an empty Publications link on the directory")
+        master_names = student_group_names(output, "master")
+        require(master_names[:3] == ["Zebra Newest Fixture", "Alpha Tie Fixture", "Zeta Tie Fixture"]
+                and master_names[-1] == student_name,
+                "Students must sort by newest enrollment first, alphabetical ties, and missing year last")
+        require("Fixture Postdoc" in student_group_names(output, "postdoc"),
+                "The postdoc group did not accept a new member")
+        postdoc = Page(output / "students/fixture-postdoc/index.html")
+        require("Postdoctoral researcher" in postdoc.text and "3002" in postdoc.text,
+                "A postdoc profile lost its role or enrollment year")
         check_links(output, base)
+        print("PASS: enrollment order, alphabetical ties, missing years, and the postdoc group")
 
         write_paper(entry, minimal.replace("First Author", student_name))
         output = scratch / "student-paper"
@@ -291,12 +354,16 @@ def main():
         profile = Page(output / "students/fixture-student/index.html")
         require(len(profile.articles) == 1 and title in profile.articles[0],
                 "Adding a matching publication did not automatically update the student's paper list")
+        paper_links = student_publication_links(output, "fixture-student")
+        require(len(paper_links) == 1 and "Publications" in paper_links[0][1]
+                and not re.search(r"\d+\s+papers?", paper_links[0][1]),
+                "Adding a paper did not reveal a plain Publications link in the directory")
         detail = Page(output / "publications/four-field-check/index.html")
         require(any(text == student_name and attrs.get("href") == "/students/fixture-student/#publications"
                     for attrs, text in detail.links),
                 "The publication author does not link to the student's papers")
         check_links(output, base)
-        print("PASS: a two-field student needs no photo or manual paper list; new papers appear automatically")
+        print("PASS: two-field students, automatic paper lists, and conditional Publications links")
 
         student.write_text(
             student_minimal.replace("group: master", 'group: alumni\nauthor_names: ["Fixture Author"]\n'
@@ -338,32 +405,50 @@ def main():
         print("PASS: student groups, alternate author names, legacy URLs, prefixes, and ambiguous names")
 
         write_paper(entry, minimal,
-                    'category: patent\n'
+                    'selected: true\n'
                     'scholar: "https://scholar.google.com/citations?user=fixture"\n'
                     'versions: [{label: "Fixture version", url: "/publications/ringsg/"}]\n')
-        output, base = scratch / "patents", "https://preview.invalid/preview/"
+        output, base = scratch / "versions", "https://preview.invalid/preview/"
         build(hugo, source, output, base)
         html = (output / "publications/index.html").read_text(encoding="utf-8")
         listing = Page(output / "publications/index.html")
-        require('id="patents"' in html and title in html.split('id="patents"', 1)[1],
-                "A patent is not rendered in the separate patent section")
-        require('id="year-2999"' not in html and '#year-2999' not in html,
-                "A patent year leaked into the research year navigation")
+        home = Page(output / "index.html")
+        require(article_index(listing, title) is not None and article_index(home, title) is not None,
+                "The ordinary version fixture is missing from the complete list or selected papers")
         require('https://scholar.google.com/citations?user=fixture' not in listing.refs
+                and 'https://scholar.google.com/citations?user=fixture' not in home.refs
                 and 'https://scholar.google.com/citations?user=fixture'
                 not in Page(output / "publications/four-field-check/index.html").refs,
                 "A per-paper Scholar link was rendered from retained source metadata")
         require('href="/preview/publications/ringsg/">Fixture version' in html,
                 "The optional version link does not honor the preview prefix")
         require(len(listing.articles) == len(papers) + 2,
-                "Separating patents lost or duplicated a publication row")
+                "Adding alternate versions lost or duplicated a publication row")
         check_links(output, base)
-        print("PASS: separate patents, hidden per-paper Scholar links, and prefix-safe alternate versions")
+        print("PASS: hidden per-paper Scholar links and prefix-safe alternate versions")
+
+        write_paper(entry, minimal,
+                    'category: patent\ndraft: false\nselected: true\nselected_order: 1\n')
+        output = scratch / "patents"
+        build(hugo, source, output, base)
+        html = (output / "publications/index.html").read_text(encoding="utf-8")
+        listing, home = Page(output / "publications/index.html"), Page(output / "index.html")
+        require("patents" not in listing.ids and not any(ref.endswith("#patents") for ref in listing.refs)
+                and "patents or applications" not in listing.text,
+                "A patent section, navigation item, or count was added to the research listing")
+        require(article_index(listing, title) is None and article_index(home, title) is None,
+                "A non-draft patent appeared in the complete list or selected homepage papers")
+        require('id="year-2999"' not in html and '#year-2999' not in html,
+                "A patent year leaked into the research year navigation")
+        require(len(listing.articles) == len(papers) + 1 and len(home.articles) == home_count,
+                "Excluding the patent changed the remaining research paper counts")
+        check_links(output, base)
+        print("PASS: patents stay out of the publication list and homepage even when selected and non-draft")
 
         student.write_text(student_minimal.replace("group: master", "group: unknown"), encoding="utf-8")
         result = build(hugo, source, scratch / "student-invalid", base, expect_success=False)
         require(result.returncode != 0, "An invalid student group unexpectedly built successfully")
-        require("group must be phd, master, or alumni" in result.stdout
+        require("group must be postdoc, phd, master, or alumni" in result.stdout
                 and "fixture-student/index.md" in result.stdout,
                 "An invalid student group did not produce an actionable error:\n" + result.stdout)
         student.write_text(student_minimal, encoding="utf-8")

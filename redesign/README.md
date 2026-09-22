@@ -6,7 +6,7 @@ installation, or Hugo modules are needed. The repository's existing website is
 still the production site.
 
 The preview includes the personal homepage, selected publications, a complete
-publication list grouped by year, awards, academic service, news, students, and
+publication list grouped by year, awards, academic service, teaching, news, students, and
 Join us. The selected
 and complete publication lists use the **same short text files**. Existing
 publication and student URLs redirect to their migrated detail pages. Students
@@ -139,14 +139,14 @@ versions:
 ```
 
 Journal extensions and independently published conference papers can have separate
-entries. Add `category: patent` to place a patent or application in the separate
-**Patents & applications** section. Use the inventor names in `authors` and the
-patent/application number in `venue`; the same four required fields still apply.
-Leave `category` out for ordinary research publications and preprints.
+entries. Leave `category` out for ordinary research publications and preprints.
+The site displays research publications only. The four imported patent records
+are retained as drafts for source history; `category: patent` entries are excluded
+from the homepage, complete list, and student publication lists.
 
 The Scholar comparison added 36 research entries and four patent/application
-entries to the original 58 papers. The website now contains 94 research items
-(including preprints and a thesis) plus four patents/applications. All 109 Scholar
+entries to the original 58 papers. The website displays 94 research items
+(including preprints and a thesis). All 109 Scholar
 records, including duplicate versions, are accounted for in
 `redesign/SCHOLAR-IMPORT.md`. These are editable text files; the site does not
 automatically overwrite your edits from Scholar.
@@ -174,10 +174,11 @@ group: "phd"
 ---
 ```
 
-Use `phd`, `master`, or `alumni` for the group. The directory automatically shows
-the student's name and paper count, linked to their page. Papers are collected
+Use `postdoc`, `phd`, `master`, or `alumni` for the group. The directory shows
+each member's name linked to their profile, and a **Publications →** link only
+when they have matching papers. Paper counts are not displayed. Papers are collected
 from the same publication files used by the complete list, by matching the
-student's full name against `authors`. Adding a matching paper updates the count
+student's full name against `authors`. Adding a matching paper updates the link
 and student page automatically. No photo or separate paper list is needed.
 Students without matching papers still have a page with an empty-state message.
 Patents are excluded from student paper lists.
@@ -196,7 +197,8 @@ orcid: "https://orcid.org/0000-0000-0000-0000"
 
 Write an optional biography as ordinary Markdown below the closing `---`.
 Change `group` to `alumni` when a student graduates; their papers and links stay
-intact. Names are sorted alphabetically within each group. Preserve existing
+intact. Each group is sorted by `since`, newest first; names break ties
+alphabetically. Entries without a starting year appear last. Preserve existing
 `aliases` and folder names when editing so links continue to work.
 
 If a student publishes under another spelling, add exact alternatives with
@@ -252,6 +254,7 @@ Other homepage edits use these short YAML files:
 | `data/profile.yaml` | Name, affiliation, contact links, biography, research directions, and portrait path |
 | `data/awards.yaml` | Award entries with a year, title, and optional description |
 | `data/news.yaml` | News entries with a date and text; put the newest first |
+| `data/teaching.yaml` | Course titles, years, levels, teaching roles, and the mentoring paragraph |
 
 Use plain text for fields, quoting values that contain a colon. The biography
 and news text also support Markdown links. The homepage shows the first three

@@ -2,7 +2,7 @@
 
 Source: [Zhuotao Liu’s public Google Scholar profile](https://scholar.google.com/citations?user=F8gi4rcAAAAJ&hl=en&pagesize=100). The first page contained 100 records; the second contained nine, with **Show more disabled**. All 109 displayed records are mapped below.
 
-The website contains **94 research items** (papers, preprints, workshops, and a thesis) and **four patents/applications** after consolidating 11 duplicate or alternate-version records. All 58 original website records remain, with 36 new research items and four patent/application entries added. Independently published journal extensions and conference papers remain separate.
+The import contains **94 research items** (papers, preprints, workshops, and a thesis) and **four patents/applications** after consolidating 11 duplicate or alternate-version records. All 58 original website records remain, with 36 new research items and four patent/application entries added. Independently published journal extensions and conference papers remain separate. At the user's request, the patent section is removed and the four patent records are retained as drafts; only the 94 research items appear on the site.
 
 New entries use full author/inventor lists from Scholar citation details, with order preserved. The original 58 records retain their existing detailed metadata and abstracts. New entries omit abstracts because Scholar may truncate them. No publication is made selected automatically. Future edits continue to use the same four required fields in one Markdown file.
 
@@ -10,6 +10,8 @@ Full detail metadata was retrieved for 51 candidate/alternate records, covering 
 
 ## Source corrections and venue checks
 
+- **User CV update:** `Zhuotao_Liu_CV_Final.docx` identifies “Understanding the Security Boundary of Obfuscation-based On-Device LLM Protection” as ACM CCS 2026, replacing its earlier preprint venue. It also supplies Zhuotao Liu's corresponding-author designation for this paper and “Towards Practical Few-shot Multi-tab Website Fingerprinting.” The original paper and Scholar links remain intact.
+- **FlowTele authors:** the CV includes Jinhui Song as the third author, omitted from the original website. The [publisher-deposited Crossref metadata](https://api.crossref.org/works/10.1145/3555050.3569139) confirms the full seven-author order; the omitted name is restored.
 - **SafeSearch:** Scholar’s original 2025 preprint and submission records are consolidated. The current [arXiv record](https://arxiv.org/abs/2509.23694) states acceptance at ICML 2026, so the website uses ICML 2026.
 - **VFIX:** the missing venue is filled as IEEE ICSME 2024, supported by the [coauthor’s institutional publication record](https://collaborate.princeton.edu/en/publications/vfix-facilitating-software-maintenance-of-smart-contracts-via-aut/) and DOI `10.1109/ICSME58944.2024.00013`.
 - **Blind Gods and Broken Screens:** the unresolved `guosheng` author identifier is corrected to Sheng Guo from the [arXiv author list](https://arxiv.org/abs/2602.10915). Author order is unchanged.

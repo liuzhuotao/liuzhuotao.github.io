@@ -1,8 +1,10 @@
 # Content provenance
 
-This preview includes 94 research items and four patents/applications, with three
+This preview displays 94 research items, with three
 research papers selected for the homepage. It retains all 58 publications from
 the existing archive and adds works from the user’s Google Scholar profile.
+The four imported patents/applications remain as draft source records and are
+excluded from the displayed lists at the user's request.
 See [SCHOLAR-IMPORT.md](SCHOLAR-IMPORT.md) for the complete 109-record mapping,
 version consolidation, and verified source corrections. The original profile, awards, and news were read from
 `liuzhuotao/liuzhuotao.github.io` at commit
@@ -27,6 +29,8 @@ preserved field, and existing data issue.
 | `data/services.yaml` | Roles supplied directly by Zhuotao Liu in this conversation on 22 September 2026 | TDSC Associate Editor (2025–present) and conference program committees for 2022–2027. No additional appointments inferred. |
 | `content/students/` | [Original student profiles](https://github.com/liuzhuotao/liuzhuotao.github.io/tree/a749607bf301a43bb0397fea29e1718df536eaa0/content/authors) | All 12 students retained, grouped by the source `student_level`. Enrollment years, interests, real biographies, valid profile links, and Jinzhu Yan's CV are preserved. Portraits are omitted. Student paper lists are derived from the shared publication collection. |
 | `content/join/index.md` | [Original Join us page](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/a749607bf301a43bb0397fea29e1718df536eaa0/content/join/index.md) | Concise rewrite preserving the student/postdoctoral opportunities, funding, additional annual postdoctoral compensation, and friendly/supportive/flourishing culture. No new deadlines or eligibility requirements. |
+| Four additional member profiles | Names, roles, and starting years supplied by Zhuotao Liu in this conversation on 22 September 2026 | Hanyi Zhou (master's, 2025), Shuo Li (master's, 2026), Lepeng Zhao (Ph.D., 2026), and Xiaoou He (postdoctoral researcher, 2026). No interests or contact details inferred. The resulting directory contains 15 students/alumni and one postdoc. |
+| `data/profile.yaml`, `data/teaching.yaml`, CCS award description, and three publication metadata updates | User-provided `Zhuotao_Liu_CV_Final.docx`, reviewed on 22 September 2026 | Adds appointment/degree details, concise research descriptions, four teaching roles, and Zhenhua Zou's doctoral-dissertation recognition. Identifies the LLM protection paper as ACM CCS 2026 and marks corresponding authorship there and on the few-shot website-fingerprinting paper. All 27 representative CV publications already existed in the collection. |
 
 Author identifiers were expanded using existing author profiles: `liuzhuotao` becomes
 Zhuotao Liu using the author profile above; `zouzhenhua` becomes Zhenhua Zou using
@@ -56,3 +60,14 @@ misattributed. Jinzhu Yan's CV is an exact copy of the existing linked file
 Per-paper Scholar source URLs remain in the text entries for provenance but are
 not rendered. Pre-2020 research items share one section; titles, years, and
 individual paper records are unchanged.
+
+The CV dates the Chinese Institute of Electronics science/progress award to 2024;
+the user explicitly confirmed **2025** for the website. Existing award wording
+and year are retained. The full CV, funding totals, commercial claims, and aggregate
+mentoring counts are not copied into the website. No downloadable copy of the
+supplied CV is published.
+
+The CV also identifies an omitted FlowTele coauthor, Jinhui Song. The
+[publisher-deposited Crossref record](https://api.crossref.org/works/10.1145/3555050.3569139)
+confirms Jinhui Song in the third position. The website now uses the full
+seven-author list, retaining the order of all existing names.
