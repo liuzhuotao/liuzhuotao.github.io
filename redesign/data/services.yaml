@@ -5,7 +5,7 @@ editorial:
 
 committees:
   - years: "2027"
-    venues: ["IEEE S&P", "ACM CCS", "USENIX Security"]
+    venues: ["IEEE S&P", "USENIX Security"]
   - years: "2026"
     venues: ["IEEE S&P", "ACM CCS", "USENIX Security"]
   - years: "2025"
