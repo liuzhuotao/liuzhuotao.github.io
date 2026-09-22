@@ -1,11 +1,17 @@
 {{ define "main" }}
-<div class="page-heading"><p class="eyebrow">Research output</p><h1>Publications</h1><p>{{ len .RegularPages }} publications, organized by year. <a href="{{ .Site.Data.profile.scholar }}">Google Scholar ↗</a></p></div>
-{{ $papers := sort .RegularPages "Params.year" "desc" }}
+{{ $papers := slice }}{{ $patents := slice }}
+{{ range sort .RegularPages "Params.year" "desc" }}
+  {{ if eq .Params.category "patent" }}{{ $patents = $patents | append . }}{{ else }}{{ $papers = $papers | append . }}{{ end }}
+{{ end }}
+<div class="page-heading"><p class="eyebrow">Research output</p><h1>Publications</h1><p>{{ len $papers }} publications{{ with $patents }} and {{ len . }} patents or applications{{ end }}, organized by year. <a href="{{ .Site.Data.profile.scholar }}">Google Scholar ↗</a></p></div>
 {{ $years := slice }}{{ range $papers }}{{ $years = $years | append (printf "%v" .Params.year) }}{{ end }}
-<nav class="publication-years" aria-label="Publication years"><span>Jump to</span>{{ range uniq $years }}<a href="#year-{{ . }}">{{ . }}</a>{{ end }}</nav>
+<nav class="publication-years" aria-label="Publication years"><span>Jump to</span>{{ range uniq $years }}<a href="#year-{{ . }}">{{ . }}</a>{{ end }}{{ with $patents }}<a href="#patents">Patents</a>{{ end }}</nav>
 <p class="publication-legend">Underlined authors are members or alumni of InspiringGroup.</p>
 {{ range uniq $years }}
 {{ $year := . }}
 <section class="editorial-section year-section" aria-labelledby="year-{{ $year }}"><div class="section-label"><h2 id="year-{{ $year }}">{{ $year }}</h2></div><div class="section-body">{{ range $papers }}{{ if eq (printf "%v" .Params.year) $year }}{{ partial "publication.html" . }}{{ end }}{{ end }}</div></section>
+{{ end }}
+{{ with $patents }}
+<section id="patents" class="editorial-section" aria-labelledby="patents-heading"><div class="section-label"><h2 id="patents-heading">Patents &amp; applications</h2></div><div class="section-body">{{ range . }}{{ partial "publication.html" . }}{{ end }}</div></section>
 {{ end }}
 {{ end }}

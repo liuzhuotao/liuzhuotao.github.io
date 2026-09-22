@@ -7,6 +7,7 @@ paper: "https://www.usenix.org/conference/atc23/presentation/al-fares"
 conference: "https://www.usenix.org/conference/atc23"
 topics: ["Networking Infrastructure for AI","Datacenter Networking"]
 aliases: ["/publications/networking_infrastructure_for_ai/datacenter_networking/3-1-2/"]
+scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:pqnbT2bcN3wC"
 ---
 
 Automated management of a physical network's lifecycle is critical for large networks. At Google, we manage network design, construction, evolution, and management via multiple automated systems. In our experience, one of the primary challenges is to reliably and efficiently manage change in this domain -- additions of new hardware and connectivity, planning and sequencing of topology mutations, introduction of new architectures, new software systems and fixes to old ones, etc.

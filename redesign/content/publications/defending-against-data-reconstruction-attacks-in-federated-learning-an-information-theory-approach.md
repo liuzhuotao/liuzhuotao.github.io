@@ -7,6 +7,7 @@ paper: "https://www.usenix.org/conference/usenixsecurity24/presentation/tan"
 conference: "https://www.usenix.org/conference/usenixsecurity24"
 topics: ["AI and Data Security (with Applied Cryptography)","Federated Learning","Data Security"]
 aliases: ["/publications/ai_and_data_security/federated_learning/2-2-2/"]
+scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:KxtntwgDAa4C"
 ---
 
 Federated Learning (FL) trains a black-box and high-dimensional model among different clients by exchanging parameters instead of direct data sharing, which mitigates the privacy leak incurred by machine learning. However, FL still suffers from membership inference attacks (MIA) or data reconstruction attacks (DRA). In particular, an attacker can extract the information from local datasets by constructing DRA, which cannot be effectively throttled by existing techniques, e.g., Differential Privacy (DP).

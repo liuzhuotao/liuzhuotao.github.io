@@ -100,6 +100,7 @@ paper: "https://example.org/paper"
 pdf: "https://example.org/paper.pdf"
 code: "https://github.com/example/project"
 conference: "https://example.org/conference"
+scholar: "https://scholar.google.com/citations?view_op=view_citation&user=PROFILE&citation_for_view=RECORD"
 award: "Distinguished Paper Award"
 corresponding: ["Zhuotao Liu"]
 equal_contribution: ["First Author", "Second Author"]
@@ -107,7 +108,7 @@ equal_contribution: ["First Author", "Second Author"]
 
 - `corresponding` and `equal_contribution` are lists of exact author names.
 - `award` accepts a short text label or a list of labels for multiple awards.
-- Paper, PDF, code, and conference links accept `https://` URLs or local paths beginning
+- Paper, PDF, code, conference, and Scholar links accept `https://` URLs or local paths beginning
   with `/`. Local files belong in `redesign/static/`; for example,
   `redesign/static/papers/my-paper.pdf` is linked as `/papers/my-paper.pdf`.
 - Write an optional abstract as ordinary Markdown after the closing `---`.
@@ -121,6 +122,29 @@ equal_contribution: ["First Author", "Second Author"]
   and `group_authors`, a list of author positions counted from 1. These preserve
   the archive's topic labels and group-member highlighting. Both are optional;
   if you reorder authors, update any `group_authors` positions to match.
+
+For alternate versions of the same paper, keep one entry and optionally add links:
+
+```yaml
+versions:
+  - label: "Preprint"
+    url: "https://arxiv.org/abs/1234.56789"
+  - label: "Workshop version"
+    url: "https://example.org/workshop-paper"
+```
+
+Journal extensions and independently published conference papers can have separate
+entries. Add `category: patent` to place a patent or application in the separate
+**Patents & applications** section. Use the inventor names in `authors` and the
+patent/application number in `venue`; the same four required fields still apply.
+Leave `category` out for ordinary research publications and preprints.
+
+The Scholar comparison added 36 research entries and four patent/application
+entries to the original 58 papers. The website now contains 94 research items
+(including preprints and a thesis) plus four patents/applications. All 109 Scholar
+records, including duplicate versions, are accounted for in
+`redesign/SCHOLAR-IMPORT.md`. These are editable text files; the site does not
+automatically overwrite your edits from Scholar.
 
 You can also generate the short entry with Hugo:
 
@@ -159,13 +183,13 @@ Other homepage edits use these short YAML files:
 
 | File under `redesign/` | What to edit |
 | --- | --- |
-| `data/profile.yaml` | Name, affiliation, contact links, research statement, biography, research directions, and portrait path |
+| `data/profile.yaml` | Name, affiliation, contact links, biography, research directions, and portrait path |
 | `data/awards.yaml` | Award entries with a year, title, and optional description |
 | `data/news.yaml` | News entries with a date and text; put the newest first |
 
 Use plain text for fields, quoting values that contain a colon. The biography
 and news text also support Markdown links. The homepage shows the first three
-news entries. Keep awards in the order you want them displayed.
+news entries directly below your profile. Keep awards in the order you want them displayed.
 
 An award entry looks like this:
 

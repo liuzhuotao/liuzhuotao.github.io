@@ -237,6 +237,27 @@ def main():
         check_links(output, base)
         print("PASS: editorial and committee service can be edited in one data file")
 
+        write_paper(entry, minimal,
+                    'category: patent\n'
+                    'scholar: "https://scholar.google.com/citations?user=fixture"\n'
+                    'versions: [{label: "Fixture version", url: "/publications/ringsg/"}]\n')
+        output, base = scratch / "patents", "https://preview.invalid/preview/"
+        build(hugo, source, output, base)
+        html = (output / "publications/index.html").read_text(encoding="utf-8")
+        listing = Page(output / "publications/index.html")
+        require('id="patents"' in html and title in html.split('id="patents"', 1)[1],
+                "A patent is not rendered in the separate patent section")
+        require('id="year-2999"' not in html and '#year-2999' not in html,
+                "A patent year leaked into the research year navigation")
+        require('href="https://scholar.google.com/citations?user=fixture"' in html,
+                "The optional Scholar link is missing")
+        require('href="/preview/publications/ringsg/">Fixture version' in html,
+                "The optional version link does not honor the preview prefix")
+        require(len(listing.articles) == len(papers) + 2,
+                "Separating patents lost or duplicated a publication row")
+        check_links(output, base)
+        print("PASS: separate patents, Scholar links, and prefix-safe alternate versions")
+
         entry.write_text(minimal.replace('venue: "Example Conference"\n', ""), encoding="utf-8")
         result = build(hugo, source, scratch / "invalid", base, expect_success=False)
         require(result.returncode != 0, "Missing venue unexpectedly built successfully")

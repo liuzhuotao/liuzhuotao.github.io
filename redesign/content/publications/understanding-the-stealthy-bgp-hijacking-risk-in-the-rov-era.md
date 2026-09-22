@@ -6,4 +6,5 @@ year: 2026
 conference: "https://www.ndss-symposium.org/ndss2026/"
 topics: ["Secure Networking and Systems Infrastructure","Secure Internet Routing"]
 aliases: ["/publications/secure_networking_and_systems_infrastructure/secure_internet_routing/1-1-4/"]
+scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:dTyEYWd-f8wC"
 ---

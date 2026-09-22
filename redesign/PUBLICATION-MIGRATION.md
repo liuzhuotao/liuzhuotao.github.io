@@ -1,6 +1,10 @@
 # Publication archive migration
 
-The redesign contains **58 unique publication records**, all imported from the
+This report records the initial **58-publication** migration. The subsequent
+[Google Scholar comparison](SCHOLAR-IMPORT.md) adds 36 research items and four
+patents/applications, and documents later source corrections.
+
+The initial redesign contained **58 unique publication records**, all imported from the
 legacy `content/publications/` archive at repository commit
 `0b680aedcfeaabbe8c19fe0a7adc69c9e5051ed5`. No source publications were removed,
 merged, or rewritten. Euston, RingSG, and PRED remain selected for the homepage,
