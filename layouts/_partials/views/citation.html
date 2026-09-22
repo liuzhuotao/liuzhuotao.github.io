@@ -11,34 +11,34 @@
   <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
 
   {{ if $item.Params.award }}
-    <span class="relative inline-block mr-2" x-data="{ tooltip: false }">
+    {{ $award_id := printf "publication-award-%s" $item.File.UniqueID }}
+    <span class="publication-tooltip relative inline-block mr-2">
       <button
-        @mouseenter="tooltip = true"
-        @mouseleave="tooltip = false"
-        @click="tooltip = !tooltip"
-        class="text-amber-500 dark:text-amber-400 hover:text-amber-600 transition-colors cursor-help flex items-center"
+        class="text-amber-500 dark:text-amber-400 hover:text-amber-600 transition-colors cursor-default flex items-center"
+        aria-label="Publication awards"
+        aria-describedby="{{ $award_id }}"
         type="button"
       >
-        <p class="fas fa-trophy text-sm">🏆</p>
+        <span class="text-sm" aria-hidden="true">🏆</span>
       </button>
 
       {{/* Tooltip 弹出层：支持展示多项奖项 */}}
-      <div
-        x-show="tooltip"
-        x-cloak
-        class="absolute z-50 bottom-full left-0 transform mb-2 px-3 py-2 text-[11px] leading-relaxed text-white bg-slate-900 dark:bg-slate-800 rounded-lg shadow-xl w-max"
+      <span
+        id="{{ $award_id }}"
+        role="tooltip"
+        class="publication-tooltip-content absolute z-50 bottom-full left-0 transform mb-2 px-3 py-2 text-xs leading-relaxed text-white bg-slate-900 dark:bg-slate-800 rounded-lg shadow-xl w-max"
       >
-        <div class="flex flex-col gap-1">
+        <span class="flex flex-col gap-1">
           {{ range $item.Params.award }}
-            <div class="flex items-start gap-2">
+            <span class="flex items-start gap-2">
               <span class="text-amber-400">✨</span>
-              <span class="whitespace-nowrap">{{ . }}</span>
-            </div>
+              <span>{{ . }}</span>
+            </span>
           {{ end }}
-        </div>
+        </span>
         {{/* Tooltip 小箭头 - 指向奖杯 */}}
-        <div class="absolute top-full left-2 transform w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900 dark:border-t-slate-800"></div>
-      </div>
+        <span class="absolute top-full left-2 transform w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900 dark:border-t-slate-800"></span>
+      </span>
     </span>
   {{ end }}
 

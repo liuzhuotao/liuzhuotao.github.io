@@ -1,5 +1,35 @@
 /* Author Notes Tooltip Styles */
 
+/* Publication notes and awards must work even when Alpine.js is not loaded. */
+.publication-tooltip {
+  cursor: default;
+}
+
+.publication-tooltip-content {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  max-width: min(24rem, calc(100vw - 2rem));
+  white-space: normal;
+}
+
+.publication-tooltip:hover > .publication-tooltip-content,
+.publication-tooltip:focus-within > .publication-tooltip-content {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Keep the tooltip open while the pointer crosses the gap above its icon. */
+.publication-tooltip-content::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+}
+
 /* Hide elements with x-cloak until Alpine.js initializes */
 [x-cloak] {
   /* biome-ignore lint/complexity/noImportantStyles: Required to reliably hide until Alpine initializes */
@@ -15,6 +45,9 @@
 .author-notes {
   @apply inline-flex items-center justify-center;
   @apply transition-all duration-200 ease-in-out;
+  /* Superscripts have zero line-height; keep their parent hoverable. */
+  min-width: 1em;
+  min-height: 1em;
 }
 
 /* Focus styles for accessibility */

@@ -41,7 +41,7 @@
     {{/* Optional provider+id derivation for common platforms */}}
     {{ if and (not $url) .id }}
       {{ if eq $type "doi" }}
-        {{ $url = replace (index (index $derived "doi") "url_template") "{id}" (printf "%v" .id) }}
+        {{ $url = partial "functions/doi_url" .id }}
       {{ else if and (eq $type "preprint") (eq .provider "arxiv") }}
         {{ $url = replace (index (index $derived "arxiv") "url_template") "{id}" (printf "%v" .id) }}
       {{ else if and (eq $type "preprint") (eq .provider "openreview") }}
@@ -150,6 +150,9 @@
         {{ $der := . }}
         {{ $typeF := index $der "type" }}
         {{ $urlF := replace (index $der "url_template") "{id}" (printf "%v" $val) }}
+        {{ if eq $key "doi" }}
+          {{ $urlF = partial "functions/doi_url" $val }}
+        {{ end }}
         {{ $keyF := printf "%s::%s" $typeF $urlF }}
         {{ if not ($seen.Get (printf "set.%s" $keyF)) }}
           {{ $seen.SetInMap "set" $keyF true }}
@@ -190,7 +193,7 @@
   {{ with (index $derived "doi") }}
     {{ $der := . }}
     {{ $typeF := index $der "type" }}
-    {{ $urlF := replace (index $der "url_template") "{id}" (printf "%v" $page.Params.doi) }}
+    {{ $urlF := partial "functions/doi_url" $page.Params.doi }}
     {{ $keyF := printf "%s::%s" $typeF $urlF }}
     {{ if not ($seen.Get (printf "set.%s" $keyF)) }}
       {{ $seen.SetInMap "set" $keyF true }}
@@ -204,7 +207,7 @@
     {{ end }}
   {{ else }}
     {{ $typeF := "doi" }}
-    {{ $urlF := printf "https://doi.org/%v" $page.Params.doi }}
+    {{ $urlF := partial "functions/doi_url" $page.Params.doi }}
     {{ $keyF := printf "%s::%s" $typeF $urlF }}
     {{ if not ($seen.Get (printf "set.%s" $keyF)) }}
       {{ $seen.SetInMap "set" $keyF true }}

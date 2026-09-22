@@ -1,0 +1,6 @@
+{{/* Legacy publications store publisher URLs in `doi`; BibTeX imports may use bare DOI identifiers. */}}
+{{- $url := strings.TrimSpace (printf "%v" .) -}}
+{{- if and $url (not (findRE `(?i)^https?://` $url)) -}}
+  {{- $url = printf "https://doi.org/%s" $url -}}
+{{- end -}}
+{{- return $url -}}
