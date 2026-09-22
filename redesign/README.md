@@ -301,6 +301,18 @@ Replace the portrait in `redesign/static/images/portrait.jpg`, or change the
 the original image file stays intact. Navigation links to the local Students
 and Join us pages.
 
+## Colors and publication text size
+
+Section accents alternate between teal and navy. Headings, links, and author
+underlines use the section's color; ordinary text remains neutral. Publication
+and news year groups, and student groups, alternate automatically as content
+is added. These presentation settings live in `redesign/static/css/site.css`;
+ordinary content edits do not need any color fields.
+
+Publication rows use 22px titles and 17px author names on desktop, and 20px
+and 16px on smaller screens. The same styles apply to selected publications,
+the complete list, and students' paper lists.
+
 ## Build checks and recovery
 
 `.github/workflows/redesign-preview.yml` builds only this directory on relevant
