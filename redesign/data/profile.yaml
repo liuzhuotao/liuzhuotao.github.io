@@ -19,11 +19,11 @@ bio: >-
   earned his Ph.D. in Computer Engineering from the University of Illinois Urbana-Champaign
   (UIUC) in 2017, and part of his research there won the NSF I-Corps award.
 research:
-  - title: "Trustworthy AI & privacy"
+  - title: "Trust-native AI"
     description: "Secure Transformer inference, private collaborative learning, secure graph computation, and verifiable federated learning."
-  - title: "Robust learning for security"
+  - title: "Robust Learning for Network Security"
     description: "Traffic analysis, website fingerprinting, and routing anomaly detection that remain effective under changing conditions and adversarial manipulation."
-  - title: "Intelligent network infrastructure"
+  - title: "Intelligent Network Infrastructure"
     description: "Machine learning in programmable network devices, high-performance datacenter networks, and network lifecycle automation."
-  - title: "Deployable Internet security"
+  - title: "Deployable and Secure Internet Systems"
     description: "Practical defenses for Internet routing and DDoS attacks, alongside secure network control and cross-chain interoperability."
