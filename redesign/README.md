@@ -1,18 +1,32 @@
-# Personal research website preview
+# Personal research website editing guide
 
-This directory is a standalone preview of Zhuotao Liu's personal research website.
+The live website is [liuzhuotao.github.io](https://liuzhuotao.github.io/).
+Its source is the [`redesign/` directory on `main`](https://github.com/liuzhuotao/liuzhuotao.github.io/tree/main/redesign).
 It uses Hugo **0.152.2** with local templates and CSS; no theme, Node.js, package
-installation, or Hugo modules are needed. The repository's existing website is
-still the production site.
+installation, or Hugo modules are needed. The old content and templates outside
+`redesign/` are retained for reference and are not used for deployment.
 
-The preview includes the personal homepage, selected publications, a complete
+The website includes the personal homepage, selected publications, a complete
 publication list grouped by year, awards, academic service, teaching, news, students, and
 Join us. The selected
 and complete publication lists use the **same short text files**. Existing
 publication and student URLs redirect to their migrated detail pages. Students
 have text profiles linked to their papers, without individual portraits.
 
-## View the preview
+## Edit and publish through GitHub
+
+Start from the [`redesign/` folder on `main`](https://github.com/liuzhuotao/liuzhuotao.github.io/tree/main/redesign).
+Open a file and choose the pencil icon to edit it, or use **Add file → Create
+new file** to add an entry. When saving, choose a new branch and open a pull
+request so you can review the change before publishing. Wait for all build and
+content checks to pass, then merge the pull request into `main`.
+
+Merging into `main` starts the [production deployment](https://github.com/liuzhuotao/liuzhuotao.github.io/actions/workflows/deploy.yml).
+The workflow checks and builds the site before uploading or deploying it. If a
+check or build fails, the existing live website stays in place. A successful
+deployment publishes the update to [liuzhuotao.github.io](https://liuzhuotao.github.io/).
+
+## View locally
 
 With Hugo 0.152.2 installed, run this from the repository root:
 
@@ -21,32 +35,36 @@ hugo server --source redesign
 ```
 
 Open the local address printed by Hugo, normally `http://localhost:1313/`.
-Hugo reloads the page when you save a content or template change.
+This shows the production layout, without a preview banner. Hugo reloads the
+page when you save a content or template change.
+
+For an explicitly marked preview with a banner and `noindex`, run:
+
+```sh
+hugo server --source redesign --environment preview
+```
 
 To create a static build:
 
 ```sh
-cd redesign
-hugo --minify --destination public
+hugo --source redesign --minify --destination public
 ```
 
-The output is `redesign/public/` and is ignored by Git. For a preview served
-under a URL prefix, pass the full address with `--baseURL`, including its
-trailing slash. The preview includes a design-preview notice and a `noindex`
-directive.
+Hugo resolves the destination relative to the source directory, so the output
+is `redesign/public/` and is ignored by Git. To build a marked preview, add
+`--environment preview`. For a site served under a URL prefix, also pass the
+full address with `--baseURL`, including its trailing slash.
 
 ## Edit publications once for both lists
 
-Every paper lives in one Markdown file in `redesign/content/publications/`.
+Every paper lives in one Markdown file in
+[`redesign/content/publications/`](https://github.com/liuzhuotao/liuzhuotao.github.io/tree/main/redesign/content/publications).
 Edit that file to update its title, authors, venue, year, links, or abstract; the
 complete list, homepage selection, and detail page all use that one entry.
 There is no separate homepage publication list to maintain.
 
-In GitHub, open this folder on the redesign branch, choose a paper, and use the
-pencil icon to edit. To add a paper, use **Add file → Create new file**. Save the
-change using GitHub's commit controls. While this redesign is a preview, these
-edits update the preview branch; the current live website still uses its original
-content. Locally, save the file and Hugo's preview reloads automatically.
+In GitHub, open that folder on `main` and follow the edit-and-publish steps above.
+Locally, save the file and Hugo reloads automatically.
 
 ### Add a paper to the complete list
 
@@ -70,7 +88,8 @@ abstract or publication form.
 
 ### Choose and order selected publications
 
-Add one line to a paper's existing entry to also show it on the homepage:
+Add one line to a paper's existing entry, before the closing `---`, to also show
+it on the homepage:
 
 ```yaml
 selected: true
@@ -90,8 +109,9 @@ selected_order: 1
 Number other selected papers `2`, `3`, and so on. Numbered papers appear first,
 in ascending order; selected papers without a number follow in descending year
 order. Use distinct numbers when you want an exact order. This changes only the
-homepage; **All publications** keeps its year grouping. There is no fixed limit
-on the number of selected papers.
+homepage; **All publications** keeps its year grouping. You can select eight,
+ten, or as many papers as you want: there is no fixed limit. Each selected paper
+still appears in the complete list, using the same file.
 
 ### Optional publication details
 
@@ -164,8 +184,8 @@ values. To remove a paper from both lists, delete its file or set `draft: true`.
 
 ## Add or update students
 
-Create `redesign/content/students/first-last/index.md`. Only two fields are
-required:
+In [`redesign/content/students/`](https://github.com/liuzhuotao/liuzhuotao.github.io/tree/main/redesign/content/students),
+create `first-last/index.md`. Only two fields are required:
 
 ```yaml
 ---
@@ -221,13 +241,15 @@ lists, and profile link formats.
 
 ## Edit Join us
 
-Edit `redesign/content/join/index.md`. Its headings and paragraphs are ordinary
+Edit [`redesign/content/join/index.md`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/content/join/index.md).
+Its headings and paragraphs are ordinary
 Markdown, covering openings, postdoctoral positions, group culture, and contact.
 The contact box uses the email in `redesign/data/profile.yaml`.
 
 ## Update academic service
 
-Edit `redesign/data/services.yaml`. Add or edit a short entry under `editorial`
+Edit [`redesign/data/services.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/services.yaml).
+Add or edit a short entry under `editorial`
 for journal roles, or under `committees` for conference service:
 
 ```yaml
@@ -251,10 +273,10 @@ Other homepage edits use these short YAML files:
 
 | File under `redesign/` | What to edit |
 | --- | --- |
-| `data/profile.yaml` | Name, affiliation, contact links, biography, research directions, and portrait path |
-| `data/awards.yaml` | Award entries with a year, title, and optional description |
-| `data/news.yaml` | News entries with a date and text; put the newest first |
-| `data/teaching.yaml` | Course titles, years, levels, teaching roles, and the mentoring paragraph |
+| [`data/profile.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/profile.yaml) | Name, affiliation, contact links, biography, research directions, and portrait path |
+| [`data/awards.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/awards.yaml) | Award entries with a year, title, and optional description |
+| [`data/news.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/news.yaml) | News entries with a date and text; put the newest first |
+| [`data/teaching.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/teaching.yaml) | Course titles, years, levels, teaching roles, and the mentoring paragraph |
 
 Use plain text for fields, quoting values that contain a colon. The biography
 and news text also support Markdown links. The homepage shows the first three
@@ -280,18 +302,21 @@ Replace the portrait in `redesign/static/images/portrait.jpg`, or change the
 the original image file stays intact. Navigation links to the local Students
 and Join us pages.
 
-## Preview checks and publishing
+## Build checks and recovery
 
 `.github/workflows/redesign-preview.yml` builds only this directory on relevant
 pull requests, relevant pushes to `codex/personal-site-preview`, and manual
-runs. A successful run provides a downloadable `personal-site-preview`
+runs. Let its checks pass before merging a pull request. A successful run
+provides a downloadable `personal-site-preview`
 artifact in GitHub Actions. It does **not** create a public preview URL or
 deploy to GitHub Pages. Its only repository permission is `contents: read`.
 
-The production workflow, `.github/workflows/deploy.yml`, continues to build the
-existing site from the repository root. It runs automatically only for pushes
-to `main`, and its deployment job is also restricted to `main`, including
-manual runs. A manual run on another branch cannot publish the preview.
+The production workflow, `.github/workflows/deploy.yml`, uses Hugo **0.152.2**
+to build `redesign/`. It runs the content-editing checks and production build
+before uploading the Pages artifact, and deploys only when they succeed.
+Automatic deployment runs on pushes to `main`; the deployment job is restricted
+to `main`, including manual runs. A manual run on another branch cannot publish
+the website.
 
 Run the same build and content-editing checks locally from the repository root:
 
@@ -305,7 +330,7 @@ adding a four-field paper, switching homepage selection, changing selection
 order, editing academic service, adding students, and matching their papers.
 Your source files are not changed.
 
-Publishing this design is a separate milestone. Before switching production,
-review the migrated publication archive and redirects, verify group and other
-page links, remove preview notices and indexing restrictions, and update the
-production build to use the completed design.
+If a published change needs to be undone, revert its merge on `main` through a
+new pull request. Wait for the checks, then merge the revert; the same workflow
+rebuilds and deploys the restored version. Keep the Git history intact; do not
+force-push to roll back the website.

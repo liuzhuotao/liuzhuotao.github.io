@@ -1,6 +1,6 @@
 # Content provenance
 
-This preview displays 94 research items, with three
+The site displays 94 research items, with three
 research papers selected for the homepage. It retains all 58 publications from
 the existing archive and adds works from the user’s Google Scholar profile.
 The four imported patents/applications remain as draft source records and are
@@ -14,7 +14,7 @@ at commit `a749607bf301a43bb0397fea29e1718df536eaa0` on 22 September 2026.
 See [PUBLICATION-MIGRATION.md](PUBLICATION-MIGRATION.md) for every source mapping,
 preserved field, and existing data issue.
 
-| Preview content | Repository source | Treatment |
+| Site content | Repository source | Treatment |
 | --- | --- | --- |
 | `data/profile.yaml`: name, role, affiliation, department, email, Scholar, GitHub, ORCID | [Zhuotao Liu author profile](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/86c60c36f734ebd0b09cf9b4d1d7beddc46500ac/content/authors/liuzhuotao/_index.md) | Retains the real identity and profile links. Converts the obfuscated email to a working email address. |
 | `data/profile.yaml`: bio | [Zhuotao Liu author profile](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/86c60c36f734ebd0b09cf9b4d1d7beddc46500ac/content/authors/liuzhuotao/_index.md) | Proposed concise first-person rewrite of the real prose biography below the front matter. Keeps the Tsinghua role, group, Google experience, and education. |
@@ -42,11 +42,11 @@ are preserved, including their wording; line wrapping is normalized.
 The existing author front matter also contains unrelated template examples of
 employment, education, skills, and awards (including Meta, OpenAI, and Stanford).
 Those examples are excluded. The standalone `content/awards/_index.md` and the real
-prose biography are the sources for those subjects. No CV link is included because
-the available resume has not been verified as the user's current CV.
+prose biography are the sources for those subjects. The original site's resume
+link pointed to unverified template content, so it was not carried over.
 
 The latest source news is August 2026. No September 2026 announcement is invented.
-The selected-paper choices are proposed editorial choices for this preview.
+The selected-paper choices remain editable in their individual entries.
 The broad introductory research slogan was removed at the user’s request; the
 compact profile now leads with role, affiliation, and biography, followed by news.
 
@@ -71,3 +71,15 @@ The CV also identifies an omitted FlowTele coauthor, Jinhui Song. The
 [publisher-deposited Crossref record](https://api.crossref.org/works/10.1145/3555050.3569139)
 confirms Jinhui Song in the third position. The website now uses the full
 seven-author list, retaining the order of all existing names.
+
+For launch, the About text is the full **Academic Profile** paragraph from
+`Zhuotao_Liu_CV_Final.docx`, used verbatim at the user's explicit request. This
+supersedes the earlier shortened first-person biography. Selection remains
+controlled by each paper's `selected` field, without a fixed number of papers.
+Production builds use the `redesign/` source, allow indexing, and generate a
+sitemap. The `preview` environment retains the notice and indexing block.
+
+Legacy navigation URLs for news, awards, the author profile, experience, and
+research topics redirect to the homepage. Old publication-category URLs redirect
+to the complete publication list. The original Jinzhu Yan CV URL is preserved
+with a verbatim copy of the already-public PDF.

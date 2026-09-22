@@ -39,7 +39,11 @@ jobs:
 
       - name: Build preview artifact
         working-directory: redesign
-        run: hugo --minify --destination public
+        run: hugo --environment preview --minify --destination public
+
+      - name: Validate preview artifact
+        working-directory: redesign
+        run: python3 scripts/check.py --output "$PWD/public" --base-url https://liuzhuotao.github.io/ --environment preview
 
       - name: Upload preview
         uses: actions/upload-artifact@v4

@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ .Description | default .Site.Params.description }}">
-  <meta name="robots" content="noindex, nofollow">
+  {{ if .Site.Params.preview }}<meta name="robots" content="noindex, nofollow">{{ end }}
+  <link rel="canonical" href="{{ .Permalink }}">
   <meta name="theme-color" content="#fcfbf8">
   <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ .Site.Title }}</title>
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="preview-banner">Design preview <span aria-hidden="true">·</span> <a href="https://liuzhuotao.github.io/">Current website ↗</a></div>
+  {{ if .Site.Params.preview }}<div class="preview-banner">Design preview <span aria-hidden="true">·</span> <a href="https://liuzhuotao.github.io/">Current website ↗</a></div>{{ end }}
   <header class="site-header wrap">
     <a class="wordmark" href="{{ .Site.Home.RelPermalink }}" aria-label="Zhuotao Liu homepage">Zhuotao Liu<span class="wordmark-dot" aria-hidden="true">.</span></a>
     <nav aria-label="Main navigation">

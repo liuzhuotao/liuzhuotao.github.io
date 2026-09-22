@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the preview and editing workflow with Python's standard library."""
+"""Check site builds, deployment artifacts, and the editing workflow using the standard library."""
 
 import argparse
 import csv
@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import tempfile
 from urllib.parse import unquote, urljoin, urlsplit
+import xml.etree.ElementTree as ET
 
 
 RINGSG_TITLE = "RingSG: Optimal Secure Vertex-Centric Computation for Collaborative Graph Processing"
@@ -21,6 +22,8 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.refs, self.ids, self.articles, self.parts = [], set(), [], []
         self.links, self.images = [], []
+        self.id_order, self.robot_directives, self.canonicals = [], [], []
+        self.classes = set()
         self.anchor = None
         self.redirects = []
         self.article = None
@@ -29,6 +32,7 @@ class Page(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        self.classes.update(attrs.get("class", "").split())
         for attr in ("href", "src"):
             if attrs.get(attr):
                 self.refs.append(attrs[attr])
@@ -38,8 +42,13 @@ class Page(HTMLParser):
                 target = redirect.group(1).strip().strip("\"'")
                 self.redirects.append(target)
                 self.refs.append(target)
+        if tag == "meta" and attrs.get("name", "").lower() in ("robots", "googlebot"):
+            self.robot_directives.extend(re.split(r"[,\s]+", attrs.get("content", "").lower()))
+        if tag == "link" and "canonical" in attrs.get("rel", "").lower().split():
+            self.canonicals.append(attrs.get("href", ""))
         if "id" in attrs:
             self.ids.add(attrs["id"])
+            self.id_order.append(attrs["id"])
         if tag == "a" and "name" in attrs:
             self.ids.add(attrs["name"])
         if tag == "a":
@@ -70,10 +79,15 @@ def require(condition, message):
         raise AssertionError(message)
 
 
-def build(hugo, source, output, base, expect_success=True):
+def normalized_text(value):
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def build(hugo, source, output, base, expect_success=True, environment="production"):
     result = subprocess.run(
         [hugo, "--source", str(source), "--destination", str(output),
-         "--baseURL", base, "--noBuildLock", "--cacheDir", str(source.parent / "cache")],
+         "--baseURL", base, "--environment", environment,
+         "--noBuildLock", "--cacheDir", str(source.parent / "cache")],
         text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=60,
     )
     if expect_success:
@@ -106,6 +120,37 @@ def check_links(output, base):
     require(checked > 0, "No internal links were checked")
 
 
+def check_indexing(output, base, environment):
+    preview = environment == "preview"
+    for path in output.rglob("*.html"):
+        page = Page(path)
+        if page.redirects or path.name == "404.html":
+            continue
+        relative = path.relative_to(output).as_posix()
+        if preview:
+            require("noindex" in page.robot_directives and "nofollow" in page.robot_directives,
+                    f"Preview page is missing noindex, nofollow: {relative}")
+            require("preview-banner" in page.classes, f"Preview page is not labeled as a preview: {relative}")
+        else:
+            require(not {"noindex", "nofollow", "none"}.intersection(page.robot_directives),
+                    f"Production page is still blocked from indexing: {relative}")
+            require("preview-banner" not in page.classes, f"Production page still has a preview banner: {relative}")
+            expected = urljoin(base, relative.removesuffix("index.html"))
+            require(page.canonicals == [expected], f"Production page has an incorrect canonical URL: {relative}")
+    robots = output / "robots.txt"
+    require(robots.is_file(), "robots.txt is missing")
+    blocked = re.search(r"(?mi)^Disallow:\s*/\s*(?:#.*)?$", robots.read_text(encoding="utf-8"))
+    require(bool(blocked) == preview, "robots.txt does not match the requested production/preview environment")
+    if not preview:
+        sitemap = output / "sitemap.xml"
+        require(sitemap.is_file(), "Production sitemap.xml is missing")
+        locations = [node.text for node in ET.parse(sitemap).iter() if node.tag.rsplit("}", 1)[-1] == "loc"]
+        require(base in locations and all(location and location.startswith(base) for location in locations),
+                "The production sitemap is empty or contains URLs outside the deployed site")
+        require(urljoin(base, "sitemap.xml") in robots.read_text(encoding="utf-8"),
+                "Production robots.txt does not advertise the sitemap")
+
+
 def published_papers(hugo, source):
     result = subprocess.run(
         [hugo, "list", "published", "--source", str(source), "--noBuildLock", "--renderToMemory"],
@@ -129,12 +174,13 @@ def check_initial(output, papers):
     listing = Page(output / "publications/index.html")
     require(len(listing.articles) == len(papers), "Publication row count does not match published content")
     for paper in papers:
-        require(any(paper["title"] in article for article in listing.articles),
+        require(any(normalized_text(paper["title"]) in normalized_text(article) for article in listing.articles),
                 f'Missing {paper["title"]} on the publication listing')
     for article in home.articles:
-        require(any(paper["title"] in article for paper in papers), "Homepage contains an unknown paper")
-    html = (output / "publications/index.html").read_text(encoding="utf-8")
-    years = [int(year) for year in re.findall(r'id="year-(\d{4})"', html)]
+        require(any(normalized_text(paper["title"]) in normalized_text(article) for paper in papers),
+                "Homepage contains an unknown paper")
+    years = [int(identifier.removeprefix("year-")) for identifier in listing.id_order
+             if re.fullmatch(r"year-\d{4}", identifier)]
     require(years and years == sorted(set(years), reverse=True), "Year groups are not descending")
     require(all(year >= 2020 for year in years), "Pre-2020 papers still have individual year groups")
     require("year-before-2020" in listing.ids, "The combined Before 2020 group is missing")
@@ -168,7 +214,7 @@ def check_initial(output, papers):
         require(not profile.images, f"Student page still contains a portrait: {student_page}")
         if student_page.parent == output / "students":
             continue
-        heading = re.search(r'<div class="student-publications-heading">(.*?)</div>',
+        heading = re.search(r'<div class=(?:"student-publications-heading"|student-publications-heading)>(.*?)</div>',
                             student_page.read_text(encoding="utf-8"), re.S)
         require(heading and not re.search(r"\b\d+\s+papers?\b", heading.group(1)),
                 f"A student profile still displays a numeric paper count: {student_page}")
@@ -194,7 +240,8 @@ def student_publication_links(output, slug):
 
 
 def article_index(page, title):
-    return next((index for index, article in enumerate(page.articles) if title in article), None)
+    return next((index for index, article in enumerate(page.articles)
+                 if normalized_text(title) in normalized_text(article)), None)
 
 
 def write_paper(entry, minimal, metadata=""):
@@ -205,11 +252,30 @@ def write_paper(entry, minimal, metadata=""):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--hugo", default="hugo", help="Hugo executable (default: hugo)")
+    parser.add_argument("--output", type=Path, help="Validate an existing build without changing or rebuilding it")
+    parser.add_argument("--base-url", help="Exact deployed site URL, including a trailing slash (required with --output)")
+    parser.add_argument("--environment", choices=("production", "preview"), default="production",
+                        help="Environment of an existing --output build (default: production)")
     args = parser.parse_args()
+    if bool(args.output) != bool(args.base_url):
+        parser.error("--output and --base-url must be supplied together")
+    if args.base_url:
+        address = urlsplit(args.base_url)
+        if address.scheme not in ("http", "https") or not address.netloc or not address.path.endswith("/") \
+                or address.query or address.fragment:
+            parser.error("--base-url must be an absolute http(s) URL ending in /, without a query or fragment")
     executable = shutil.which(args.hugo)
     require(executable, f"Hugo executable not found: {args.hugo}")
     hugo = str(Path(executable).resolve())
     original = Path(__file__).resolve().parents[1]
+    if args.output:
+        output = args.output.resolve()
+        require(output.is_dir(), f"Build output does not exist: {output}")
+        check_initial(output, published_papers(hugo, original))
+        check_links(output, args.base_url)
+        check_indexing(output, args.base_url, args.environment)
+        print(f"PASS: existing {args.environment} artifact, publications, internal links, and indexing settings")
+        return
     with tempfile.TemporaryDirectory(prefix="personal-site-check-") as directory:
         scratch = Path(directory).resolve()
         source = scratch / "redesign"
@@ -222,7 +288,15 @@ def main():
             build(hugo, source, output, base)
             home_count = check_initial(output, papers)
             check_links(output, base)
-            print(f"PASS: {name} build, publication rendering, and internal links")
+            check_indexing(output, base, "production")
+            print(f"PASS: {name} production build, publication rendering, internal links, and indexing")
+
+        output, base = scratch / "explicit-preview", "https://preview.invalid/preview/"
+        build(hugo, source, output, base, environment="preview")
+        check_initial(output, papers)
+        check_links(output, base)
+        check_indexing(output, base, "preview")
+        print("PASS: explicit preview build is labeled, noindex/nofollow, and prefix-safe")
 
         title = "Regression fixture: four-field publication"
         entry = source / "content/publications/four-field-check.md"
@@ -264,6 +338,50 @@ def main():
         require(len(listing.articles) == len(papers) + 1 and article_index(listing, title) is not None,
                 "Deselecting a paper removed it from the complete list")
         print("PASS: selected toggles the homepage while retaining the same complete-list entry")
+
+        many_selected = []
+        for index in range(10):
+            selected_title = f"Unlimited selection fixture {index + 1:02d}"
+            selected_entry = source / f"content/publications/unlimited-selection-{index + 1:02d}.md"
+            year = 1900 + index if index < 5 else 2800 + index
+            selected_minimal = minimal.replace(title, selected_title).replace("year: 2999", f"year: {year}")
+            order = 5 - index if index < 5 else None
+            metadata = "selected: true\n" + (f"selected_order: {order}\n" if order else "")
+            write_paper(selected_entry, selected_minimal, metadata)
+            many_selected.append((selected_entry, selected_title, selected_minimal, order, year))
+        output = scratch / "unlimited-selected"
+        build(hugo, source, output, base)
+        home, listing = Page(output / "index.html"), Page(output / "publications/index.html")
+        require(len(home.articles) == home_count + len(many_selected),
+                "The homepage caps or duplicates selected publications")
+        for _, selected_title, _, _, _ in many_selected:
+            require(sum(selected_title in article for article in home.articles) == 1,
+                    f"A selected publication did not render exactly once: {selected_title}")
+            require(article_index(listing, selected_title) is not None,
+                    f"Selecting many papers lost a complete-list entry: {selected_title}")
+        ordered = sorted(many_selected[:5], key=lambda fixture: fixture[3])
+        remaining = sorted(many_selected[5:], key=lambda fixture: fixture[4], reverse=True)
+        expected = [fixture[1] for fixture in ordered + remaining]
+        positions = [article_index(home, selected_title) for selected_title in expected]
+        require(positions == sorted(positions),
+                "Many selected papers do not retain custom order followed by descending year order")
+        archive_titles = [paper[1] for paper in many_selected]
+        for selected_entry, _, selected_minimal, _, _ in (many_selected[0], many_selected[-1]):
+            write_paper(selected_entry, selected_minimal, "selected: false\n")
+        output = scratch / "unlimited-deselected"
+        build(hugo, source, output, base)
+        home, listing = Page(output / "index.html"), Page(output / "publications/index.html")
+        require(len(home.articles) == home_count + len(many_selected) - 2
+                and article_index(home, many_selected[0][1]) is None
+                and article_index(home, many_selected[-1][1]) is None,
+                "Deselecting ordered and unordered entries did not update the uncapped homepage list")
+        require(len(listing.articles) == len(papers) + len(many_selected) + 1
+                and all(article_index(listing, selected_title) is not None for selected_title in archive_titles),
+                "Deselecting from a large homepage list changed the complete publication archive")
+        check_links(output, base)
+        for selected_entry, _, _, _, _ in many_selected:
+            selected_entry.unlink()
+        print("PASS: ten selected papers render without a cap, preserve ordering, and remain in the archive when deselected")
 
         write_paper(entry, minimal, "selected: true\nselected_order: 2\n")
         older_title = "Regression fixture: older paper selected first"
@@ -460,7 +578,7 @@ def main():
         require('missing required field "venue"' in result.stdout and "four-field-check.md" in result.stdout,
                 "Missing venue did not produce an actionable error:\n" + result.stdout)
         print("PASS: missing venue fails with the filename and required field")
-    print("All preview checks passed; the source directory was not modified.")
+    print("All site and editing-workflow checks passed; the source directory was not modified.")
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@
     <img src="{{ strings.TrimPrefix "/" $profile.portrait | relURL }}" alt="Portrait of Zhuotao Liu" width="240" height="280" fetchpriority="high">
     <figcaption><a href="{{ "students/" | relURL }}">InspiringGroup →</a></figcaption>
   </figure>
-  <div class="profile-bio prose">{{ $profile.bio | markdownify }}</div>
+  <div id="about" class="profile-bio prose"><span id="section-resume-biography-3" aria-hidden="true"></span>{{ $profile.bio | markdownify }}</div>
   <div class="profile-links" aria-label="Profile links">
     <a href="mailto:{{ $profile.email }}">Email <span aria-hidden="true">↗</span></a>
     <a href="{{ $profile.scholar }}">Google Scholar <span aria-hidden="true">↗</span></a>
