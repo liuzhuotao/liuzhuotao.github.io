@@ -1,9 +1,9 @@
 {{ define "main" }}
-<div class="page-heading student-directory-heading"><p class="eyebrow">InspiringGroup · Tsinghua University</p><h1>Students</h1><p>Our students, postdoctoral researchers, and alumni. Explore their research interests and publications.</p><a class="section-link" href="{{ "join/" | relURL }}">Join the group →</a></div>
+<div class="page-heading student-directory-heading"><p class="eyebrow">InspiringGroup · Tsinghua University</p><h1>Students</h1><p>Our students, postdoctoral researchers, and alumni. Explore their research interests and publications.</p><a class="section-link" href="{{ "join/" | relURL }}">Join the Group →</a></div>
 {{ range .RegularPages }}{{ partial "validate-student.html" . }}{{ end }}
 {{ $students := partial "student-sort.html" .RegularPages }}
 {{ $sectionIndex := 0 }}
-{{ range slice (dict "key" "postdoc" "label" "Postdoctoral researchers") (dict "key" "phd" "label" "PhD students") (dict "key" "master" "label" "Master's students") (dict "key" "alumni" "label" "Alumni") }}
+{{ range slice (dict "key" "postdoc" "label" "Postdoctoral Researchers") (dict "key" "phd" "label" "PhD Students") (dict "key" "master" "label" "Master's Students") (dict "key" "alumni" "label" "Alumni") }}
 {{ $group := where $students "Params.group" .key }}
 {{ if $group }}
 <section class="editorial-section student-section {{ cond (eq (mod $sectionIndex 2) 0) "tone-teal" "tone-navy" }}" aria-labelledby="students-{{ .key }}"><div class="section-label"><h2 id="students-{{ .key }}">{{ .label }}</h2><p class="student-group-count">{{ len $group }} {{ if eq (len $group) 1 }}member{{ else }}members{{ end }}</p></div><div class="section-body"><ul class="student-list">

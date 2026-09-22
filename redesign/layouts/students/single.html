@@ -1,9 +1,9 @@
 {{ define "main" }}
 {{ partial "validate-student.html" . }}
 {{ $papers := partial "student-papers.html" . }}
-{{ $labels := dict "postdoc" "Postdoctoral researcher" "phd" "PhD student" "master" "Master's student" "alumni" "Alumnus / alumna" }}
+{{ $labels := dict "postdoc" "Postdoctoral Researcher" "phd" "PhD Student" "master" "Master's Student" "alumni" "Alumnus / Alumna" }}
 <div class="student-profile">
-<a class="back-link" href="{{ "students/" | relURL }}">← All group members</a>
+<a class="back-link" href="{{ "students/" | relURL }}">← All Group Members</a>
 <header class="page-heading student-heading"><p class="eyebrow">InspiringGroup · {{ index $labels .Params.group }}</p><h1>{{ .Title }}</h1>{{ with .Params.since }}<p class="student-since">Joined {{ . }}</p>{{ end }}{{ with .Params.interests }}<p class="student-interests">{{ delimit . " · " }}</p>{{ end }}
 {{ if or .Params.homepage .Params.email .Params.github .Params.scholar .Params.orcid }}
 <nav class="profile-links student-profile-links" aria-label="{{ .Title }} profile links">{{ with .Params.homepage }}<a href="{{ . }}">Website ↗</a>{{ end }}{{ with .Params.email }}<a href="mailto:{{ . }}">Email</a>{{ end }}{{ with .Params.github }}<a href="{{ . }}">GitHub ↗</a>{{ end }}{{ with .Params.scholar }}<a href="{{ . }}">Google Scholar ↗</a>{{ end }}{{ with .Params.orcid }}<a href="{{ . }}">ORCID ↗</a>{{ end }}</nav>
