@@ -6,6 +6,7 @@ year: 2024
 paper: "https://www.ndss-symposium.org/wp-content/uploads/2024-512-paper.pdf"
 conference: "https://www.ndss-symposium.org/ndss2024/"
 corresponding: ["Zhuotao Liu"]
+selected: true
 group_authors: [1]
 topics: ["AI and Data Security (with Applied Cryptography)","Privacy-Preserving Machine Learning","Data Security"]
 aliases: ["/publications/ai_and_data_security/privacy-preserving_machinelearning/2-1-1/"]
