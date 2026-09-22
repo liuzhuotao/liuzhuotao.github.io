@@ -96,22 +96,13 @@ selected: true
 ```
 
 Remove that line or set `selected: false` to remove it from the homepage. The
-paper remains in the complete list. By default, selected papers appear with
-newer years first.
+paper remains in the complete list. Selected papers are **always sorted by
+publication year, newest first**, just like the complete list. No order numbers
+are needed; older `selected_order` fields are ignored and can be removed.
 
-For a hand-picked homepage order, add a positive whole number to the same file:
-
-```yaml
-selected: true
-selected_order: 1
-```
-
-Number other selected papers `2`, `3`, and so on. Numbered papers appear first,
-in ascending order; selected papers without a number follow in descending year
-order. Use distinct numbers when you want an exact order. This changes only the
-homepage; **All publications** keeps its year grouping. You can select eight,
-ten, or as many papers as you want: there is no fixed limit. Each selected paper
-still appears in the complete list, using the same file.
+You can select eight, ten, or as many papers as you want: **there is no fixed
+limit**. Each selected paper still appears in the complete list, using the same
+file.
 
 ### Optional publication details
 
@@ -179,8 +170,7 @@ hugo new content --source redesign publications/my-paper.md
 
 The generated entry starts with `draft: true`. Remove that line or set it to
 `false` when ready. The build checks required fields, author lists, four-digit
-years, publication link formats, and positive whole-number `selected_order`
-values. To remove a paper from both lists, delete its file or set `draft: true`.
+years, and publication link formats. To remove a paper from both lists, delete its file or set `draft: true`.
 
 ## Add or update students
 
@@ -275,12 +265,12 @@ Other homepage edits use these short YAML files:
 | --- | --- |
 | [`data/profile.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/profile.yaml) | Name, affiliation, contact links, biography, research directions, and portrait path |
 | [`data/awards.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/awards.yaml) | Award entries with a year, title, and optional description |
-| [`data/news.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/news.yaml) | News entries with a date and text; put the newest first |
+| [`data/news.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/news.yaml) | News entries with a `YYYY-MM` date and text; newest entries appear first automatically |
 | [`data/teaching.yaml`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/data/teaching.yaml) | Course titles, years, levels, teaching roles, and the mentoring paragraph |
 
 Use plain text for fields, quoting values that contain a colon. The biography
-and news text also support Markdown links. The homepage shows the first three
-news entries directly below your profile. Keep awards in the order you want them displayed.
+and news text also support Markdown links. Keep awards in the order you want
+them displayed.
 
 An award entry looks like this:
 
@@ -293,9 +283,18 @@ An award entry looks like this:
 A news entry looks like this:
 
 ```yaml
-- date: "Sep 2026"
+- date: "2026-09"
   text: "Our paper was accepted to Conference Name."
 ```
+
+Add or edit entries in `data/news.yaml`; both the homepage and the
+[complete news archive](https://liuzhuotao.github.io/news/) use this one list.
+The homepage automatically shows the **six newest** entries directly below
+your profile. The archive shows every entry, grouped by year, newest first.
+Use quoted `YYYY-MM` dates, such as `"2026-09"` for September 2026. Entries with
+the same month keep their order in the file. There is no separate homepage list
+to maintain and no need to delete older news. The build checks dates and
+requires text for every entry.
 
 Replace the portrait in `redesign/static/images/portrait.jpg`, or change the
 `portrait` path in `data/profile.yaml`. The image is cropped to a circle by CSS;
@@ -326,7 +325,7 @@ python3 redesign/scripts/check.py
 
 Use `--hugo /path/to/hugo` if Hugo is not on your `PATH`. The checks build
 temporary copies, verify internal links and legacy redirects, and exercise
-adding a four-field paper, switching homepage selection, changing selection
+adding a four-field paper, switching homepage selection, checking newest-first selection
 order, editing academic service, adding students, and matching their papers.
 Your source files are not changed.
 

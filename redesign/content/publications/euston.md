@@ -7,7 +7,6 @@ paper: "https://ieeexplore.ieee.org/abstract/document/11573477/"
 conference: "https://sp2026.ieee-security.org/"
 topics: ["AI and Data Security (with Applied Cryptography)","Privacy-Preserving Machine Learning","Data Security"]
 selected: false
-selected_order: 1
 aliases: ["/publications/ai_and_data_security/privacy-preserving_machinelearning/2-1-4/"]
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:XiVPGOgt02cC"
 ---

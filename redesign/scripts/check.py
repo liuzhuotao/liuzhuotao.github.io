@@ -27,6 +27,7 @@ class Page(HTMLParser):
         self.anchor = None
         self.redirects = []
         self.article = None
+        self.news_items, self.news_item = [], None
         self.feed(path.read_text(encoding="utf-8"))
         self.text = "".join(self.parts)
 
@@ -57,6 +58,8 @@ class Page(HTMLParser):
             self.images.append(attrs)
         if tag == "article" and "publication" in attrs.get("class", "").split():
             self.article = []
+        if tag == "time" and "news-date" in attrs.get("class", "").split():
+            self.news_item = [attrs.get("datetime", ""), []]
 
     def handle_endtag(self, tag):
         if tag == "a" and self.anchor is not None:
@@ -65,6 +68,9 @@ class Page(HTMLParser):
         if tag == "article" and self.article is not None:
             self.articles.append("".join(self.article))
             self.article = None
+        if tag == "li" and self.news_item is not None:
+            self.news_items.append((self.news_item[0], normalized_text("".join(self.news_item[1]))))
+            self.news_item = None
 
     def handle_data(self, data):
         self.parts.append(data)
@@ -72,6 +78,8 @@ class Page(HTMLParser):
             self.anchor[1].append(data)
         if self.article is not None:
             self.article.append(data)
+        if self.news_item is not None:
+            self.news_item[1].append(data)
 
 
 def require(condition, message):
@@ -164,6 +172,9 @@ def published_papers(hugo, source):
             continue
         frontmatter = (source / row["path"]).read_text(encoding="utf-8").split("---", 2)[1]
         if not re.search(r'''(?m)^category:\s*["']?patent["']?\s*(?:#.*)?$''', frontmatter):
+            year = re.search(r'''(?m)^year:\s*["']?(\d{4})["']?\s*(?:#.*)?$''', frontmatter)
+            require(year, f'Publication has no valid year: {row["path"]}')
+            row["year"] = int(year.group(1))
             papers.append(row)
     require(papers, "No published publications found")
     return papers
@@ -179,6 +190,11 @@ def check_initial(output, papers):
     for article in home.articles:
         require(any(normalized_text(paper["title"]) in normalized_text(article) for paper in papers),
                 "Homepage contains an unknown paper")
+    selected_years = [next(paper["year"] for paper in papers
+                           if normalized_text(paper["title"]) in normalized_text(article))
+                      for article in home.articles]
+    require(selected_years == sorted(selected_years, reverse=True),
+            "Selected publications are not shown newest first")
     years = [int(identifier.removeprefix("year-")) for identifier in listing.id_order
              if re.fullmatch(r"year-\d{4}", identifier)]
     require(years and years == sorted(set(years), reverse=True), "Year groups are not descending")
@@ -222,6 +238,14 @@ def check_initial(output, papers):
         linked = any(attrs.get("href", "").endswith(suffix) for attrs, _ in paper_links)
         require(linked == bool(profile.articles),
                 f"The directory must offer a Publications link only when papers exist: {student_page}")
+    news = Page(output / "news/index.html")
+    require(news.news_items, "The complete news archive is missing its entries")
+    dates = [date for date, _ in news.news_items]
+    require(dates == sorted(dates, reverse=True), "The news archive is not newest first")
+    require(home.news_items == news.news_items[:6],
+            "The homepage does not show the six most recent archive entries")
+    require(any(urlsplit(ref).path.endswith("/news/") for ref in home.refs),
+            "The homepage has no link to the complete news archive")
     return len(home.articles)
 
 
@@ -345,28 +369,24 @@ def main():
             selected_entry = source / f"content/publications/unlimited-selection-{index + 1:02d}.md"
             year = 1900 + index if index < 5 else 2800 + index
             selected_minimal = minimal.replace(title, selected_title).replace("year: 2999", f"year: {year}")
-            order = 5 - index if index < 5 else None
-            metadata = "selected: true\n" + (f"selected_order: {order}\n" if order else "")
-            write_paper(selected_entry, selected_minimal, metadata)
-            many_selected.append((selected_entry, selected_title, selected_minimal, order, year))
+            write_paper(selected_entry, selected_minimal, "selected: true\n")
+            many_selected.append((selected_entry, selected_title, selected_minimal, year))
         output = scratch / "unlimited-selected"
         build(hugo, source, output, base)
         home, listing = Page(output / "index.html"), Page(output / "publications/index.html")
         require(len(home.articles) == home_count + len(many_selected),
                 "The homepage caps or duplicates selected publications")
-        for _, selected_title, _, _, _ in many_selected:
+        for _, selected_title, _, _ in many_selected:
             require(sum(selected_title in article for article in home.articles) == 1,
                     f"A selected publication did not render exactly once: {selected_title}")
             require(article_index(listing, selected_title) is not None,
                     f"Selecting many papers lost a complete-list entry: {selected_title}")
-        ordered = sorted(many_selected[:5], key=lambda fixture: fixture[3])
-        remaining = sorted(many_selected[5:], key=lambda fixture: fixture[4], reverse=True)
-        expected = [fixture[1] for fixture in ordered + remaining]
+        expected = [fixture[1] for fixture in sorted(many_selected, key=lambda fixture: fixture[3], reverse=True)]
         positions = [article_index(home, selected_title) for selected_title in expected]
         require(positions == sorted(positions),
-                "Many selected papers do not retain custom order followed by descending year order")
+                "Selected papers are not sorted newest first across the complete uncapped list")
         archive_titles = [paper[1] for paper in many_selected]
-        for selected_entry, _, selected_minimal, _, _ in (many_selected[0], many_selected[-1]):
+        for selected_entry, _, selected_minimal, _ in (many_selected[0], many_selected[-1]):
             write_paper(selected_entry, selected_minimal, "selected: false\n")
         output = scratch / "unlimited-deselected"
         build(hugo, source, output, base)
@@ -374,17 +394,17 @@ def main():
         require(len(home.articles) == home_count + len(many_selected) - 2
                 and article_index(home, many_selected[0][1]) is None
                 and article_index(home, many_selected[-1][1]) is None,
-                "Deselecting ordered and unordered entries did not update the uncapped homepage list")
+                "Deselecting newer and older entries did not update the uncapped homepage list")
         require(len(listing.articles) == len(papers) + len(many_selected) + 1
                 and all(article_index(listing, selected_title) is not None for selected_title in archive_titles),
                 "Deselecting from a large homepage list changed the complete publication archive")
         check_links(output, base)
-        for selected_entry, _, _, _, _ in many_selected:
+        for selected_entry, _, _, _ in many_selected:
             selected_entry.unlink()
-        print("PASS: ten selected papers render without a cap, preserve ordering, and remain in the archive when deselected")
+        print("PASS: ten selected papers render newest first without a cap and remain in the archive when deselected")
 
         write_paper(entry, minimal, "selected: true\nselected_order: 2\n")
-        older_title = "Regression fixture: older paper selected first"
+        older_title = "Regression fixture: older selected paper"
         older_entry = source / "content/publications/selection-order-check.md"
         older_minimal = minimal.replace(title, older_title).replace("year: 2999", "year: 1999")
         write_paper(older_entry, older_minimal,
@@ -395,10 +415,10 @@ def main():
             build(hugo, source, output, base)
             home, listing = Page(output / "index.html"), Page(output / "publications/index.html")
             old_index, new_index = article_index(home, older_title), article_index(home, title)
-            require(old_index is not None and new_index is not None and old_index < new_index,
-                    "selected_order does not override year order on the homepage")
+            require(old_index is not None and new_index is not None and new_index < old_index,
+                    "A legacy selected_order field incorrectly overrides newest-first homepage sorting")
             require(article_index(listing, title) == 0 and article_index(listing, older_title) > 0,
-                    "Homepage selection order changed the complete list's year order")
+                    "Legacy selection metadata changed the complete list's year order")
             listing_html = (output / "publications/index.html").read_text(encoding="utf-8")
             require(older_title in listing_html.split('id="year-before-2020"', 1)[1]
                     and 'id="year-1999"' not in listing_html and '#year-1999' not in listing_html,
@@ -407,7 +427,56 @@ def main():
             require(alias.redirects == [urljoin(base, "publications/selection-order-check/")],
                     "A legacy publication URL does not redirect to the new detail page")
             check_links(output, base)
-        print("PASS: custom homepage order, complete-list year sorting, and legacy URL redirects")
+        print("PASS: selected papers ignore legacy manual order, both lists stay newest first, and old URLs redirect")
+
+        news = source / "data/news.yaml"
+        original_news = news.read_text(encoding="utf-8")
+        news_entries = [(date, f"Unsorted news fixture {index + 1:02d}") for index, date in enumerate(
+            ("2024-03", "2027-10", "2025-06", "2026-02", "2027-01", "2024-12", "2026-09", "2025-11"))]
+
+        def write_news(entries):
+            news.write_text("".join(f'- date: "{date}"\n  text: "{text}"\n' for date, text in entries),
+                            encoding="utf-8")
+
+        write_news(news_entries)
+        output, base = scratch / "news-unsorted", "https://preview.invalid/preview/"
+        build(hugo, source, output, base)
+        home, archive = Page(output / "index.html"), Page(output / "news/index.html")
+        expected_news = sorted(news_entries, reverse=True)
+        require([date for date, _ in home.news_items] == [date for date, _ in expected_news[:6]],
+                "The homepage did not select exactly the six newest dates from unsorted news")
+        require([date for date, _ in archive.news_items] == [date for date, _ in expected_news],
+                "The complete news archive lost entries or retained source order instead of date order")
+        for (expected_date, expected_text), (actual_date, actual_text) in zip(expected_news, archive.news_items):
+            require(expected_date == actual_date and expected_text in actual_text,
+                    "A news entry's date and text were mismatched while sorting")
+        require(all(text not in home.text for _, text in expected_news[6:]),
+                "Older news leaked into the six-entry homepage summary")
+        check_links(output, base)
+
+        revised_news = list(news_entries)
+        revised_news[0] = ("2028-01", "Revised news fixture now appears first")
+        write_news(revised_news)
+        output = scratch / "news-updated"
+        build(hugo, source, output, base)
+        home, archive = Page(output / "index.html"), Page(output / "news/index.html")
+        for page in (home, archive):
+            require(page.news_items[0][0] == revised_news[0][0]
+                    and revised_news[0][1] in page.news_items[0][1]
+                    and news_entries[0][1] not in page.text,
+                    "Editing a shared news date/text did not update and reorder both homepage and archive")
+        require(len(home.news_items) == 6 and len(archive.news_items) == 8,
+                "Editing news changed the homepage limit or dropped archived entries")
+        check_links(output, base)
+        print("PASS: eight unsorted news entries produce six newest home items, a complete archive, and shared edits")
+
+        write_news([("2028-13", "Invalid date fixture")])
+        result = build(hugo, source, scratch / "news-invalid", base, expect_success=False)
+        require(result.returncode != 0 and "data/news.yaml" in result.stdout
+                and "date must use YYYY-MM with a valid month" in result.stdout,
+                "An invalid news month did not produce an actionable error:\n" + result.stdout)
+        news.write_text(original_news, encoding="utf-8")
+        print("PASS: malformed news dates report the source file and expected format")
 
         services = source / "data/services.yaml"
         services.write_text(
@@ -546,7 +615,7 @@ def main():
         print("PASS: hidden per-paper Scholar links and prefix-safe alternate versions")
 
         write_paper(entry, minimal,
-                    'category: patent\ndraft: false\nselected: true\nselected_order: 1\n')
+                    'category: patent\ndraft: false\nselected: true\n')
         output = scratch / "patents"
         build(hugo, source, output, base)
         html = (output / "publications/index.html").read_text(encoding="utf-8")

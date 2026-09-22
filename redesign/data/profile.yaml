@@ -12,12 +12,12 @@ bio: >-
   infrastructure. Since joining Tsinghua in 2021, Dr. Liu has built an independent research
   program spanning trust-native AI, privacy-preserving computation, robust learning-based
   security, programmable data planes, and secure Internet infrastructure. This work combines
-  fundamental algorithms with deployable systems and has earned three Distinguished Paper Awards
-  at USENIX Security (2023 and 2024) and ACM CCS (2025), as well as the Internet Defense Prize
+  fundamental algorithms with deployable systems and has earned **three Distinguished Paper Awards**
+  at USENIX Security (2023 and 2024) and ACM CCS (2025), as well as the **Internet Defense Prize**
   at USENIX Security 2024. Before joining Tsinghua, he led network-infrastructure projects at
-  Google and received two Google Feats of Engineering Awards during his four years there. He
+  Google and received two **Google Feats of Engineering Awards** during his four years there. He
   earned his Ph.D. in Computer Engineering from the University of Illinois Urbana-Champaign
-  (UIUC) in 2017, and part of his research there won the NSF I-Corps award.
+  (UIUC) in 2017, and part of his research there won the **NSF I-Corps award**.
 research:
   - title: "Trust-native AI"
     description: "Secure Transformer inference, private collaborative learning, secure graph computation, and verifiable federated learning."
