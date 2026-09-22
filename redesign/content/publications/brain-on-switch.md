@@ -9,6 +9,7 @@ pdf: "https://arxiv.org/pdf/2403.11090"
 conference: "https://www.usenix.org/conference/nsdi24"
 equal_contribution: ["Jinzhu Yan","Haotian Xu"]
 corresponding: ["Zhuotao Liu"]
+selected: true
 group_authors: [1,2]
 topics: ["Networking Infrastructure for AI","Intelligent Network Architecture"]
 aliases: ["/publications/networking_infrastructure_for_ai/intelligent_network_architecture/3-2-1/"]
