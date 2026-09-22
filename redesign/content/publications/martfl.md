@@ -7,6 +7,7 @@ paper: "https://dl.acm.org/doi/abs/10.1145/3576915.3623134"
 code: "https://github.com/InspiringGroup-Lab/martFL"
 conference: "https://www.sigsac.org/ccs/CCS2023/"
 corresponding: ["Zhuotao Liu"]
+selected: true
 group_authors: [1]
 topics: ["Web3.0 and Blockchain","Zero-Knowledge Proof","Web3 & Block Chain"]
 aliases: ["/publications/web3_and_block_chain/zero_knowledge_proof/4-3-1/"]
