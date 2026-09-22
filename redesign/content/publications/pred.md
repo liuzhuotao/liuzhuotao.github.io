@@ -6,7 +6,7 @@ year: 2025
 paper: "https://www.usenix.org/conference/nsdi25/presentation/du"
 conference: "https://www.usenix.org/conference/nsdi25"
 topics: ["Networking Infrastructure for AI","Datacenter Networking"]
-selected: true
+selected: false
 selected_order: 3
 aliases: ["/publications/networking_infrastructure_for_ai/datacenter_networking/3-1-1/"]
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:Tiz5es2fbqcC"
