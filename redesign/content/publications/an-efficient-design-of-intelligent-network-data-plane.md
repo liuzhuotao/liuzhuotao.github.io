@@ -5,7 +5,8 @@ venue: "USENIX Security"
 year: 2023
 paper: "https://www.usenix.org/conference/usenixsecurity23/presentation/zhou-guangmeng"
 conference: "https://www.usenix.org/conference/usenixsecurity23"
-award: ["Distinguished Paper Award Winner"]
+award: ["Distinguished Paper Award"]
+selected: true
 topics: ["Networking Infrastructure for AI","Intelligent Network Architecture"]
 aliases: ["/publications/networking_infrastructure_for_ai/intelligent_network_architecture/3-2-2/"]
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:ns9cj8rnVeAC"
