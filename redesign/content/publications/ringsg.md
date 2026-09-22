@@ -5,7 +5,7 @@ venue: "ACM CCS"
 year: 2025
 paper: "https://dl.acm.org/doi/10.1145/3719027.3744824"
 conference: "https://www.sigsac.org/ccs/CCS2025/"
-award: ["Distinguished Paper Award Winner"]
+award: ["Distinguished Paper Award"]
 corresponding: ["Zhuotao Liu"]
 group_authors: [1]
 topics: ["AI and Data Security (with Applied Cryptography)","Privacy-Preserving Machine Learning","Data Security"]
