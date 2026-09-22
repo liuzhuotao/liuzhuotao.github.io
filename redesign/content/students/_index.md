@@ -1,0 +1,4 @@
+---
+title: "Students"
+aliases: ["/authors/"]
+---

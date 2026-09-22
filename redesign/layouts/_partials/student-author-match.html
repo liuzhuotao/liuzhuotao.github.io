@@ -1,0 +1,11 @@
+{{- /* Match one author occurrence, not merely a name: two different Qi Lis can
+appear in the same paper. Marked profiles require the source's explicit group position. */ -}}
+{{- $student := .student -}}
+{{- $paper := .paper -}}
+{{- $names := slice $student.Title -}}
+{{- with $student.Params.author_names }}{{ $names = $names | append . }}{{ end -}}
+{{- $matches := in $names (index $paper.Params.authors .index) -}}
+{{- if eq $student.Params.match "marked" -}}
+  {{- $matches = and $matches (in ($paper.Params.group_authors | default slice) (add .index 1)) -}}
+{{- end -}}
+{{- return $matches -}}

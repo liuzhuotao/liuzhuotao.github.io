@@ -1,0 +1,17 @@
+{{ define "main" }}
+{{ partial "validate-student.html" . }}
+{{ $papers := partial "student-papers.html" . }}
+{{ $labels := dict "phd" "PhD student" "master" "Master's student" "alumni" "Alumnus / alumna" }}
+<div class="student-profile">
+<a class="back-link" href="{{ "students/" | relURL }}">← All students</a>
+<header class="page-heading student-heading"><p class="eyebrow">InspiringGroup · {{ index $labels .Params.group }}</p><h1>{{ .Title }}</h1>{{ with .Params.since }}<p class="student-since">Joined {{ . }}</p>{{ end }}{{ with .Params.interests }}<p class="student-interests">{{ delimit . " · " }}</p>{{ end }}
+{{ if or .Params.homepage .Params.email .Params.github .Params.scholar .Params.orcid }}
+<nav class="profile-links student-profile-links" aria-label="{{ .Title }} profile links">{{ with .Params.homepage }}<a href="{{ . }}">Website ↗</a>{{ end }}{{ with .Params.email }}<a href="mailto:{{ . }}">Email</a>{{ end }}{{ with .Params.github }}<a href="{{ . }}">GitHub ↗</a>{{ end }}{{ with .Params.scholar }}<a href="{{ . }}">Google Scholar ↗</a>{{ end }}{{ with .Params.orcid }}<a href="{{ . }}">ORCID ↗</a>{{ end }}</nav>
+{{ end }}
+</header>
+{{ if .Content }}<div class="prose student-bio">{{ .Content }}</div>{{ end }}
+</div>
+<section id="publications" class="student-publications" aria-labelledby="student-publications-heading"><div class="student-publications-heading"><h2 id="student-publications-heading">Publications</h2><p>{{ len $papers }} {{ if eq (len $papers) 1 }}paper{{ else }}papers{{ end }} in this site's collection</p></div>
+{{ if $papers }}{{ partial "publication-groups.html" (dict "papers" $papers) }}{{ else }}<p class="student-empty">Publications will appear here as this student's work is added to the site.</p>{{ end }}
+</section>
+{{ end }}

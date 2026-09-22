@@ -1,3 +1,4 @@
+# Personal content is edited in data/ and content/; see README.md.
 baseURL: https://liuzhuotao.github.io/
 languageCode: en-us
 title: Zhuotao Liu
@@ -6,8 +7,6 @@ disableKinds: [taxonomy, term, RSS, sitemap]
 buildDrafts: false
 params:
   description: Zhuotao Liu is an Associate Professor at Tsinghua University working on secure networking, trustworthy AI, and privacy-preserving systems.
-  groupURL: https://liuzhuotao.github.io/authors/
-  joinURL: https://liuzhuotao.github.io/join/
 markup:
   goldmark:
     renderer:

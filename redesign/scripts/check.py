@@ -20,6 +20,8 @@ class Page(HTMLParser):
     def __init__(self, path):
         super().__init__(convert_charrefs=True)
         self.refs, self.ids, self.articles, self.parts = [], set(), [], []
+        self.links, self.images = [], []
+        self.anchor = None
         self.redirects = []
         self.article = None
         self.feed(path.read_text(encoding="utf-8"))
@@ -40,16 +42,25 @@ class Page(HTMLParser):
             self.ids.add(attrs["id"])
         if tag == "a" and "name" in attrs:
             self.ids.add(attrs["name"])
+        if tag == "a":
+            self.anchor = [attrs, []]
+        if tag == "img":
+            self.images.append(attrs)
         if tag == "article" and "publication" in attrs.get("class", "").split():
             self.article = []
 
     def handle_endtag(self, tag):
+        if tag == "a" and self.anchor is not None:
+            self.links.append((self.anchor[0], "".join(self.anchor[1])))
+            self.anchor = None
         if tag == "article" and self.article is not None:
             self.articles.append("".join(self.article))
             self.article = None
 
     def handle_data(self, data):
         self.parts.append(data)
+        if self.anchor is not None:
+            self.anchor[1].append(data)
         if self.article is not None:
             self.article.append(data)
 
@@ -119,9 +130,23 @@ def check_initial(output, papers):
     html = (output / "publications/index.html").read_text(encoding="utf-8")
     years = [int(year) for year in re.findall(r'id="year-(\d{4})"', html)]
     require(years and years == sorted(set(years), reverse=True), "Year groups are not descending")
+    require(all(year >= 2020 for year in years), "Pre-2020 papers still have individual year groups")
+    require("year-before-2020" in listing.ids, "The combined Before 2020 group is missing")
+    require(not any("citation_for_view=" in ref for ref in listing.refs),
+            "A per-paper Scholar citation link remains on the publication listing")
     ringsg = next((article for article in listing.articles if RINGSG_TITLE in article), "")
     require(re.search(r"Zhuotao Liu\s*†", ringsg), "RingSG lost its corresponding-author marker")
     require("Corresponding author" in ringsg, "RingSG lost its author-note explanation")
+    martfl = Page(output / "publications/martfl/index.html")
+    qi_links = [attrs for attrs, text in martfl.links
+                if text == "Qi Li" and "student-author" in attrs.get("class", "").split()]
+    require(len(qi_links) == 1 and qi_links[0]["href"].endswith("/students/qi-li/#publications"),
+            "martFL must link only the student Qi Li, not the professor with the same name")
+    qi_papers = Page(output / "students/qi-li/index.html")
+    require(any("martFL:" in article for article in qi_papers.articles),
+            "The student Qi Li's marked martFL authorship is missing from their paper list")
+    for student_page in (output / "students").rglob("*.html"):
+        require(not Page(student_page).images, f"Student page still contains a portrait: {student_page}")
     return len(home.articles)
 
 
@@ -213,6 +238,10 @@ def main():
                     "selected_order does not override year order on the homepage")
             require(article_index(listing, title) == 0 and article_index(listing, older_title) > 0,
                     "Homepage selection order changed the complete list's year order")
+            listing_html = (output / "publications/index.html").read_text(encoding="utf-8")
+            require(older_title in listing_html.split('id="year-before-2020"', 1)[1]
+                    and 'id="year-1999"' not in listing_html and '#year-1999' not in listing_html,
+                    "An older paper did not join the single Before 2020 group")
             alias = Page(output / "publications/legacy-check/index.html")
             require(alias.redirects == [urljoin(base, "publications/selection-order-check/")],
                     "A legacy publication URL does not redirect to the new detail page")
@@ -237,6 +266,77 @@ def main():
         check_links(output, base)
         print("PASS: editorial and committee service can be edited in one data file")
 
+        student_name = "Fixture Student"
+        student = source / "content/students/fixture-student/index.md"
+        student.parent.mkdir()
+        student_minimal = f'---\ntitle: "{student_name}"\ngroup: master\n---\n'
+        student.write_text(student_minimal, encoding="utf-8")
+        output, base = scratch / "student-minimal", "https://preview.invalid/"
+        build(hugo, source, output, base)
+        directory_html = (output / "students/index.html").read_text(encoding="utf-8")
+        masters = re.search(r'<section[^>]+aria-labelledby="students-master">(.*?)</section>',
+                            directory_html, re.S)
+        require(masters and student_name in masters.group(1),
+                "A two-field student is missing from the master's group")
+        profile = Page(output / "students/fixture-student/index.html")
+        require(student_name in profile.text and not profile.articles,
+                "A two-field student did not receive an empty publication page")
+        require("Publications will appear here" in profile.text,
+                "A student without publications has no explanation")
+        check_links(output, base)
+
+        write_paper(entry, minimal.replace("First Author", student_name))
+        output = scratch / "student-paper"
+        build(hugo, source, output, base)
+        profile = Page(output / "students/fixture-student/index.html")
+        require(len(profile.articles) == 1 and title in profile.articles[0],
+                "Adding a matching publication did not automatically update the student's paper list")
+        detail = Page(output / "publications/four-field-check/index.html")
+        require(any(text == student_name and attrs.get("href") == "/students/fixture-student/#publications"
+                    for attrs, text in detail.links),
+                "The publication author does not link to the student's papers")
+        check_links(output, base)
+        print("PASS: a two-field student needs no photo or manual paper list; new papers appear automatically")
+
+        student.write_text(
+            student_minimal.replace("group: master", 'group: alumni\nauthor_names: ["Fixture Author"]\n'
+                                    'aliases: ["/authors/fixture-student/"]'),
+            encoding="utf-8",
+        )
+        write_paper(entry, minimal.replace("First Author", "Fixture Author"))
+        write_paper(older_entry, older_minimal.replace("First Author", "Qi Li"),
+                    "aliases: ['/publications/legacy-check/']\n")
+        output, base = scratch / "student-prefix", "https://preview.invalid/preview/"
+        build(hugo, source, output, base)
+        directory_html = (output / "students/index.html").read_text(encoding="utf-8")
+        alumni = re.search(r'<section[^>]+aria-labelledby="students-alumni">(.*?)</section>',
+                           directory_html, re.S)
+        masters = re.search(r'<section[^>]+aria-labelledby="students-master">(.*?)</section>',
+                            directory_html, re.S)
+        require(alumni and student_name in alumni.group(1)
+                and (not masters or student_name not in masters.group(1)),
+                "Changing group to alumni did not move the student between groups")
+        profile = Page(output / "students/fixture-student/index.html")
+        require(len(profile.articles) == 1 and title in profile.articles[0],
+                "An alternate author spelling did not match the student's paper")
+        detail = Page(output / "publications/four-field-check/index.html")
+        require(any(text == "Fixture Author"
+                    and attrs.get("href") == "/preview/students/fixture-student/#publications"
+                    for attrs, text in detail.links),
+                "An alternate author name does not link to the student's papers under a preview prefix")
+        alias = Page(output / "authors/fixture-student/index.html")
+        require(alias.redirects == [urljoin(base, "students/fixture-student/")],
+                "A legacy student URL does not redirect to the new profile")
+        qi_papers = Page(output / "students/qi-li/index.html")
+        require(article_index(qi_papers, older_title) is None,
+                "An unmarked author with the ambiguous name Qi Li was assigned to the student")
+        unrelated = Page(output / "publications/selection-order-check/index.html")
+        require(not any(text == "Qi Li" and "student-author" in attrs.get("class", "").split()
+                        for attrs, text in unrelated.links),
+                "An unmarked Qi Li author occurrence incorrectly links to the student")
+        check_links(output, base)
+        print("PASS: student groups, alternate author names, legacy URLs, prefixes, and ambiguous names")
+
         write_paper(entry, minimal,
                     'category: patent\n'
                     'scholar: "https://scholar.google.com/citations?user=fixture"\n'
@@ -249,14 +349,25 @@ def main():
                 "A patent is not rendered in the separate patent section")
         require('id="year-2999"' not in html and '#year-2999' not in html,
                 "A patent year leaked into the research year navigation")
-        require('href="https://scholar.google.com/citations?user=fixture"' in html,
-                "The optional Scholar link is missing")
+        require('https://scholar.google.com/citations?user=fixture' not in listing.refs
+                and 'https://scholar.google.com/citations?user=fixture'
+                not in Page(output / "publications/four-field-check/index.html").refs,
+                "A per-paper Scholar link was rendered from retained source metadata")
         require('href="/preview/publications/ringsg/">Fixture version' in html,
                 "The optional version link does not honor the preview prefix")
         require(len(listing.articles) == len(papers) + 2,
                 "Separating patents lost or duplicated a publication row")
         check_links(output, base)
-        print("PASS: separate patents, Scholar links, and prefix-safe alternate versions")
+        print("PASS: separate patents, hidden per-paper Scholar links, and prefix-safe alternate versions")
+
+        student.write_text(student_minimal.replace("group: master", "group: unknown"), encoding="utf-8")
+        result = build(hugo, source, scratch / "student-invalid", base, expect_success=False)
+        require(result.returncode != 0, "An invalid student group unexpectedly built successfully")
+        require("group must be phd, master, or alumni" in result.stdout
+                and "fixture-student/index.md" in result.stdout,
+                "An invalid student group did not produce an actionable error:\n" + result.stdout)
+        student.write_text(student_minimal, encoding="utf-8")
+        print("PASS: an invalid student group reports the filename and allowed values")
 
         entry.write_text(minimal.replace('venue: "Example Conference"\n', ""), encoding="utf-8")
         result = build(hugo, source, scratch / "invalid", base, expect_success=False)

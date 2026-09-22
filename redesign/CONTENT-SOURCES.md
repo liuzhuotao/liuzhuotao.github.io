@@ -25,6 +25,8 @@ preserved field, and existing data issue.
 | `data/news.yaml` | [News](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/86c60c36f734ebd0b09cf9b4d1d7beddc46500ac/content/news/_index.md) and RingSG above | Proposed concise rewrites of the latest three entries (August 2026, May 2026, October 2025). Promotional superlatives removed. RingSG's name is supported by its publication record. |
 | Original 58 files in `content/publications/` | [Publication migration report](PUBLICATION-MIGRATION.md) | Preserves source titles, author order, abstracts, paper/PDF/code/conference links, awards, contribution notes, research topics, and group-member markers. Each old detail URL has a redirect. |
 | `data/services.yaml` | Roles supplied directly by Zhuotao Liu in this conversation on 22 September 2026 | TDSC Associate Editor (2025–present) and conference program committees for 2022–2027. No additional appointments inferred. |
+| `content/students/` | [Original student profiles](https://github.com/liuzhuotao/liuzhuotao.github.io/tree/a749607bf301a43bb0397fea29e1718df536eaa0/content/authors) | All 12 students retained, grouped by the source `student_level`. Enrollment years, interests, real biographies, valid profile links, and Jinzhu Yan's CV are preserved. Portraits are omitted. Student paper lists are derived from the shared publication collection. |
+| `content/join/index.md` | [Original Join us page](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/a749607bf301a43bb0397fea29e1718df536eaa0/content/join/index.md) | Concise rewrite preserving the student/postdoctoral opportunities, funding, additional annual postdoctoral compensation, and friendly/supportive/flourishing culture. No new deadlines or eligibility requirements. |
 
 Author identifiers were expanded using existing author profiles: `liuzhuotao` becomes
 Zhuotao Liu using the author profile above; `zouzhenhua` becomes Zhenhua Zou using
@@ -43,3 +45,14 @@ The latest source news is August 2026. No September 2026 announcement is invente
 The selected-paper choices are proposed editorial choices for this preview.
 The broad introductory research slogan was removed at the user’s request; the
 compact profile now leads with role, affiliation, and biography, followed by news.
+
+Student migration excludes copied template contact details: Mengyu Zhang's source
+email and social links belonged to Zhuotao Liu, and Wang You's source ORCID was
+copied from another profile. The student Qi Li uses the original publication
+author-position markers so papers by the professor with the same name are not
+misattributed. Jinzhu Yan's CV is an exact copy of the existing linked file
+(Git blob `8fd0d3ebf2cbc32aee8c405f58b6df7b42ddc037`).
+
+Per-paper Scholar source URLs remain in the text entries for provenance but are
+not rendered. Pre-2020 research items share one section; titles, years, and
+individual paper records are unchanged.

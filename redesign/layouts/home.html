@@ -8,7 +8,7 @@
   </div>
   <figure class="portrait">
     <img src="{{ strings.TrimPrefix "/" $profile.portrait | relURL }}" alt="Portrait of Zhuotao Liu" width="240" height="280" fetchpriority="high">
-    <figcaption><a href="{{ .Site.Params.groupURL }}">InspiringGroup ↗</a></figcaption>
+    <figcaption><a href="{{ "students/" | relURL }}">InspiringGroup →</a></figcaption>
   </figure>
   <div class="profile-bio prose">{{ $profile.bio | markdownify }}</div>
   <div class="profile-links" aria-label="Profile links">
@@ -78,6 +78,6 @@
 
 <section class="editorial-section" aria-labelledby="contact-heading">
   <div class="section-label"><span class="section-number">06</span><h2 id="contact-heading">Work with us</h2></div>
-  <div class="section-body contact-note"><p>I welcome students and collaborators interested in secure networking, systems, and trustworthy AI.</p><a href="{{ .Site.Params.joinURL }}">Openings at InspiringGroup ↗</a></div>
+  <div class="section-body contact-note"><p>I welcome students and collaborators interested in secure networking, systems, and trustworthy AI.</p><a href="{{ "join/" | relURL }}">Join InspiringGroup →</a></div>
 </section>
 {{ end }}

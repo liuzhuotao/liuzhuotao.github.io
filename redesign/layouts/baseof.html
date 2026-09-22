@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ .Site.Params.description }}">
+  <meta name="description" content="{{ .Description | default .Site.Params.description }}">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#fcfbf8">
   <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ .Site.Title }}</title>
@@ -20,7 +20,8 @@
       <a href="{{ "publications/" | relURL }}" {{ if eq .Section "publications" }}aria-current="page"{{ end }}>Publications</a>
       <a href="{{ .Site.Home.RelPermalink }}#awards">Awards</a>
       <a href="{{ .Site.Home.RelPermalink }}#service">Service</a>
-      <a href="{{ .Site.Params.groupURL }}">Group <span aria-hidden="true">↗</span></a>
+      <a href="{{ "students/" | relURL }}" {{ if eq .Section "students" }}aria-current="page"{{ end }}>Students</a>
+      <a href="{{ "join/" | relURL }}" {{ if eq .Section "join" }}aria-current="page"{{ end }}>Join us</a>
     </nav>
   </header>
   <main id="main" class="wrap">{{ block "main" . }}{{ end }}</main>

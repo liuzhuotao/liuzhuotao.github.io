@@ -6,10 +6,11 @@ installation, or Hugo modules are needed. The repository's existing website is
 still the production site.
 
 The preview includes the personal homepage, selected publications, a complete
-publication list grouped by year, awards, academic service, and news. The selected
+publication list grouped by year, awards, academic service, news, students, and
+Join us. The selected
 and complete publication lists use the **same short text files**. Existing
-publication URLs redirect to their migrated detail pages. InspiringGroup and
-openings link to their existing pages at `https://liuzhuotao.github.io/`.
+publication and student URLs redirect to their migrated detail pages. Students
+have text profiles linked to their papers, without individual portraits.
 
 ## View the preview
 
@@ -62,7 +63,8 @@ year: 2026
 ```
 
 Save the file and Hugo adds it to **All publications**, grouped by year with
-newer years first. Author order is preserved, and the name matching
+newer years first. Papers before 2020 share one **Before 2020** section, with each
+paper's year still visible. Author order is preserved, and the name matching
 `data/profile.yaml` is highlighted automatically. There is no mandatory
 abstract or publication form.
 
@@ -108,6 +110,9 @@ equal_contribution: ["First Author", "Second Author"]
 
 - `corresponding` and `equal_contribution` are lists of exact author names.
 - `award` accepts a short text label or a list of labels for multiple awards.
+- `scholar` is optional source metadata. It is retained for reference but does
+  not display a link beside each paper. The profile and publication-list header
+  retain the main Google Scholar link.
 - Paper, PDF, code, conference, and Scholar links accept `https://` URLs or local paths beginning
   with `/`. Local files belong in `redesign/static/`; for example,
   `redesign/static/papers/my-paper.pdf` is linked as `/papers/my-paper.pdf`.
@@ -156,6 +161,67 @@ The generated entry starts with `draft: true`. Remove that line or set it to
 `false` when ready. The build checks required fields, author lists, four-digit
 years, publication link formats, and positive whole-number `selected_order`
 values. To remove a paper from both lists, delete its file or set `draft: true`.
+
+## Add or update students
+
+Create `redesign/content/students/first-last/index.md`. Only two fields are
+required:
+
+```yaml
+---
+title: "First Last"
+group: "phd"
+---
+```
+
+Use `phd`, `master`, or `alumni` for the group. The directory automatically shows
+the student's name and paper count, linked to their page. Papers are collected
+from the same publication files used by the complete list, by matching the
+student's full name against `authors`. Adding a matching paper updates the count
+and student page automatically. No photo or separate paper list is needed.
+Students without matching papers still have a page with an empty-state message.
+Patents are excluded from student paper lists.
+
+Optional fields can go before the closing `---`:
+
+```yaml
+since: 2026
+interests: ["Systems Security", "Privacy"]
+homepage: "https://example.org"
+email: "student@example.org"
+github: "https://github.com/example"
+scholar: "https://scholar.google.com/citations?user=PROFILE"
+orcid: "https://orcid.org/0000-0000-0000-0000"
+```
+
+Write an optional biography as ordinary Markdown below the closing `---`.
+Change `group` to `alumni` when a student graduates; their papers and links stay
+intact. Names are sorted alphabetically within each group. Preserve existing
+`aliases` and folder names when editing so links continue to work.
+
+If a student publishes under another spelling, add exact alternatives with
+`author_names: ["Alternative Name"]`. For a name shared by different people,
+add `match: "marked"` to the student file, then mark the correct author's
+position in each paper with `group_authors: [1]` (positions start at 1). Include
+any other existing marked positions in that list. **Qi Li is already configured
+this way** to distinguish the student from the professor. Only marked matching
+occurrences link to this student's papers.
+
+To generate a starter file locally:
+
+```sh
+hugo new content --source redesign students/first-last/index.md
+```
+
+Set its title to the student's full name and remove `draft: true` when ready.
+The build checks the required name/group, supported groups, enrollment year,
+lists, and profile link formats.
+
+## Edit Join us
+
+Edit `redesign/content/join/index.md`. Its headings and paragraphs are ordinary
+Markdown, covering openings, postdoctoral positions, group culture, and contact.
+The contact box uses the email in `redesign/data/profile.yaml`.
 
 ## Update academic service
 
@@ -207,8 +273,9 @@ A news entry looks like this:
 ```
 
 Replace the portrait in `redesign/static/images/portrait.jpg`, or change the
-`portrait` path in `data/profile.yaml`. Site-wide external links to the group and
-openings are configured in `redesign/hugo.yaml`.
+`portrait` path in `data/profile.yaml`. The image is cropped to a circle by CSS;
+the original image file stays intact. Navigation links to the local Students
+and Join us pages.
 
 ## Preview checks and publishing
 
@@ -232,7 +299,8 @@ python3 redesign/scripts/check.py
 Use `--hugo /path/to/hugo` if Hugo is not on your `PATH`. The checks build
 temporary copies, verify internal links and legacy redirects, and exercise
 adding a four-field paper, switching homepage selection, changing selection
-order, and editing academic service. Your source files are not changed.
+order, editing academic service, adding students, and matching their papers.
+Your source files are not changed.
 
 Publishing this design is a separate milestone. Before switching production,
 review the migrated publication archive and redirects, verify group and other

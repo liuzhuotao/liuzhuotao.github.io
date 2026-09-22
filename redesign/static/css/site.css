@@ -33,7 +33,7 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .profile-links a:hover{text-decoration:none;border-color:var(--accent)}
 .profile-links span{padding-left:3px}
 .portrait{grid-column:2;grid-row:1/4;align-self:center}
-.portrait img{width:176px;height:212px;object-fit:cover;object-position:center 35%;border-radius:3px}
+.portrait img{width:176px;height:176px;object-fit:cover;object-position:center 35%;border-radius:50%}
 .portrait figcaption{font-size:13px;color:var(--muted);margin-top:13px;text-align:center}
 .portrait figcaption a{color:var(--ink)}
 .editorial-section{display:grid;grid-template-columns:215px minmax(0,1fr);gap:44px;border-top:1px solid var(--line);padding:44px 0 48px}
@@ -101,10 +101,33 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .paper-detail .paper-links{font-size:15px}
 .abstract h2{font:400 32px/1.2 var(--serif);margin-bottom:19px}
 .abstract{max-width:800px}
+.student-group-count{font-size:14px;color:var(--muted);margin-top:12px}
+.student-list{list-style:none;margin:0;padding:0}
+.student-row{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:0 0 23px;margin-bottom:24px;border-bottom:1px solid var(--line)}
+.student-row:last-child{padding-bottom:0;margin-bottom:0;border-bottom:0}
+.student-overview{min-width:0}
+.student-overview h3{font:400 25px/1.3 var(--serif);margin-bottom:5px}
+.student-overview h3 a{color:var(--ink)}
+.student-since{font-size:14px;color:var(--muted)}
+.student-interests{font-size:16px;color:var(--muted);line-height:1.75;margin-top:7px}
+.student-papers-link{flex-shrink:0;font-size:15px;white-space:nowrap}
+.student-profile{padding-top:35px}
+.student-heading{padding-top:22px;padding-bottom:32px;max-width:850px}
+.student-profile-links{margin-top:22px}
+.student-bio{margin-bottom:43px}
+.student-publications-heading{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:10px 0 25px}
+.student-publications-heading h2{font:400 32px/1.2 var(--serif)}
+.student-publications-heading p{font-size:14px;color:var(--muted)}
+.student-empty{color:var(--muted);border-top:1px solid var(--line);padding:32px 0 58px;font-size:17px}
+.join-prose h2{font:400 28px/1.25 var(--serif);margin:34px 0 14px}
+.join-prose h2:first-child{margin-top:0}
+.join-prose ul{padding-left:22px;margin:18px 0 0}
+.join-prose li+li{margin-top:12px}
+.join-contact{margin-top:30px}
 @media(max-width:850px){
   .wrap{padding-left:30px;padding-right:30px}
   .hero{gap:20px 32px;grid-template-columns:minmax(0,1fr) 150px;padding-top:39px;padding-bottom:39px}
-  .portrait img{width:150px;height:181px}
+  .portrait img{width:150px;height:150px}
   .hero h1{font-size:40px}
   .editorial-section{grid-template-columns:160px minmax(0,1fr);gap:28px}
   .research-grid{gap:25px}
@@ -123,7 +146,7 @@ h1,h2,h3{font-weight:400;line-height:1.18}
   .profile-role{font-size:16px}
   .affiliation{font-size:14px;margin-top:5px}
   .portrait{grid-column:2;grid-row:1;align-self:start;margin-top:3px}
-  .portrait img{width:98px;height:118px}
+  .portrait img{width:98px;height:98px}
   .portrait figcaption{display:none}
   .profile-bio{grid-column:1/-1}
   .profile-links{grid-column:1/-1;gap:8px 19px;font-size:14px}
@@ -159,6 +182,16 @@ h1,h2,h3{font-weight:400;line-height:1.18}
   .paper-page{padding-top:29px}
   .paper-header{margin-top:29px}
   .paper-header h1{font-size:33px}
+  .student-group-count{margin:0 0 0 auto}
+  .student-row{gap:16px;padding-bottom:20px;margin-bottom:21px}
+  .student-overview h3{font-size:24px}
+  .student-interests{font-size:15px}
+  .student-papers-link{font-size:14px}
+  .student-profile{padding-top:26px}
+  .student-heading{padding-top:20px}
+  .student-publications-heading h2{font-size:29px}
+  .student-empty{font-size:16px}
+  .join-prose h2{font-size:26px}
 }
 @media(max-width:390px){
   .wrap{padding-left:18px;padding-right:18px}
@@ -170,4 +203,4 @@ h1,h2,h3{font-weight:400;line-height:1.18}
   .service-list li{grid-template-columns:1fr;gap:3px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-@media print{.preview-banner,.site-header,.profile-links,.paper-links,.contact-note,.site-footer{display:none}body{background:#fff;color:#000}.wrap{padding:0;max-width:none}.hero{padding:20px 0}.editorial-section{break-inside:avoid}.publication,.award-list li{break-inside:avoid}a{color:inherit}.portrait img{width:150px;height:180px}}
+@media print{.preview-banner,.site-header,.profile-links,.paper-links,.contact-note,.site-footer{display:none}body{background:#fff;color:#000}.wrap{padding:0;max-width:none}.hero{padding:20px 0}.editorial-section{break-inside:avoid}.publication,.award-list li{break-inside:avoid}a{color:inherit}.portrait img{width:150px;height:150px}}
