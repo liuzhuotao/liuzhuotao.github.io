@@ -6,7 +6,8 @@ year: 2024
 paper: "https://www.usenix.org/conference/usenixsecurity24/presentation/chen-yihao"
 pdf: "https://arxiv.org/abs/2402.16025"
 conference: "https://www.usenix.org/conference/usenixsecurity24"
-award: ["Distinguished Paper Award Winner","2024 Internet Defense Prize Winner"]
+selected: true
+award: ["Distinguished Paper Award","Internet Defense Prize"]
 topics: ["Secure Networking and Systems Infrastructure","Secure Internet Routing"]
 aliases: ["/publications/secure_networking_and_systems_infrastructure/secure_internet_routing/1-1-1/"]
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:xtRiw3GOFMkC"
