@@ -10,7 +10,6 @@ corresponding: ["Zhuotao Liu"]
 group_authors: [1]
 topics: ["AI and Data Security (with Applied Cryptography)","Privacy-Preserving Machine Learning","Data Security"]
 selected: true
-selected_order: 2
 aliases: ["/publications/ai_and_data_security/privacy-preserving_machinelearning/2-1-3/"]
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:fQNAKQ3IYiAC"
 ---

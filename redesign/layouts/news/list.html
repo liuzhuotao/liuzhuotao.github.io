@@ -1,0 +1,11 @@
+{{ define "main" }}
+{{ $news := partial "news-items.html" .Site }}
+{{ $years := slice }}{{ range $news }}{{ $years = $years | append .year }}{{ end }}
+<div class="page-heading"><p class="eyebrow">Zhuotao Liu · InspiringGroup</p><h1>News</h1><p>Research updates, awards, talks, and academic service.</p></div>
+{{ with $years }}<nav class="year-nav" aria-label="News by year">{{ range uniq . }}<a href="#news-year-{{ . }}">{{ . }}</a>{{ end }}</nav>{{ end }}
+{{ range uniq $years }}
+<section class="editorial-section year-section news-year-section" aria-labelledby="news-year-{{ . }}"><div class="section-label"><h2 id="news-year-{{ . }}">{{ . }}</h2></div><div class="section-body"><ul class="news-list">
+{{ range where $news "year" . }}{{ partial "news-row.html" . }}{{ end }}
+</ul></div></section>
+{{ end }}
+{{ end }}

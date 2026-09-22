@@ -1,0 +1,31 @@
+{{- $items := slice -}}
+{{- $source := .Data.news | default slice -}}
+{{- if not (reflect.IsSlice $source) -}}
+  {{- errorf "News in data/news.yaml must be a list of date and text entries" -}}
+{{- else -}}
+  {{- range $index, $item := $source -}}
+    {{- $number := add $index 1 -}}
+    {{- if not (reflect.IsMap $item) -}}
+      {{- errorf "News entry %d in data/news.yaml must contain date and text fields" $number -}}
+    {{- else -}}
+      {{- $date := printf "%v" ($item.date | default "") -}}
+      {{- $validDate := findRE `^[1-9][0-9]{3}-(0[1-9]|1[0-2])$` $date -}}
+      {{- if not $validDate -}}
+        {{- errorf "News entry %d in data/news.yaml: date must use YYYY-MM with a valid month" $number -}}
+      {{- end -}}
+      {{- if not $item.text -}}
+        {{- errorf "News entry %d in data/news.yaml: text is required" $number -}}
+      {{- else if ne (printf "%T" $item.text) "string" -}}
+        {{- errorf "News entry %d in data/news.yaml: text must be a string" $number -}}
+      {{- else if not (strings.TrimSpace $item.text) -}}
+        {{- errorf "News entry %d in data/news.yaml: text is required" $number -}}
+      {{- end -}}
+      {{- if and $validDate (eq (printf "%T" $item.text) "string") -}}
+        {{- $sortKey := printf "%06d-%08d" (sub 999912 (int (replace $date "-" ""))) $index -}}
+        {{- $displayDate := time.Format "Jan 2006" (printf "%s-01" $date) -}}
+        {{- $items = $items | append (dict "date" $date "year" (substr $date 0 4) "displayDate" $displayDate "text" $item.text "sortKey" $sortKey) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (sort $items "sortKey") -}}

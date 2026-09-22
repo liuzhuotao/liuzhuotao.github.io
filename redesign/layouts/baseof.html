@@ -16,7 +16,7 @@
   <header class="site-header wrap">
     <a class="wordmark" href="{{ .Site.Home.RelPermalink }}" aria-label="Zhuotao Liu homepage">Zhuotao Liu<span class="wordmark-dot" aria-hidden="true">.</span></a>
     <nav aria-label="Main navigation">
-      <a href="{{ .Site.Home.RelPermalink }}#news">News</a>
+      <a href="{{ .Site.Home.RelPermalink }}#news" {{ if eq .Section "news" }}aria-current="page"{{ end }}>News</a>
       <a href="{{ .Site.Home.RelPermalink }}#research">Research</a>
       <a href="{{ "publications/" | relURL }}" {{ if eq .Section "publications" }}aria-current="page"{{ end }}>Publications</a>
       <a href="{{ .Site.Home.RelPermalink }}#awards">Awards</a>

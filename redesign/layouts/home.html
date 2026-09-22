@@ -20,11 +20,9 @@
 </section>
 
 <section id="news" class="editorial-section" aria-labelledby="news-heading">
-  <div class="section-label"><span class="section-number">01</span><h2 id="news-heading">Recent news</h2></div>
+  <div class="section-label"><span class="section-number">01</span><h2 id="news-heading">Recent news</h2><a class="section-link" href="{{ "news/" | relURL }}">All news →</a></div>
   <div class="section-body"><ul class="news-list">
-    {{ range first 3 .Site.Data.news }}
-    <li><span class="news-date">{{ .date }}</span><p>{{ .text | markdownify }}</p></li>
-    {{ end }}
+    {{ range first 6 (partial "news-items.html" .Site) }}{{ partial "news-row.html" . }}{{ end }}
   </ul></div>
 </section>
 
@@ -41,12 +39,7 @@
   <div class="section-label"><span class="section-number">03</span><h2 id="publications-heading">Selected publications</h2><a class="section-link" href="{{ "publications/" | relURL }}">All publications →</a></div>
   <div class="section-body">
     {{ $papers := where (where (where .Site.RegularPages "Section" "publications") "Params.selected" true) "Params.category" "ne" "patent" }}
-    {{ $ordered := slice }}{{ $remaining := slice }}
-    {{ range sort $papers "Params.year" "desc" }}
-      {{ if .Params.selected_order }}{{ $ordered = $ordered | append . }}{{ else }}{{ $remaining = $remaining | append . }}{{ end }}
-    {{ end }}
-    {{ range sort $ordered "Params.selected_order" "asc" }}{{ partial "publication.html" . }}{{ end }}
-    {{ range $remaining }}{{ partial "publication.html" . }}{{ end }}
+    {{ range sort $papers "Params.year" "desc" }}{{ partial "publication.html" . }}{{ end }}
     <p class="archive-link"><a href="{{ "publications/" | relURL }}">View all publications →</a></p>
   </div>
 </section>
