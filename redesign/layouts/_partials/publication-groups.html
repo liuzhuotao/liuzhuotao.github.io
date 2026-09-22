@@ -3,15 +3,14 @@
 {{ range $papers }}
   {{ if ge (int .Params.year) 2020 }}{{ $years = $years | append (printf "%v" .Params.year) }}{{ else }}{{ $earlier = $earlier | append . }}{{ end }}
 {{ end }}
-{{ range uniq $years }}
-  {{ $year := . }}
-  <section class="editorial-section year-section" aria-labelledby="year-{{ $year }}">
+{{ range $index, $year := uniq $years }}
+  <section class="editorial-section year-section {{ cond (eq (mod $index 2) 0) "tone-teal" "tone-navy" }}" aria-labelledby="year-{{ $year }}">
     <div class="section-label"><h2 id="year-{{ $year }}">{{ $year }}</h2></div>
     <div class="section-body">{{ range $papers }}{{ if eq (printf "%v" .Params.year) $year }}{{ partial "publication.html" . }}{{ end }}{{ end }}</div>
   </section>
 {{ end }}
 {{ with $earlier }}
-  <section class="editorial-section year-section earlier-publications" aria-labelledby="year-before-2020">
+  <section class="editorial-section year-section earlier-publications {{ cond (eq (mod (len (uniq $years)) 2) 0) "tone-teal" "tone-navy" }}" aria-labelledby="year-before-2020">
     <div class="section-label"><h2 id="year-before-2020">Before 2020</h2></div>
     <div class="section-body">{{ range . }}{{ partial "publication.html" . }}{{ end }}</div>
   </section>

@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $profile := .Site.Data.profile }}
-<section class="hero" aria-labelledby="profile-name">
+<section class="hero tone-navy" aria-labelledby="profile-name">
   <div class="hero-copy">
     <h1 id="profile-name">{{ $profile.name }}</h1>
     <p class="profile-role">{{ $profile.role }}</p>
@@ -19,14 +19,14 @@
   </div>
 </section>
 
-<section id="news" class="editorial-section" aria-labelledby="news-heading">
+<section id="news" class="editorial-section tone-teal" aria-labelledby="news-heading">
   <div class="section-label"><span class="section-number">01</span><h2 id="news-heading">Recent news</h2><a class="section-link" href="{{ "news/" | relURL }}">All news →</a></div>
   <div class="section-body"><ul class="news-list">
     {{ range first 6 (partial "news-items.html" .Site) }}{{ partial "news-row.html" . }}{{ end }}
   </ul></div>
 </section>
 
-<section id="research" class="editorial-section" aria-labelledby="research-heading">
+<section id="research" class="editorial-section tone-navy" aria-labelledby="research-heading">
   <div class="section-label"><span class="section-number">02</span><h2 id="research-heading">Research</h2></div>
   <div class="section-body research-grid">
     {{ range $profile.research }}
@@ -35,7 +35,7 @@
   </div>
 </section>
 
-<section id="publications" class="editorial-section publications-section" aria-labelledby="publications-heading">
+<section id="publications" class="editorial-section tone-teal publications-section" aria-labelledby="publications-heading">
   <div class="section-label"><span class="section-number">03</span><h2 id="publications-heading">Selected publications</h2><a class="section-link" href="{{ "publications/" | relURL }}">All publications →</a></div>
   <div class="section-body">
     {{ $papers := where (where (where .Site.RegularPages "Section" "publications") "Params.selected" true) "Params.category" "ne" "patent" }}
@@ -44,7 +44,7 @@
   </div>
 </section>
 
-<section id="awards" class="editorial-section" aria-labelledby="awards-heading">
+<section id="awards" class="editorial-section tone-navy" aria-labelledby="awards-heading">
   <div class="section-label"><span class="section-number">04</span><h2 id="awards-heading">Awards &amp; recognition</h2></div>
   <div class="section-body"><ul class="award-list">
     {{ range .Site.Data.awards }}
@@ -53,7 +53,7 @@
   </ul></div>
 </section>
 
-<section id="service" class="editorial-section" aria-labelledby="service-heading">
+<section id="service" class="editorial-section tone-teal" aria-labelledby="service-heading">
   <div class="section-label"><span class="section-number">05</span><h2 id="service-heading">Academic service</h2></div>
   <div class="section-body">
     {{ with .Site.Data.services.editorial }}
@@ -69,7 +69,7 @@
   </div>
 </section>
 
-<section id="teaching" class="editorial-section" aria-labelledby="teaching-heading">
+<section id="teaching" class="editorial-section tone-navy" aria-labelledby="teaching-heading">
   <div class="section-label"><span class="section-number">06</span><h2 id="teaching-heading">Teaching &amp; mentoring</h2><a class="section-link" href="{{ "students/" | relURL }}">Meet the group →</a></div>
   <div class="section-body">
     {{ with .Site.Data.teaching.mentoring }}<div class="prose mentoring-note">{{ $.RenderString . }}</div>{{ end }}
@@ -79,7 +79,7 @@
   </div>
 </section>
 
-<section class="editorial-section" aria-labelledby="contact-heading">
+<section class="editorial-section tone-teal" aria-labelledby="contact-heading">
   <div class="section-label"><span class="section-number">07</span><h2 id="contact-heading">Work with us</h2></div>
   <div class="section-body contact-note"><p>I welcome students and collaborators interested in secure networking, systems, and trustworthy AI.</p><a href="{{ "join/" | relURL }}">Join InspiringGroup →</a></div>
 </section>

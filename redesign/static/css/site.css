@@ -1,5 +1,7 @@
-/* Personal research site: typography, content, and a single quiet accent. */
-:root{color-scheme:light;--paper:#fcfbf8;--ink:#202a2c;--muted:#5c6868;--accent:#246862;--line:#dedfd8;--soft:#f0f2ec;--serif:Georgia,'Times New Roman',serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+/* Personal research site: balanced typography with alternating teal and navy section accents. */
+:root{color-scheme:light;--paper:#fcfbf8;--ink:#202a2c;--muted:#5c6868;--teal:#246862;--navy:#214e78;--accent:var(--teal);--accent-line:#a3bcb5;--group-line:#9aaba5;--line:#dedfd8;--soft:#f0f2ec;--serif:Georgia,'Times New Roman',serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.tone-teal{--accent:var(--teal);--accent-line:#a3bcb5;--group-line:#9aaba5;--soft:#f0f2ec}
+.tone-navy{--accent:var(--navy);--accent-line:#a4b8cc;--group-line:#9aacc0;--soft:#edf2f7}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:32px}
 body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.75 var(--sans);-webkit-font-smoothing:antialiased}
@@ -24,12 +26,12 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) 176px;gap:20px 56px;align-items:start;padding-top:46px;padding-bottom:46px}
 .eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.7}
 .eyebrow span{padding:0 8px;color:#9aa29a}
-.hero h1{font:400 44px/1.12 var(--serif);letter-spacing:-.035em;margin-bottom:12px}
+.hero h1{color:var(--accent);font:400 44px/1.12 var(--serif);letter-spacing:-.035em;margin-bottom:12px}
 .profile-role{font-size:18px;font-weight:500;line-height:1.6}
 .affiliation{font-size:16px;line-height:1.65;color:var(--muted);margin-top:4px}
 .profile-bio{grid-column:1}
 .profile-links{grid-column:1;display:flex;flex-wrap:wrap;gap:10px 24px;font-size:15px}
-.profile-links a{border-bottom:1px solid #a3bcb5;padding-bottom:2px}
+.profile-links a{border-bottom:1px solid var(--accent-line);padding-bottom:2px}
 .profile-links a:hover{text-decoration:none;border-color:var(--accent)}
 .profile-links span{padding-left:3px}
 .portrait{grid-column:2;grid-row:1/4;align-self:center}
@@ -38,25 +40,25 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .portrait figcaption a{color:var(--ink)}
 .editorial-section{display:grid;grid-template-columns:215px minmax(0,1fr);gap:44px;border-top:1px solid var(--line);padding:44px 0 48px}
 .section-label{padding-top:2px}
-.section-number{display:block;font-size:12px;letter-spacing:.08em;color:var(--muted);margin-bottom:9px}
-.section-label h2{font:400 32px/1.2 var(--serif);letter-spacing:-.025em}
+.section-number{display:block;font-size:12px;letter-spacing:.08em;color:var(--accent);margin-bottom:9px}
+.section-label h2{color:var(--accent);font:400 32px/1.2 var(--serif);letter-spacing:-.025em}
 .section-link{display:inline-block;font-size:14px;margin-top:19px}
 .prose{font-size:18px;line-height:1.85;max-width:74ch}
 .prose p+p{margin-top:16px}
 .prose strong{font-weight:600}
 .research-grid{display:grid;grid-template-columns:1fr 1fr;gap:27px 35px}
-.research-area h3{font-size:19px;font-weight:600;line-height:1.4;letter-spacing:-.015em;margin-bottom:9px}
+.research-area h3{color:var(--accent);font-size:19px;font-weight:600;line-height:1.4;letter-spacing:-.015em;margin-bottom:9px}
 .research-area p{color:var(--muted);font-size:16px;line-height:1.8}
 .publication{padding:0 0 26px;margin-bottom:25px;border-bottom:1px solid var(--line)}
 .publication:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .publication-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px 13px;color:var(--muted);font-size:14px;margin-bottom:10px;line-height:1.6}
 .venue{color:var(--accent);text-transform:uppercase;letter-spacing:.04em;font-weight:650}
 .paper-award{display:inline-block;color:#725222;background:#f4edde;padding:3px 9px;border-radius:2px;font-size:12px}
-.publication h3{font:400 25px/1.4 var(--serif);letter-spacing:-.01em;margin-bottom:9px}
+.publication h3{font:400 22px/1.45 var(--serif);letter-spacing:-.01em;margin-bottom:9px}
 .publication h3 a{color:var(--ink)}
-.authors{font-size:15px;line-height:1.85;color:var(--muted)}
+.authors{font-size:17px;line-height:1.75;color:var(--muted)}
 .authors strong{font-weight:600;color:var(--ink)}
-.group-author{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#9aaba5}
+.group-author{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--group-line)}
 .authors sup{font-size:12px;padding-left:1px}
 .author-note{font-size:12px;color:var(--muted);margin-top:5px}
 .paper-links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;font-size:14px;font-weight:500}
@@ -84,7 +86,7 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .site-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-top:25px;padding-bottom:32px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 .site-footer a{color:var(--muted)}
 .page-heading{padding:62px 0 47px;max-width:760px}
-.page-heading h1{font:400 clamp(38px,5vw,57px)/1.12 var(--serif);letter-spacing:-.035em;margin:15px 0 20px}
+.page-heading h1{color:var(--navy);font:400 clamp(38px,5vw,57px)/1.12 var(--serif);letter-spacing:-.035em;margin:15px 0 20px}
 .page-heading>p:last-child{font-size:17px;color:var(--muted);max-width:690px}
 .year-section{grid-template-columns:130px minmax(0,1fr)}
 .year-section .section-label h2{font-size:36px}
@@ -95,12 +97,12 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .paper-page{max-width:900px;margin:0 auto;padding:44px 0 70px}
 .back-link{font-size:15px}
 .paper-header{margin:38px 0 26px}
-.paper-header h1{font:400 clamp(32px,4.3vw,49px)/1.16 var(--serif);letter-spacing:-.025em;margin-top:14px}
+.paper-header h1{color:var(--accent);font:400 clamp(29px,3.5vw,38px)/1.25 var(--serif);letter-spacing:-.025em;margin-top:14px}
 .paper-detail>.publication{padding-bottom:28px;margin-bottom:33px}
 .detail-award{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.paper-detail .authors{font-size:16px}
+.paper-detail .authors{font-size:18px}
 .paper-detail .paper-links{font-size:15px}
-.abstract h2{font:400 32px/1.2 var(--serif);margin-bottom:19px}
+.abstract h2{color:var(--accent);font:400 32px/1.2 var(--serif);margin-bottom:19px}
 .abstract{max-width:800px}
 .student-group-count{font-size:14px;color:var(--muted);margin-top:12px}
 .student-list{list-style:none;margin:0;padding:0}
@@ -163,8 +165,9 @@ h1,h2,h3{font-weight:400;line-height:1.18}
   .research-area h3{font-size:17px}
   .research-area p{font-size:15px}
   .prose{font-size:16px;line-height:1.8}
-  .publication h3{font-size:23px}
-  .authors{font-size:14px}
+  .publication h3{font-size:20px}
+  .authors{font-size:16px}
+  .paper-detail .authors{font-size:17px}
   .paper-links a{padding:5px 0}
   .award-list li{gap:13px}
   .award-year{font-size:14px}
@@ -184,7 +187,7 @@ h1,h2,h3{font-weight:400;line-height:1.18}
   .year-section .section-label h2{font-size:30px}
   .paper-page{padding-top:29px}
   .paper-header{margin-top:29px}
-  .paper-header h1{font-size:33px}
+  .paper-header h1{font-size:29px}
   .student-group-count{margin:0 0 0 auto}
   .student-row{gap:16px;padding-bottom:20px;margin-bottom:21px}
   .student-overview h3{font-size:24px}
@@ -206,4 +209,4 @@ h1,h2,h3{font-weight:400;line-height:1.18}
   .service-list li{grid-template-columns:1fr;gap:3px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-@media print{.preview-banner,.site-header,.profile-links,.paper-links,.contact-note,.site-footer{display:none}body{background:#fff;color:#000}.wrap{padding:0;max-width:none}.hero{padding:20px 0}.editorial-section{break-inside:avoid}.publication,.award-list li{break-inside:avoid}a{color:inherit}.portrait img{width:150px;height:150px}}
+@media print{.preview-banner,.site-header,.profile-links,.paper-links,.contact-note,.site-footer{display:none}body{background:#fff;color:#000}.wrap{padding:0;max-width:none}.hero{padding:20px 0}.editorial-section{break-inside:avoid}.publication,.award-list li{break-inside:avoid}a{color:inherit}.section-label h2,.section-number,.research-area h3,.hero h1,.page-heading h1,.paper-header h1,.abstract h2{color:#000}.portrait img{width:150px;height:150px}}
