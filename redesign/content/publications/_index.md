@@ -1,4 +1,4 @@
 ---
 title: "Publications"
-description: "Selected research publications by Zhuotao Liu and collaborators."
+description: "Research publications by Zhuotao Liu and collaborators, organized by year."
 ---

@@ -1,0 +1,12 @@
+---
+title: "Training Robust Classifiers for Classfiying Encrypted Traffic under Dynamic Network Conditions"
+authors: ["Yuqi Qing","Qilei Yin","Xinhao Deng","Xiaoli Zhang","Peiyang Li","Zhuotao Liu","Kun Sun","Ke Xu","Qi Li"]
+venue: "ACM CCS"
+year: 2025
+paper: "https://dl.acm.org/doi/10.1145/3719027.3765073"
+conference: "https://www.sigsac.org/ccs/CCS2025/"
+topics: ["Secure Networking and Systems Infrastructure","AI-Driven Traffic Analysis","Encrypted Traffic Analysis"]
+aliases: ["/publications/secure_networking_and_systems_infrastructure/encrypted_traffic_analysis/1-2-9/"]
+---
+
+Most existing DL-based encrypted traffic classification methods suffer performance degradation in real-world deployments due to dynamic network conditions, e.g., network environment changes and traffic obfuscation. Dynamic network conditions cause encrypted traffic to exhibit distinct feature patterns during training and testing phases. To address this issue, we propose MetaTraffic, a novel and general DL training framework built upon meta-learning that enhances the performance of supervised DL models designed for encrypted traffic classification against dynamic network conditions. Our key observation is that the traffic of the same network behaviors share the same semantic features even under different network conditions, which can be considered as stable feature representations. Therefore, MetaTraffic helps DL models learn stable feature representations by minimizing the discrepancies in how the models represent traffic features under different network conditions, thereby achieving robust classification under dynamic network conditions. We implement MetaTraffic based on meta-learning with three innovative facilitate modules to enhance its performance. We evaluate MetaTraffic using three public datasets and three new large-scale encrypted traffic datasets that cover multiple types of network conditions. Experimental results show that, under dynamic multiple types of network conditions, our framework improves the accuracy of DL models by 8.94% and the F1-Macro score by 12.55%, while existing robust training methods decrease the accuracy by 28.85% and the F1-Macro score by 33.52%.

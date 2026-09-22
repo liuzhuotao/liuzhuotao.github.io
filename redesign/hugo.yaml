@@ -6,7 +6,6 @@ disableKinds: [taxonomy, term, RSS, sitemap]
 buildDrafts: false
 params:
   description: Zhuotao Liu is an Associate Professor at Tsinghua University working on secure networking, trustworthy AI, and privacy-preserving systems.
-  archiveURL: https://liuzhuotao.github.io/publications/
   groupURL: https://liuzhuotao.github.io/authors/
   joinURL: https://liuzhuotao.github.io/join/
 markup:

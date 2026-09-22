@@ -1,0 +1,16 @@
+editorial:
+  - years: "2025–present"
+    role: "Associate Editor"
+    organization: "IEEE Transactions on Dependable and Secure Computing (TDSC)"
+
+committees:
+  - years: "2027"
+    venues: ["IEEE S&P", "ACM CCS", "USENIX Security"]
+  - years: "2026"
+    venues: ["IEEE S&P", "ACM CCS", "USENIX Security"]
+  - years: "2025"
+    venues: ["ACM CCS", "ACM SIGMETRICS/Performance"]
+  - years: "2024"
+    venues: ["ACM CCS", "USENIX Security", "IEEE ICDCS"]
+  - years: "2022–2023"
+    venues: ["ACM CCS (2022, 2023)", "IEEE ICDCS (2023)"]

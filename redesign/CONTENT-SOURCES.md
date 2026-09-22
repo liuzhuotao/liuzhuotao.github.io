@@ -1,9 +1,13 @@
 # Content provenance
 
-This first preview contains three selected publications. It is not a full archive migration.
-All source content was read from `liuzhuotao/liuzhuotao.github.io` at commit
-`86c60c36f734ebd0b09cf9b4d1d7beddc46500ac` on 21 September 2026.
-Links below are pinned to that commit so the source mapping remains stable.
+This preview includes all 58 publications from the existing archive, with three
+selected for the homepage. The original profile, awards, and news were read from
+`liuzhuotao/liuzhuotao.github.io` at commit
+`86c60c36f734ebd0b09cf9b4d1d7beddc46500ac` on 21 September 2026; links below
+remain pinned to that source. The complete publication migration uses the source
+at commit `a749607bf301a43bb0397fea29e1718df536eaa0` on 22 September 2026.
+See [PUBLICATION-MIGRATION.md](PUBLICATION-MIGRATION.md) for every source mapping,
+preserved field, and existing data issue.
 
 | Preview content | Repository source | Treatment |
 | --- | --- | --- |
@@ -16,12 +20,15 @@ Links below are pinned to that commit so the source mapping remains stable.
 | `content/publications/pred.md` | [PRED](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/86c60c36f734ebd0b09cf9b4d1d7beddc46500ac/content/publications/networking_infrastructure_for_ai/datacenter_networking/3-1-1.md) | Full title, all nine authors in order, USENIX NSDI 2025, and the original paper link. Original abstract moved into the Markdown body. |
 | `data/awards.yaml` | [Awards](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/86c60c36f734ebd0b09cf9b4d1d7beddc46500ac/content/awards/_index.md) | All eleven entries retained, with compact titles/descriptions. Original Chinese award names are retained. Dates are the years stated by the source. |
 | `data/news.yaml` | [News](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/86c60c36f734ebd0b09cf9b4d1d7beddc46500ac/content/news/_index.md) and RingSG above | Proposed concise rewrites of the latest three entries (August 2026, May 2026, October 2025). Promotional superlatives removed. RingSG's name is supported by its publication record. |
+| All 58 files in `content/publications/` | [Publication migration report](PUBLICATION-MIGRATION.md) | Preserves source titles, author order, abstracts, paper/PDF/code/conference links, awards, contribution notes, research topics, and group-member markers. Each old detail URL has a redirect. |
+| `data/services.yaml` | Roles supplied directly by Zhuotao Liu in this conversation on 22 September 2026 | TDSC Associate Editor (2025–present) and conference program committees for 2022–2027. No additional appointments inferred. |
 
-Author identifiers were expanded to human-readable names: `liuzhuotao` becomes
+Author identifiers were expanded using existing author profiles: `liuzhuotao` becomes
 Zhuotao Liu using the author profile above; `zouzhenhua` becomes Zhenhua Zou using
 the [Zhenhua Zou author profile](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/86c60c36f734ebd0b09cf9b4d1d7beddc46500ac/content/authors/zouzhenhua/_index.md).
-No authors were removed or reordered. Existing source abstracts are preserved,
-including their wording; line wrapping is normalized.
+Other resolved identifiers and unresolved source details are recorded in the
+migration report. No authors were removed or reordered. Existing source abstracts
+are preserved, including their wording; line wrapping is normalized.
 
 The existing author front matter also contains unrelated template examples of
 employment, education, skills, and awards (including Meta, OpenAI, and Stanford).

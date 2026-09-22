@@ -1,0 +1,12 @@
+---
+title: "Effective DDoS Mitigation via ML-Driven In-Network Traffic Shaping"
+authors: ["Ziming Zhao","Zhuotao Liu","Huan Chen","Fan Zhang","Zhuoxue Song","Zhaoxuan Li"]
+venue: "IEEE TDSC"
+year: 2024
+paper: "https://ieeexplore.ieee.org/abstract/document/10380450"
+corresponding: ["Zhuotao Liu"]
+topics: ["Secure Networking and Systems Infrastructure","DDoS Attack Prevention","DDoS Prevention"]
+aliases: ["/publications/secure_networking_and_systems_infrastructure/ddos_attack_prevention/1-3-3/"]
+---
+
+Defending against Distributed Denial of Service (DDoS) attacks is a fundamental problem in the Internet. Over the past few decades, the research and industry communities have proposed a variety of solutions, from adding incremental capabilities to the existing Internet routing stack, to clean-slate future Internet architectures, and to widely deployed commercial DDoS prevention services. Yet a recent interview with over 100 security practitioners in multiple sectors reveals that existing solutions are still insufficient against , due to either unenforceable protocol deployment or non-comprehensive traffic filters. This seemingly endless arms race with attackers probably means that we need a fundamental paradigm shift. In this paper, we propose a new DDoS prevention paradigm named preference-driven and in-network enforced traffic shaping , aiming to explore the novel DDoS prevention norms that focus on delivering victim-preferred traffic rather than consistently chasing after the DDoS attacks. Towards this end, we propose DFNet , a novel DDoS prevention system that provides reliable delivery of victim-preferred traffic without full knowledge of DDoS attacks. At a very high level, the core innovative design of DFNet embraces the advances in Machine Learning (ML) and new network dataplane primitives, by encoding the victim’s traffic preference (in the form of complex ML models) into dataplane packet scheduling algorithms such that the victim-preferred traffic is forwarded with priority at line-speed, regardless of the attacker strategy. We implement a prototype of DFNet in 11,560 lines of code, and extensively evaluate it on our testbed. The results show that a single instance of DFNetDFNet can forward 99.93% of victim-desired traffic when facing previously unseen attacks, while imposing less than 0.1% forwarding overhead on a dataplane with 80 Gbps upstream links and a 40 Gbps bottleneck.

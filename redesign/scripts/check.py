@@ -20,6 +20,7 @@ class Page(HTMLParser):
     def __init__(self, path):
         super().__init__(convert_charrefs=True)
         self.refs, self.ids, self.articles, self.parts = [], set(), [], []
+        self.redirects = []
         self.article = None
         self.feed(path.read_text(encoding="utf-8"))
         self.text = "".join(self.parts)
@@ -29,6 +30,12 @@ class Page(HTMLParser):
         for attr in ("href", "src"):
             if attrs.get(attr):
                 self.refs.append(attrs[attr])
+        if tag == "meta" and attrs.get("http-equiv", "").lower() == "refresh":
+            redirect = re.search(r"(?:^|;)\s*url\s*=\s*(.+)$", attrs.get("content", ""), re.I)
+            if redirect:
+                target = redirect.group(1).strip().strip("\"'")
+                self.redirects.append(target)
+                self.refs.append(target)
         if "id" in attrs:
             self.ids.add(attrs["id"])
         if tag == "a" and "name" in attrs:
@@ -107,7 +114,6 @@ def check_initial(output, papers):
     for paper in papers:
         require(any(paper["title"] in article for article in listing.articles),
                 f'Missing {paper["title"]} on the publication listing')
-    require(home.articles, "Homepage contains no selected publications")
     for article in home.articles:
         require(any(paper["title"] in article for paper in papers), "Homepage contains an unknown paper")
     html = (output / "publications/index.html").read_text(encoding="utf-8")
@@ -117,6 +123,15 @@ def check_initial(output, papers):
     require(re.search(r"Zhuotao Liu\s*†", ringsg), "RingSG lost its corresponding-author marker")
     require("Corresponding author" in ringsg, "RingSG lost its author-note explanation")
     return len(home.articles)
+
+
+def article_index(page, title):
+    return next((index for index, article in enumerate(page.articles) if title in article), None)
+
+
+def write_paper(entry, minimal, metadata=""):
+    frontmatter, body = minimal.rsplit("---", 1)
+    entry.write_text(frontmatter + metadata + "---" + body, encoding="utf-8")
 
 
 def main():
@@ -162,6 +177,65 @@ def main():
                 "An unselected paper unexpectedly appeared on the homepage")
         check_links(output, base)
         print("PASS: four-field paper builds, sorts first, and needs no optional metadata")
+
+        write_paper(entry, minimal, "selected: true\n")
+        output = scratch / "selected"
+        build(hugo, source, output, base)
+        home, listing = Page(output / "index.html"), Page(output / "publications/index.html")
+        require(len(home.articles) == home_count + 1 and article_index(home, title) is not None,
+                "selected: true did not add the paper to the homepage")
+        require(len(listing.articles) == len(papers) + 1 and article_index(listing, title) is not None,
+                "Selecting a paper changed its presence in the complete list")
+
+        write_paper(entry, minimal, "selected: false\n")
+        output = scratch / "unselected"
+        build(hugo, source, output, base)
+        home, listing = Page(output / "index.html"), Page(output / "publications/index.html")
+        require(len(home.articles) == home_count and article_index(home, title) is None,
+                "selected: false did not remove the paper from the homepage")
+        require(len(listing.articles) == len(papers) + 1 and article_index(listing, title) is not None,
+                "Deselecting a paper removed it from the complete list")
+        print("PASS: selected toggles the homepage while retaining the same complete-list entry")
+
+        write_paper(entry, minimal, "selected: true\nselected_order: 2\n")
+        older_title = "Regression fixture: older paper selected first"
+        older_entry = source / "content/publications/selection-order-check.md"
+        older_minimal = minimal.replace(title, older_title).replace("year: 2999", "year: 1999")
+        write_paper(older_entry, older_minimal,
+                    "selected: true\nselected_order: 1\naliases: ['/publications/legacy-check/']\n")
+        for name, base in (("selection-order", "https://preview.invalid/"),
+                           ("selection-order-prefix", "https://preview.invalid/preview/")):
+            output = scratch / name
+            build(hugo, source, output, base)
+            home, listing = Page(output / "index.html"), Page(output / "publications/index.html")
+            old_index, new_index = article_index(home, older_title), article_index(home, title)
+            require(old_index is not None and new_index is not None and old_index < new_index,
+                    "selected_order does not override year order on the homepage")
+            require(article_index(listing, title) == 0 and article_index(listing, older_title) > 0,
+                    "Homepage selection order changed the complete list's year order")
+            alias = Page(output / "publications/legacy-check/index.html")
+            require(alias.redirects == [urljoin(base, "publications/selection-order-check/")],
+                    "A legacy publication URL does not redirect to the new detail page")
+            check_links(output, base)
+        print("PASS: custom homepage order, complete-list year sorting, and legacy URL redirects")
+
+        services = source / "data/services.yaml"
+        services.write_text(
+            'editorial:\n  - years: "2028–present"\n    role: "Fixture Editor"\n'
+            '    organization: "Fixture Research Journal"\n'
+            'committees:\n  - years: "2029"\n'
+            '    venues: ["Fixture Conference A", "Fixture Conference B"]\n',
+            encoding="utf-8",
+        )
+        output, base = scratch / "services", "https://preview.invalid/"
+        build(hugo, source, output, base)
+        home = Page(output / "index.html")
+        require("service" in home.ids, "Academic service is missing its navigation anchor")
+        for value in ("Editorial service", "Program committees", "2028–present", "Fixture Editor",
+                      "Fixture Research Journal", "2029", "Fixture Conference A", "Fixture Conference B"):
+            require(value in home.text, f"A service data edit did not render: {value}")
+        check_links(output, base)
+        print("PASS: editorial and committee service can be edited in one data file")
 
         entry.write_text(minimal.replace('venue: "Example Conference"\n', ""), encoding="utf-8")
         result = build(hugo, source, scratch / "invalid", base, expect_success=False)

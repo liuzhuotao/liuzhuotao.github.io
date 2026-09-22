@@ -3,6 +3,7 @@
 {{ end }}
 {{ if not (reflect.IsSlice .Params.authors) }}{{ errorf "Publication %s: authors must be a list of names" .File.Path }}{{ end }}
 {{ if not (findRE `^\d{4}$` (printf "%v" .Params.year)) }}{{ errorf "Publication %s: year must be a four-digit year" .File.Path }}{{ end }}
-{{ range slice "paper" "pdf" "code" }}
+{{ if isset .Params "selected_order" }}{{ if not (findRE `^[1-9][0-9]*$` (printf "%v" .Params.selected_order)) }}{{ errorf "Publication %s: selected_order must be a positive whole number" .File.Path }}{{ end }}{{ end }}
+{{ range slice "paper" "pdf" "code" "conference" }}
   {{ with index $.Params . }}{{ if not (or (hasPrefix . "https://") (and (hasPrefix . "/") (not (hasPrefix . "//")))) }}{{ errorf "Publication %s: links must use https:// or a local /path" $.File.Path }}{{ end }}{{ end }}
 {{ end }}

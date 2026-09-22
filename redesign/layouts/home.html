@@ -34,11 +34,16 @@
 </section>
 
 <section id="publications" class="editorial-section publications-section" aria-labelledby="publications-heading">
-  <div class="section-label"><span class="section-number">03</span><h2 id="publications-heading">Selected publications</h2><a class="section-link" href="{{ "publications/" | relURL }}">Browse selections →</a></div>
+  <div class="section-label"><span class="section-number">03</span><h2 id="publications-heading">Selected publications</h2><a class="section-link" href="{{ "publications/" | relURL }}">All publications →</a></div>
   <div class="section-body">
     {{ $papers := where (where .Site.RegularPages "Section" "publications") "Params.selected" true }}
-    {{ range sort $papers "Params.year" "desc" }}{{ partial "publication.html" . }}{{ end }}
-    <p class="archive-link"><a href="{{ .Site.Params.archiveURL }}">Full publication archive ↗</a></p>
+    {{ $ordered := slice }}{{ $remaining := slice }}
+    {{ range sort $papers "Params.year" "desc" }}
+      {{ if .Params.selected_order }}{{ $ordered = $ordered | append . }}{{ else }}{{ $remaining = $remaining | append . }}{{ end }}
+    {{ end }}
+    {{ range sort $ordered "Params.selected_order" "asc" }}{{ partial "publication.html" . }}{{ end }}
+    {{ range $remaining }}{{ partial "publication.html" . }}{{ end }}
+    <p class="archive-link"><a href="{{ "publications/" | relURL }}">View all publications →</a></p>
   </div>
 </section>
 
@@ -51,8 +56,24 @@
   </ul></div>
 </section>
 
+<section id="service" class="editorial-section" aria-labelledby="service-heading">
+  <div class="section-label"><span class="section-number">05</span><h2 id="service-heading">Academic service</h2></div>
+  <div class="section-body">
+    {{ with .Site.Data.services.editorial }}
+    <div class="service-group"><h3>Editorial service</h3><ul class="service-list">
+      {{ range . }}<li><span class="service-years">{{ .years }}</span><div><p class="service-role">{{ .role }}</p><p>{{ .organization }}</p></div></li>{{ end }}
+    </ul></div>
+    {{ end }}
+    {{ with .Site.Data.services.committees }}
+    <div class="service-group"><h3>Program committees</h3><ul class="service-list">
+      {{ range . }}<li><span class="service-years">{{ .years }}</span><p>{{ delimit .venues "; " }}</p></li>{{ end }}
+    </ul></div>
+    {{ end }}
+  </div>
+</section>
+
 <section id="news" class="editorial-section" aria-labelledby="news-heading">
-  <div class="section-label"><span class="section-number">05</span><h2 id="news-heading">Recent news</h2></div>
+  <div class="section-label"><span class="section-number">06</span><h2 id="news-heading">Recent news</h2></div>
   <div class="section-body"><ul class="news-list">
     {{ range first 3 .Site.Data.news }}
     <li><span class="news-date">{{ .date }}</span><p>{{ .text | markdownify }}</p></li>
