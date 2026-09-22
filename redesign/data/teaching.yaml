@@ -1,0 +1,21 @@
+mentoring: >-
+  My first Ph.D. graduate, Zhenhua Zou, received
+  Tsinghua University's Outstanding Doctoral Dissertation Award in 2026.
+  He also first-authored RingSG, which received the ACM CCS 2025 Distinguished Paper Award.
+courses:
+  - years: "2023–present"
+    title: "Introduction to Cybersecurity"
+    level: "Undergraduate"
+    role: "Co-instructor"
+  - years: "2022–present"
+    title: "Applied Cryptography and Blockchain"
+    level: "Graduate"
+    role: "Primary instructor"
+  - years: "2022–present"
+    title: "Data Security"
+    level: "Graduate"
+    role: "Co-instructor"
+  - years: "2022–present"
+    title: "Advanced Internet Architecture"
+    level: "Graduate"
+    role: "Guest lecturer"

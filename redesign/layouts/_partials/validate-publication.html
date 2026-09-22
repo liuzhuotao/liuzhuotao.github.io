@@ -1,0 +1,27 @@
+{{ range slice "title" "authors" "venue" "year" }}
+  {{ if not (index $.Params .) }}{{ errorf "Publication %s is missing required field %q" $.File.Path . }}{{ end }}
+{{ end }}
+{{ if not (reflect.IsSlice .Params.authors) }}{{ errorf "Publication %s: authors must be a list of names" .File.Path }}{{ end }}
+{{ if not (findRE `^\d{4}$` (printf "%v" .Params.year)) }}{{ errorf "Publication %s: year must be a four-digit year" .File.Path }}{{ end }}
+{{ if isset .Params "selected_order" }}{{ if not (findRE `^[1-9][0-9]*$` (printf "%v" .Params.selected_order)) }}{{ errorf "Publication %s: selected_order must be a positive whole number" .File.Path }}{{ end }}{{ end }}
+{{ range slice "paper" "pdf" "code" "conference" "scholar" }}
+  {{ with index $.Params . }}{{ if not (or (hasPrefix . "https://") (and (hasPrefix . "/") (not (hasPrefix . "//")))) }}{{ errorf "Publication %s: links must use https:// or a local /path" $.File.Path }}{{ end }}{{ end }}
+{{ end }}
+{{ if isset .Params "versions" }}
+  {{ if not (reflect.IsSlice .Params.versions) }}
+    {{ errorf "Publication %s: versions must be a list of label and URL entries" .File.Path }}
+  {{ else }}
+    {{ range .Params.versions }}
+      {{ if not (reflect.IsMap .) }}
+        {{ errorf "Publication %s: each version must have a label and URL" $.File.Path }}
+      {{ else }}
+        {{ if not .label }}{{ errorf "Publication %s: each version needs a label" $.File.Path }}{{ end }}
+        {{ if not .url }}
+          {{ errorf "Publication %s: each version needs a URL" $.File.Path }}
+        {{ else if not (or (hasPrefix .url "https://") (and (hasPrefix .url "/") (not (hasPrefix .url "//")))) }}
+          {{ errorf "Publication %s: version links must use https:// or a local /path" $.File.Path }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

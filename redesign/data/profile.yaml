@@ -1,0 +1,29 @@
+name: "Zhuotao Liu"
+role: "Associate Professor"
+affiliation: "Tsinghua University"
+department: "Institute for Network Sciences and Cyberspace"
+email: "zhuotaoliu@tsinghua.edu.cn"
+scholar: "https://scholar.google.com/citations?user=F8gi4rcAAAAJ"
+github: "https://github.com/InspiringGroup-NeoLab"
+orcid: "https://orcid.org/0000-0002-7532-0434"
+portrait: "/images/portrait.jpg"
+bio: >-
+  Researcher in trustworthy AI, secure networked systems, and intelligent network
+  infrastructure. Since joining Tsinghua in 2021, Dr. Liu has built an independent research
+  program spanning trust-native AI, privacy-preserving computation, robust learning-based
+  security, programmable data planes, and secure Internet infrastructure. This work combines
+  fundamental algorithms with deployable systems and has earned three Distinguished Paper Awards
+  at USENIX Security (2023 and 2024) and ACM CCS (2025), as well as the Internet Defense Prize
+  at USENIX Security 2024. Before joining Tsinghua, he led network-infrastructure projects at
+  Google and received two Google Feats of Engineering Awards during his four years there. He
+  earned his Ph.D. in Computer Engineering from the University of Illinois Urbana-Champaign
+  (UIUC) in 2017, and part of his research there won the NSF I-Corps award.
+research:
+  - title: "Trustworthy AI & privacy"
+    description: "Secure Transformer inference, private collaborative learning, secure graph computation, and verifiable federated learning."
+  - title: "Robust learning for security"
+    description: "Traffic analysis, website fingerprinting, and routing anomaly detection that remain effective under changing conditions and adversarial manipulation."
+  - title: "Intelligent network infrastructure"
+    description: "Machine learning in programmable network devices, high-performance datacenter networks, and network lifecycle automation."
+  - title: "Deployable Internet security"
+    description: "Practical defenses for Internet routing and DDoS attacks, alongside secure network control and cross-chain interoperability."

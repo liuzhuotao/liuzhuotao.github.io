@@ -1,0 +1,7 @@
+{{ with .Params.award }}
+  {{ if reflect.IsSlice . }}
+    {{ range . }}<span class="paper-award">{{ . }}</span>{{ end }}
+  {{ else }}
+    <span class="paper-award">{{ . }}</span>
+  {{ end }}
+{{ end }}

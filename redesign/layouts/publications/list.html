@@ -1,0 +1,8 @@
+{{ define "main" }}
+{{ $papers := sort (where .RegularPages "Params.category" "ne" "patent") "Params.year" "desc" }}
+<div class="page-heading"><p class="eyebrow">Research output</p><h1>Publications</h1><p>{{ len $papers }} publications, organized by year. <a href="{{ .Site.Data.profile.scholar }}">Google Scholar ↗</a></p></div>
+{{ $years := slice }}{{ $hasEarlier := false }}{{ range $papers }}{{ if ge (int .Params.year) 2020 }}{{ $years = $years | append (printf "%v" .Params.year) }}{{ else }}{{ $hasEarlier = true }}{{ end }}{{ end }}
+<nav class="publication-years" aria-label="Publication years"><span>Jump to</span>{{ range uniq $years }}<a href="#year-{{ . }}">{{ . }}</a>{{ end }}{{ if $hasEarlier }}<a href="#year-before-2020">Before 2020</a>{{ end }}</nav>
+<p class="publication-legend">Underlined authors are members or alumni of InspiringGroup.</p>
+{{ partial "publication-groups.html" (dict "papers" $papers) }}
+{{ end }}

@@ -1,0 +1,7 @@
+{{ partial "validate-publication.html" . }}
+<article class="publication">
+  <div class="publication-meta"><span class="venue">{{ if .Params.conference }}<a href="{{ strings.TrimPrefix "/" .Params.conference | relURL }}">{{ .Params.venue }}</a>{{ else }}{{ .Params.venue }}{{ end }}</span><span>{{ .Params.year }}</span>{{ partial "paper-awards.html" . }}</div>
+  <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+  {{ partial "authors.html" . }}
+  {{ partial "paper-links.html" (dict "page" . "abstract" true) }}
+</article>

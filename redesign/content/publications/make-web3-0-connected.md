@@ -1,0 +1,13 @@
+---
+title: "Make Web3.0 Connected"
+authors: ["Zhuotao Liu","Yangxi Xiang","Jian Shi","Peng Gao","Haoyu Wang","Xusheng Xiao","Bihan Wen","Qi Li","Yih-Chun Hu"]
+venue: "IEEE TDSC"
+year: 2022
+paper: "https://ieeexplore.ieee.org/document/9428608"
+code: "https://github.com/HyperService-Consortium"
+topics: ["Web3.0 and Blockchain","Web3.0 Infra and Application","Web3 & Block Chain"]
+aliases: ["/publications/web3_and_block_chain/web3_infra_and_application/4-2-1/"]
+scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:iH-uZ7U-co4C"
+---
+
+Web3.0, often cited to drastically shape our lives, is ubiquitous. However, few literatures have discussed the crucial differentiators that separate Web3.0 from the era we are currently living in. Via a thorough analysis of the recent blockchain infrastructure evolution, we capture a key invariant featuring the evolution, based on which we provide the first academic definition for Web3.0. Our definition is not the only way of understanding Web3.0, yet, it captures the fundamental and defining trait of Web3.0, and meanwhile it is has two desirable properties. Under this definition, we articulate three key categories of infrastructural enablers for Web3.0: individual smart-contract capable blockchains, federated or centralized platforms capable of publishing verifiable states, and an interoperability platform to hyperconnect those state publishers to provide a unified and connected computing platform for Web3.0 applications. While innovations in all categories are necessary to fully enable Web3.0, in this paper, we present a design for the third enabler, i.e., the first interoperability platform, namely HyperService, that advances the state-of-the-art by simultaneously delivers interoperability and programmability across heterogeneous blockchains and state publishers. HyperService is powered by two innovative designs: (i) a developer-facing programming framework that allows developers to build cross-chain applications in a unified programming model; and (ii) a secure blockchain-facing cryptography protocol that provably realizes those applications on blockchains. We implement a prototype of HyperService in approximately 62,000 lines of code to demonstrate its practicality, usability and scalability

@@ -1,0 +1,54 @@
+name: Build personal site preview
+
+on:
+  pull_request:
+    paths:
+      - 'redesign/**'
+      - '.github/workflows/redesign-preview.yml'
+  push:
+    branches: ['codex/personal-site-preview']
+    paths:
+      - 'redesign/**'
+      - '.github/workflows/redesign-preview.yml'
+  workflow_dispatch:
+
+# This workflow only builds a downloadable artifact. It cannot publish Pages.
+permissions:
+  contents: read
+
+concurrency:
+  group: personal-site-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.152.2'
+          extended: true
+
+      - name: Check preview and editing workflow
+        working-directory: redesign
+        run: python3 scripts/check.py
+
+      - name: Build preview artifact
+        working-directory: redesign
+        run: hugo --environment preview --minify --destination public
+
+      - name: Validate preview artifact
+        working-directory: redesign
+        run: python3 scripts/check.py --output "$PWD/public" --base-url https://liuzhuotao.github.io/ --environment preview
+
+      - name: Upload preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: personal-site-preview
+          path: redesign/public
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,15 @@
+{{- $student := . -}}
+{{- $papers := slice -}}
+{{- range where .Site.RegularPages "Section" "publications" -}}
+  {{- if ne .Params.category "patent" -}}
+    {{- $paper := . -}}
+    {{- $matches := false -}}
+    {{- range $index, $author := .Params.authors -}}
+      {{- if partial "student-author-match.html" (dict "student" $student "paper" $paper "index" $index) -}}
+        {{- $matches = true -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $matches }}{{ $papers = $papers | append $paper }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (sort $papers "Params.year" "desc") -}}

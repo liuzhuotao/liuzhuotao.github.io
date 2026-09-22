@@ -1,0 +1,13 @@
+---
+title: "MM4flow: A Pre-trained Multi-modal Model for Versatile Network Traffic Analysis"
+authors: ["Luming Yang","Lin Liu","Jun-Jie Huang","Zhuotao Liu","Shiyu Liang","Shaojing Fu","Yongjun Wang"]
+venue: "ACM CCS"
+year: 2025
+paper: "https://dl.acm.org/doi/10.1145/3719027.3744804"
+conference: "https://www.sigsac.org/ccs/CCS2025/"
+topics: ["Secure Networking and Systems Infrastructure","AI-Driven Traffic Analysis","Encrypted Traffic Analysis"]
+aliases: ["/publications/secure_networking_and_systems_infrastructure/encrypted_traffic_analysis/1-2-6/"]
+scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:5ugPr518TE4C"
+---
+
+Network traffic analysis is a critical research area, playing an essential role in enhancing network security and ensuring high-quality network services. Existing methods, which primarily rely on a single modality, face two significant limitations. First, while existing approaches may achieve strong performance in specific tasks, they often lack sufficient adaptability for diverse tasks. Second, existing pre-trained models are only trained with GB-scale traffic, with which increases the risk of over-fitting and limiting the models' overall performance. To address these challenges, we propose MM4flow, a pre-trained multi-modal model designed for versatile network traffic analysis. We divide network flows into two modalities: raw byte streams and transmission patterns, which encapsulate the content and behavior information, respectively. MM4flow is composed of two key stages: uni-modal pre-training and multi-modal fine-tuning. We develop an efficient data collection scheme enabling TB-scale traffic pre-training. Leveraging a real-world traffic that exceeds 70 TB, MM4flow conducts uni-modal pre-training on each modality with a modified BERT architecture tailored for network flows. For specific downstream tasks, we introduce a modal fusion module based on cross-attention mechanisms. The fusion module facilitates effective integration of multi-modal information, enabling MM4flow to fully utilize both content and behavior cues during fine-tuning with minimal labeled dataset. We evaluate MM4flow on six public datasets covering six various tasks. Extensive experiments demonstrate that MM4flow achieves superior accuracy than baselines. Especially, compared to existing pre-trained models, MM4flow achieves an 84% improvement in accuracy for website identification under encrypted tunnels. Moreover, the pre-trained MM4flow significantly reduces the reliance on high-quality labeled training data for downstream tasks.

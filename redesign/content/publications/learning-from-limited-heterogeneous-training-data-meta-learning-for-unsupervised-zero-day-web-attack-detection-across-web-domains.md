@@ -1,0 +1,13 @@
+---
+title: "Learning from Limited Heterogeneous Training Data: Meta-Learning for Unsupervised Zero-day Web Attack Detection across  Web Domains"
+authors: ["Peiyang Li","Ye Wang","Qi Li","Zhuotao Liu","Ke Xu","Ju Ren","Zhiying Liu","Ruilin Lin"]
+venue: "ACM CCS"
+year: 2023
+paper: "https://dl.acm.org/doi/abs/10.1145/3576915.3623123"
+conference: "https://www.sigsac.org/ccs/CCS2023/"
+topics: ["Secure Networking and Systems Infrastructure","AI-Driven Traffic Analysis","Encrypted Traffic Analysis"]
+aliases: ["/publications/secure_networking_and_systems_infrastructure/encrypted_traffic_analysis/1-2-2/"]
+scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:zA6iFVUQeVQC"
+---
+
+Recently unsupervised machine learning based systems have been developed to detect zero-day Web attacks, which can effectively enhance existing Web Application Firewalls (WAFs). However, prior arts only consider detecting attacks on specific domains by training particular detection models for the domains. These systems require a large amount of training data, which causes a long period of time for model training and deployment. In this paper, we propose RETSINA, a novel meta-learning based framework that enables zero-day Web attack detection across different domains in an organization with limited training data. Specifically, it utilizes meta-learning to share knowledge across these domains, e.g., the relationship between HTTP requests in heterogeneous domains, to efficiently train detection models. Moreover, we develop an adaptive preprocessing module to facilitate semantic analysis of Web requests across different domains and design a multi-domain representation method to capture semantic correlations between different domains for cross-domain model training. We conduct experiments using four real-world datasets on different domains with a total of 293M Web requests. The experimental results demonstrate that RETSINA outperforms the existing unsupervised Web attack detection methods with limited training data, e.g., RETSINA needs only 5-minute training data to achieve comparable detection performance to the existing methods that train separate models for different domains using 1-day training data. We also conduct real-world deployment in an Internet company. RETSINA captures on average 126 and 218 zero-day attack requests per day in two domains, respectively, in one month.

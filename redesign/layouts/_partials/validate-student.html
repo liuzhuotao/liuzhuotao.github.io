@@ -1,0 +1,15 @@
+{{- range slice "title" "group" -}}
+  {{- if not (index $.Params .) }}{{ errorf "Student %s is missing required field %q" $.File.Path . }}{{ end -}}
+{{- end -}}
+{{- if not (in (slice "postdoc" "phd" "master" "alumni") .Params.group) -}}
+  {{- errorf "Student %s: group must be postdoc, phd, master, or alumni" .File.Path -}}
+{{- end -}}
+{{- with .Params.since }}{{ if not (findRE `^\d{4}$` (printf "%v" .)) }}{{ errorf "Student %s: since must be a four-digit enrollment year" $.File.Path }}{{ end }}{{ end -}}
+{{- range slice "interests" "author_names" -}}
+  {{- $field := . -}}
+  {{- with index $.Params . }}{{ if not (reflect.IsSlice .) }}{{ errorf "Student %s: %s must be a list" $.File.Path $field }}{{ end }}{{ end -}}
+{{- end -}}
+{{- with .Params.match }}{{ if ne . "marked" }}{{ errorf "Student %s: match must be marked when supplied" $.File.Path }}{{ end }}{{ end -}}
+{{- range slice "homepage" "github" "scholar" "orcid" -}}
+  {{- with index $.Params . }}{{ if not (hasPrefix . "https://") }}{{ errorf "Student %s: profile links must use https://" $.File.Path }}{{ end }}{{ end -}}
+{{- end -}}

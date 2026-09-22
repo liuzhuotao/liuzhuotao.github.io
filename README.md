@@ -1,6 +1,16 @@
-# InspiringGroup 网站维护
+# Zhuotao Liu's personal research website
 
-论文新增、BibTeX 导入和本地链接检查见 [论文维护说明](docs/publications.md)。
+Live site: [liuzhuotao.github.io](https://liuzhuotao.github.io/).
+
+For publications, homepage selections, students, news, and other updates, use
+the [website editing guide](redesign/README.md). The production source is
+[`redesign/`](redesign/); the content and templates elsewhere in this repository
+are legacy files and are not used for deployment.
+
+The original theme README below is retained for reference. Its setup and
+publishing instructions do not apply to the current website.
+
+---
 
 # [The Academic CV That Gets You Hired](https://github.com/HugoBlox/theme-academic-cv)
 

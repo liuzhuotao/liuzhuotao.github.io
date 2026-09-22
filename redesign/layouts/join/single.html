@@ -1,0 +1,21 @@
+{{ define "main" }}
+<header class="page-heading">
+  <p class="eyebrow">InspiringGroup</p>
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Description }}</p>
+</header>
+<section class="editorial-section" aria-labelledby="join-heading">
+  <div class="section-label">
+    <h2 id="join-heading">Research with us</h2>
+    <a class="section-link" href="{{ .Site.Home.RelPermalink }}#research">Research interests →</a>
+    <a class="section-link" href="{{ "students/" | relURL }}">Meet our students →</a>
+  </div>
+  <div class="section-body">
+    <div class="prose join-prose">{{ .Content }}</div>
+    <div class="contact-note join-contact">
+      <p>Contact {{ .Site.Data.profile.name }}</p>
+      <a href="mailto:{{ .Site.Data.profile.email }}">{{ .Site.Data.profile.email }}</a>
+    </div>
+  </div>
+</section>
+{{ end }}
