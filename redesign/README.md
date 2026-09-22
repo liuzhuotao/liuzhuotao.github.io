@@ -8,7 +8,7 @@ installation, or Hugo modules are needed. The old content and templates outside
 
 The website includes the personal homepage, selected publications, a complete
 publication list grouped by year, awards, academic service, teaching, news, students, and
-Join us. The selected
+Join Us. The selected
 and complete publication lists use the **same short text files**. Existing
 publication and student URLs redirect to their migrated detail pages. Students
 have text profiles linked to their papers, without individual portraits.
@@ -80,8 +80,8 @@ year: 2026
 ---
 ```
 
-Save the file and Hugo adds it to **All publications**, grouped by year with
-newer years first. Papers before 2020 share one **Before 2020** section, with each
+Save the file and Hugo adds it to **All Publications**, grouped by year with
+newer years first. Papers before 2021 (2020 and earlier) share one **Before 2021** section, with each
 paper's year still visible. Author order is preserved, and the name matching
 `data/profile.yaml` is highlighted automatically. There is no mandatory
 abstract or publication form.
@@ -229,7 +229,7 @@ Set its title to the student's full name and remove `draft: true` when ready.
 The build checks the required name/group, supported groups, enrollment year,
 lists, and profile link formats.
 
-## Edit Join us
+## Edit Join Us
 
 Edit [`redesign/content/join/index.md`](https://github.com/liuzhuotao/liuzhuotao.github.io/blob/main/redesign/content/join/index.md).
 Its headings and paragraphs are ordinary
@@ -299,7 +299,7 @@ requires text for every entry.
 Replace the portrait in `redesign/static/images/portrait.jpg`, or change the
 `portrait` path in `data/profile.yaml`. The image is cropped to a circle by CSS;
 the original image file stays intact. Navigation links to the local Students
-and Join us pages.
+and Join Us pages.
 
 ## Colors and publication text size
 

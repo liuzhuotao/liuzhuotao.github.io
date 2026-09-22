@@ -28,6 +28,7 @@ class Page(HTMLParser):
         self.redirects = []
         self.article = None
         self.news_items, self.news_item = [], None
+        self.section_stack, self.publication_groups = [], {}
         self.feed(path.read_text(encoding="utf-8"))
         self.text = "".join(self.parts)
 
@@ -56,6 +57,8 @@ class Page(HTMLParser):
             self.anchor = [attrs, []]
         if tag == "img":
             self.images.append(attrs)
+        if tag == "section":
+            self.section_stack.append(attrs.get("aria-labelledby", ""))
         if tag == "article" and "publication" in attrs.get("class", "").split():
             self.article = []
         if tag == "time" and "news-date" in attrs.get("class", "").split():
@@ -66,8 +69,13 @@ class Page(HTMLParser):
             self.links.append((self.anchor[0], "".join(self.anchor[1])))
             self.anchor = None
         if tag == "article" and self.article is not None:
-            self.articles.append("".join(self.article))
+            article = "".join(self.article)
+            self.articles.append(article)
+            if self.section_stack:
+                self.publication_groups.setdefault(self.section_stack[-1], []).append(article)
             self.article = None
+        if tag == "section" and self.section_stack:
+            self.section_stack.pop()
         if tag == "li" and self.news_item is not None:
             self.news_items.append((self.news_item[0], normalized_text("".join(self.news_item[1]))))
             self.news_item = None
@@ -198,8 +206,8 @@ def check_initial(output, papers):
     years = [int(identifier.removeprefix("year-")) for identifier in listing.id_order
              if re.fullmatch(r"year-\d{4}", identifier)]
     require(years and years == sorted(set(years), reverse=True), "Year groups are not descending")
-    require(all(year >= 2020 for year in years), "Pre-2020 papers still have individual year groups")
-    require("year-before-2020" in listing.ids, "The combined Before 2020 group is missing")
+    require(all(year >= 2021 for year in years), "Pre-2021 papers still have individual year groups")
+    require("year-before-2021" in listing.ids, "The combined Before 2021 group is missing")
     require("patents" not in listing.ids and not any(ref.endswith("#patents") for ref in listing.refs),
             "A patent section or navigation link remains on the publication listing")
     require("patents or applications" not in listing.text,
@@ -420,14 +428,47 @@ def main():
             require(article_index(listing, title) == 0 and article_index(listing, older_title) > 0,
                     "Legacy selection metadata changed the complete list's year order")
             listing_html = (output / "publications/index.html").read_text(encoding="utf-8")
-            require(older_title in listing_html.split('id="year-before-2020"', 1)[1]
+            require(older_title in listing_html.split('id="year-before-2021"', 1)[1]
                     and 'id="year-1999"' not in listing_html and '#year-1999' not in listing_html,
-                    "An older paper did not join the single Before 2020 group")
+                    "An older paper did not join the single Before 2021 group")
             alias = Page(output / "publications/legacy-check/index.html")
             require(alias.redirects == [urljoin(base, "publications/selection-order-check/")],
                     "A legacy publication URL does not redirect to the new detail page")
             check_links(output, base)
         print("PASS: selected papers ignore legacy manual order, both lists stay newest first, and old URLs redirect")
+
+        boundary_student = source / "content/students/boundary-author.md"
+        boundary_student.write_text('---\ntitle: "Boundary Author"\ngroup: master\n---\n', encoding="utf-8")
+        boundary_entries = []
+        for year in (2020, 2021):
+            boundary_title = f"Regression fixture: publication grouping boundary {year}"
+            boundary_entry = source / f"content/publications/boundary-{year}.md"
+            boundary_entry.write_text(minimal.replace(title, boundary_title)
+                                      .replace("First Author", "Boundary Author")
+                                      .replace("year: 2999", f"year: {year}"), encoding="utf-8")
+            boundary_entries.append((boundary_entry, boundary_title))
+        for name, base in (("boundary", "https://preview.invalid/"),
+                           ("boundary-prefix", "https://preview.invalid/preview/")):
+            output = scratch / name
+            build(hugo, source, output, base)
+            for relative in ("publications/index.html", "students/boundary-author/index.html"):
+                page = Page(output / relative)
+                old_group = page.publication_groups.get("year-before-2021", [])
+                recent_group = page.publication_groups.get("year-2021", [])
+                require(any(boundary_entries[0][1] in article for article in old_group)
+                        and not any(boundary_entries[1][1] in article for article in old_group),
+                        f"{relative}: the combined earlier group must include 2020 but exclude 2021")
+                require(any(boundary_entries[1][1] in article for article in recent_group)
+                        and not any(boundary_entries[0][1] in article for article in recent_group),
+                        f"{relative}: 2021 must retain its separate year group")
+                require("year-2020" not in page.ids
+                        and not any(ref.endswith("#year-2020") for ref in page.refs),
+                        f"{relative}: 2020 still has its own year section or navigation item")
+            check_links(output, base)
+        for boundary_entry, _ in boundary_entries:
+            boundary_entry.unlink()
+        boundary_student.unlink()
+        print("PASS: 2020 joins the earlier group and 2021 stays separate in full and student lists at root and prefix URLs")
 
         news = source / "data/news.yaml"
         original_news = news.read_text(encoding="utf-8")
@@ -492,7 +533,7 @@ def main():
         require("service" in home.ids, "Academic service is missing its navigation anchor")
         for value in ("Editorial service", "Program committees", "2028–present", "Fixture Editor",
                       "Fixture Research Journal", "2029", "Fixture Conference A", "Fixture Conference B"):
-            require(value in home.text, f"A service data edit did not render: {value}")
+            require(value.casefold() in home.text.casefold(), f"A service data edit did not render: {value}")
         check_links(output, base)
         print("PASS: editorial and committee service can be edited in one data file")
 
@@ -530,7 +571,7 @@ def main():
         require("Fixture Postdoc" in student_group_names(output, "postdoc"),
                 "The postdoc group did not accept a new member")
         postdoc = Page(output / "students/fixture-postdoc/index.html")
-        require("Postdoctoral researcher" in postdoc.text and "3002" in postdoc.text,
+        require("postdoctoral researcher" in postdoc.text.casefold() and "3002" in postdoc.text,
                 "A postdoc profile lost its role or enrollment year")
         check_links(output, base)
         print("PASS: enrollment order, alphabetical ties, missing years, and the postdoc group")

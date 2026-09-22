@@ -1,7 +1,7 @@
 {{ $papers := sort .papers "Params.year" "desc" }}
 {{ $years := slice }}{{ $earlier := slice }}
 {{ range $papers }}
-  {{ if ge (int .Params.year) 2020 }}{{ $years = $years | append (printf "%v" .Params.year) }}{{ else }}{{ $earlier = $earlier | append . }}{{ end }}
+  {{ if ge (int .Params.year) 2021 }}{{ $years = $years | append (printf "%v" .Params.year) }}{{ else }}{{ $earlier = $earlier | append . }}{{ end }}
 {{ end }}
 {{ range $index, $year := uniq $years }}
   <section class="editorial-section year-section {{ cond (eq (mod $index 2) 0) "tone-teal" "tone-navy" }}" aria-labelledby="year-{{ $year }}">
@@ -10,8 +10,8 @@
   </section>
 {{ end }}
 {{ with $earlier }}
-  <section class="editorial-section year-section earlier-publications {{ cond (eq (mod (len (uniq $years)) 2) 0) "tone-teal" "tone-navy" }}" aria-labelledby="year-before-2020">
-    <div class="section-label"><h2 id="year-before-2020">Before 2020</h2></div>
+  <section class="editorial-section year-section earlier-publications {{ cond (eq (mod (len (uniq $years)) 2) 0) "tone-teal" "tone-navy" }}" aria-labelledby="year-before-2021">
+    <div class="section-label"><h2 id="year-before-2021"><span id="year-before-2020" aria-hidden="true"></span>Before 2021</h2></div>
     <div class="section-body">{{ range . }}{{ partial "publication.html" . }}{{ end }}</div>
   </section>
 {{ end }}
