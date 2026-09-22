@@ -28,7 +28,7 @@
   </div>
   {{ partial "functions/render_view" (dict "fragment" "start" "page" $block "item" . "view" $view "config" $config) }}
 
-  {{ range $index, $item := sort $allpubs ".Params.year" "desc" }}
+  {{ range $index, $item := $allpubs.ByDate.Reverse }}
   {{ partial "functions/render_view" (dict "page" . "item" . "view" $view "index" $index "config" $config) }}
   {{end}}
 
