@@ -1,5 +1,7 @@
 # Edit this one list for both the homepage and the complete news archive.
 # Dates use YYYY-MM. Newest entries are shown first automatically; ties keep file order.
+- date: "2026-09"
+  text: "Two papers are accepted by NDSS 2027. One paper addresses the incremental learning problem in network traffic analysis, and the other paper addresses secure LLM inferences via function secret sharing."
 - date: "2026-08"
   text: "Our work on trust-native AI inference infrastructure using legacy GPUs was accepted to ACM CCS 2026."
 - date: "2026-05"
