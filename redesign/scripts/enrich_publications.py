@@ -24,6 +24,7 @@ from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 
 import yaml
+from publication_files import validate_publication_files
 
 
 def normalize(text):
@@ -356,6 +357,7 @@ def eligible(publication):
 
 
 def run(directory, client, write=False, limit=None):
+    validate_publication_files(directory)
     publications = [load_publication(p) for p in sorted(directory.glob('*.md')) if not p.name.startswith('_')]
     publications = sorted((p for p in publications if eligible(p)), key=lambda p: (-p.metadata['year'], p.path.name))
     if limit is not None:
