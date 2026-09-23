@@ -10,4 +10,6 @@ scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4r
 # Metadata source: https://doi.org/10.14722/ndss.2026.231029
 paper: "https://doi.org/10.14722/ndss.2026.231029"
 auto_enrich: true
+# Metadata source: https://openalex.org/W7160993741
+pdf: "https://doi.org/10.14722/ndss.2026.231029"
 ---
