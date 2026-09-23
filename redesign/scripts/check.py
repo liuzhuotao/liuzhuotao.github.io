@@ -13,6 +13,8 @@ import tempfile
 from urllib.parse import unquote, urljoin, urlsplit
 import xml.etree.ElementTree as ET
 
+from publication_files import validate_publication_files
+
 
 RINGSG_TITLE = "RingSG: Optimal Secure Vertex-Centric Computation for Collaborative Graph Processing"
 
@@ -168,6 +170,7 @@ def check_indexing(output, base, environment):
 
 
 def published_papers(hugo, source):
+    validate_publication_files(source / "content/publications")
     result = subprocess.run(
         [hugo, "list", "published", "--source", str(source), "--noBuildLock", "--renderToMemory"],
         text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60,

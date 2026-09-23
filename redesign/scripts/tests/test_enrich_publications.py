@@ -11,6 +11,7 @@ import unittest
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "enrich_publications.py"
+sys.path.insert(0, str(SCRIPT.parent))
 SPEC = importlib.util.spec_from_file_location("enrich_publications", SCRIPT)
 enrich = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = enrich

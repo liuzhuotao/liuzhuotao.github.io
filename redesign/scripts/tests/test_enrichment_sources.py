@@ -12,6 +12,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "enrich_publications.py"
+sys.path.insert(0, str(SCRIPT.parent))
 SPEC = importlib.util.spec_from_file_location("enrichment_sources_under_test", SCRIPT)
 enrich = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = enrich

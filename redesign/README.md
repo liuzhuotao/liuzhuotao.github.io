@@ -72,6 +72,11 @@ Locally, save the file and Hugo reloads automatically.
 Create a Markdown file such as `redesign/content/publications/my-paper.md`.
 Only four fields are required:
 
+In GitHub's **Name your file** box, use a short filename ending in **`.md`**
+(for example, `trafficflex.md`). Put the full paper title in the `title:` field
+inside the file. Copy the entire example, including both **`---`** lines; those
+lines mark the start and end of the publication metadata.
+
 ```yaml
 ---
 title: "My paper title"
