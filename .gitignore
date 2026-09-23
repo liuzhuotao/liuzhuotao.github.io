@@ -28,6 +28,10 @@ hugo_stats.json
 # Dependencies
 node_modules/
 
+# Python enrichment/test caches
+__pycache__/
+*.pyc
+
 # ============================================================================
 # Environment & Configuration
 # ============================================================================

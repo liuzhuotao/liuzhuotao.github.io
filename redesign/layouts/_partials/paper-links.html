@@ -1,5 +1,5 @@
 <div class="paper-links">
-  {{ range $field := slice "paper" "pdf" "code" }}
+  {{ range $field := slice "paper" "pdf" "preprint" "code" }}
   {{ with index $.page.Params $field }}
     {{ $url := . }}{{ if hasPrefix $url "/" }}{{ $url = strings.TrimPrefix "/" $url | relURL }}{{ end }}
     <a href="{{ $url }}">{{ if eq $field "pdf" }}PDF{{ else if and (eq $field "paper") (eq $.page.Params.category "patent") }}Patent{{ else }}{{ title $field }}{{ end }} ↗</a>

@@ -1,0 +1,153 @@
+name: Enrich publication details
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+  push:
+    branches: ['main']
+    paths:
+      - 'redesign/content/publications/**'
+      - 'redesign/scripts/enrich_publications.py'
+      - 'redesign/scripts/requirements-enrichment.txt'
+      - 'redesign/scripts/tests/**'
+      - '.github/workflows/enrich-publications.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: enrich-publications-main
+  cancel-in-progress: false
+
+env:
+  HUGO_VERSION: '0.152.2'
+  SITE_URL: 'https://liuzhuotao.github.io/'
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  enrich:
+    if: github.ref == 'refs/heads/main' && github.repository == 'liuzhuotao/liuzhuotao.github.io'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Record the starting revision
+        id: start
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: redesign/scripts/requirements-enrichment.txt
+
+      - name: Install enrichment dependencies
+        run: python3 -m pip install -r redesign/scripts/requirements-enrichment.txt
+
+      - name: Test publication enrichment
+        run: python3 -m unittest discover -s redesign/scripts/tests
+
+      - name: Fill missing publication details
+        run: python3 redesign/scripts/enrich_publications.py --write --report "$RUNNER_TEMP/publication-enrichment-report.json"
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Check content and editing workflow
+        run: python3 redesign/scripts/check.py
+
+      - name: Build production website
+        run: hugo --source redesign --environment production --minify --baseURL "$SITE_URL" --destination public
+
+      - name: Validate the production artifact
+        run: python3 redesign/scripts/check.py --output "$GITHUB_WORKSPACE/redesign/public" --base-url "$SITE_URL" --environment production
+
+      - name: Commit and push only the checked publication changes
+        id: publish
+        env:
+          BASE_SHA: ${{ steps.start.outputs.sha }}
+        run: |
+          set -euo pipefail
+          remote_sha=$(git ls-remote origin refs/heads/main | cut -f1)
+          if [ "$remote_sha" != "$BASE_SHA" ]; then
+            echo "::error::main changed during enrichment. Nothing was pushed; rerun against the updated branch."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import subprocess
+          changed = subprocess.check_output(['git', 'diff', '--name-only', '-z']).decode().split('\0')
+          unexpected = [path for path in changed if path and not (path.startswith('redesign/content/publications/') and path.endswith('.md'))]
+          if unexpected:
+              raise SystemExit('Refusing to commit changes outside publication Markdown files: ' + ', '.join(unexpected))
+          PY
+          git add --update -- redesign/content/publications
+          if git diff --cached --quiet; then
+            echo "No publication files changed."
+          else
+            git diff --cached --check
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m "Fill missing publication details"
+            # A concurrent push is rejected; never force-push or rebase a checked build.
+            git push origin HEAD:refs/heads/main
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure the checked revision is deployed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUBLISH_SHA: ${{ steps.publish.outputs.sha }}
+        run: |
+          set -euo pipefail
+          remote_sha=$(git ls-remote origin refs/heads/main | cut -f1)
+          if [ "$remote_sha" != "$PUBLISH_SHA" ]; then
+            echo "::error::main changed before deployment dispatch. The newer revision must pass its own build."
+            exit 1
+          fi
+          # GITHUB_TOKEN pushes do not trigger the normal push deployment. Query
+          # even on no-change runs, so a previous dispatch/deploy failure is retried.
+          gh api --method GET "repos/$GITHUB_REPOSITORY/actions/workflows/deploy.yml/runs" \
+            -f head_sha="$PUBLISH_SHA" -f branch=main -f per_page=100 \
+            > "$RUNNER_TEMP/publication-deployment-runs.json"
+          deploy_needed=$(python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          runs = json.loads((Path(os.environ['RUNNER_TEMP']) / 'publication-deployment-runs.json').read_text())['workflow_runs']
+          covered = any(
+              run['head_sha'] == os.environ['PUBLISH_SHA']
+              and run['head_branch'] == 'main'
+              and run['event'] in ('push', 'workflow_dispatch')
+              and (run['conclusion'] == 'success' or run['status'] != 'completed')
+              for run in runs
+          )
+          print('false' if covered else 'true')
+          PY
+          )
+          if [ "$deploy_needed" = true ]; then
+            gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref main -f expected_sha="$PUBLISH_SHA"
+            echo "Requested checked production deployment for $PUBLISH_SHA." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Production deployment is already successful or active for $PUBLISH_SHA." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Save enrichment report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publication-enrichment-report
+          path: ${{ runner.temp }}/publication-enrichment-report.json
+          if-no-files-found: ignore
+          retention-days: 30

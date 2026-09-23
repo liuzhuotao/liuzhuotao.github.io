@@ -2,8 +2,9 @@
 
 The live website is [liuzhuotao.github.io](https://liuzhuotao.github.io/).
 Its source is the [`redesign/` directory on `main`](https://github.com/liuzhuotao/liuzhuotao.github.io/tree/main/redesign).
-It uses Hugo **0.152.2** with local templates and CSS; no theme, Node.js, package
-installation, or Hugo modules are needed. The old content and templates outside
+It uses Hugo **0.152.2** with local templates and CSS; no theme, Node.js, or Hugo
+modules are needed. Building locally only requires Hugo; the optional publication
+updater and its CI tests use Python 3.12 and PyYAML. The old content and templates outside
 `redesign/` are retained for reference and are not used for deployment.
 
 The website includes the personal homepage, selected publications, a complete
@@ -86,6 +87,57 @@ paper's year still visible. Author order is preserved, and the name matching
 `data/profile.yaml` is highlighted automatically. There is no mandatory
 abstract or publication form.
 
+### Newly accepted papers: add once, details follow automatically
+
+The same four-field entry above is enough. The
+[publication updater](https://github.com/liuzhuotao/liuzhuotao.github.io/actions/workflows/enrich-publications.yml)
+runs when publication files change and daily at **11:17 a.m. China time** (GitHub
+may delay scheduled runs). It checks Crossref, OpenAlex, and arXiv for the missing details.
+You do not need to return to the file when the abstract or links become available.
+
+- An automatic match requires an exact normalized title, the same full author
+  names, a nearby publication year, and one unambiguous result per source.
+- It adds a publisher/DOI **Paper** link, a deposited **PDF** link if available,
+  an **Abstract**, and/or a clearly labeled **Preprint** link to arXiv.
+- Existing fields, abstracts, authors, venue, year, selection, and aliases are
+  preserved. Even an explicitly empty link field is left alone; remove the key
+  entirely to allow automatic filling. Source comments record where additions came from.
+- Minimal entries are picked up automatically. Once details start arriving, the
+  updater adds `auto_enrich: true` to keep checking for remaining links. Set
+  `auto_enrich: false` to stop updates for that paper. You can also set it to
+  `true` on an older entry that already has an abstract and Paper link but needs
+  a PDF or preprint link. An available preprint does not stop it from looking for
+  a publisher PDF later.
+- Papers with unavailable or ambiguous metadata stay as they are and are tried
+  again. Code links, acceptance announcements, and revised titles/author lists
+  are not inferred. arXiv provides a preprint, not confirmation of acceptance.
+- Updates are committed and published automatically **only after the enrichment
+  tests, full site checks, production build, and output validation pass**.
+  Concurrent changes on GitHub cause the updater to stop rather than overwrite
+  your edits. The next run retries against the current files.
+
+To run it immediately, open the updater's **Actions** page above and choose
+**Run workflow** on `main`. Each run saves a JSON report under its artifacts with
+changed files, sources, pending files, and temporary source errors. No API keys
+or additional accounts are needed. Normal website builds do not query these sources.
+
+GitHub can disable schedules in a public repository after 60 days without
+repository activity. If updates stop, open the workflow in Actions and re-enable
+it. See [GitHub's scheduled workflow documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
+
+For a local, non-writing sample:
+
+```sh
+python3 -m pip install -r redesign/scripts/requirements-enrichment.txt
+python3 redesign/scripts/enrich_publications.py --limit 2
+```
+
+Without `--write`, the script only reports potential changes. Remove `--limit`
+and add `--write` to apply available details locally. Source API documentation:
+[Crossref](https://www.crossref.org/documentation/retrieve-metadata/rest-api/),
+[OpenAlex](https://help.openalex.org/api/authentication/),
+and [arXiv](https://info.arxiv.org/help/api/user-manual.html).
+
 ### Choose and order selected publications
 
 Add one line to a paper's existing entry, before the closing `---`, to also show
@@ -111,6 +163,7 @@ Add any of these optional fields before the closing `---` when useful:
 ```yaml
 paper: "https://example.org/paper"
 pdf: "https://example.org/paper.pdf"
+preprint: "https://arxiv.org/abs/2601.01234"
 code: "https://github.com/example/project"
 conference: "https://example.org/conference"
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=PROFILE&citation_for_view=RECORD"
@@ -124,7 +177,7 @@ equal_contribution: ["First Author", "Second Author"]
 - `scholar` is optional source metadata. It is retained for reference but does
   not display a link beside each paper. The profile and publication-list header
   retain the main Google Scholar link.
-- Paper, PDF, code, conference, and Scholar links accept `https://` URLs or local paths beginning
+- Paper, PDF, preprint, code, conference, and Scholar links accept `https://` URLs or local paths beginning
   with `/`. Local files belong in `redesign/static/`; for example,
   `redesign/static/papers/my-paper.pdf` is linked as `/papers/my-paper.pdf`.
 - Write an optional abstract as ordinary Markdown after the closing `---`.
