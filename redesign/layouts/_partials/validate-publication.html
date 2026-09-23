@@ -3,8 +3,11 @@
 {{ end }}
 {{ if not (reflect.IsSlice .Params.authors) }}{{ errorf "Publication %s: authors must be a list of names" .File.Path }}{{ end }}
 {{ if not (findRE `^\d{4}$` (printf "%v" .Params.year)) }}{{ errorf "Publication %s: year must be a four-digit year" .File.Path }}{{ end }}
-{{ range slice "paper" "pdf" "code" "conference" "scholar" }}
+{{ range slice "paper" "pdf" "preprint" "code" "conference" "scholar" }}
   {{ with index $.Params . }}{{ if not (or (hasPrefix . "https://") (and (hasPrefix . "/") (not (hasPrefix . "//")))) }}{{ errorf "Publication %s: links must use https:// or a local /path" $.File.Path }}{{ end }}{{ end }}
+{{ end }}
+{{ if isset .Params "auto_enrich" }}
+  {{ if ne (printf "%T" .Params.auto_enrich) "bool" }}{{ errorf "Publication %s: auto_enrich must be true or false" .File.Path }}{{ end }}
 {{ end }}
 {{ if isset .Params "versions" }}
   {{ if not (reflect.IsSlice .Params.versions) }}

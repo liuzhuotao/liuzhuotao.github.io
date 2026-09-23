@@ -352,6 +352,21 @@ def main():
         check_links(output, base)
         print("PASS: four-field paper builds, sorts first, and needs no optional metadata")
 
+        write_paper(entry, minimal, 'preprint: "https://arxiv.org/abs/2601.01234"\nauto_enrich: true\n')
+        output = scratch / "enriched-links"
+        build(hugo, source, output, base)
+        for relative in ("publications/index.html", "publications/four-field-check/index.html"):
+            page = Page(output / relative)
+            require(any(attrs.get("href") == "https://arxiv.org/abs/2601.01234" and "Preprint" in text
+                        for attrs, text in page.links), "The preprint is missing or not labeled as a preprint")
+        write_paper(entry, minimal, 'auto_enrich: "false"\n')
+        invalid = build(hugo, source, scratch / "invalid-auto-enrich", base, expect_success=False)
+        require(invalid.returncode != 0 and "auto_enrich must be true or false" in invalid.stdout
+                and "four-field-check.md" in invalid.stdout,
+                "A quoted enrichment setting does not report its filename and expected type")
+        entry.write_text(minimal, encoding="utf-8")
+        print("PASS: enrichment preprints are labeled and the per-paper setting requires a boolean")
+
         write_paper(entry, minimal, "selected: true\n")
         output = scratch / "selected"
         build(hugo, source, output, base)

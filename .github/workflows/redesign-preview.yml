@@ -5,6 +5,7 @@ on:
     paths:
       - 'redesign/**'
       - '.github/workflows/redesign-preview.yml'
+      - '.github/workflows/enrich-publications.yml'
   push:
     branches: ['codex/personal-site-preview']
     paths:
@@ -26,6 +27,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: redesign/scripts/requirements-enrichment.txt
+
+      - name: Install enrichment test dependencies
+        run: python3 -m pip install -r redesign/scripts/requirements-enrichment.txt
+
+      - name: Test publication enrichment
+        run: python3 -m unittest discover -s redesign/scripts/tests
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
