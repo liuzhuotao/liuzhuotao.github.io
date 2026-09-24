@@ -594,7 +594,14 @@ def main():
         check_links(output, base)
         print("PASS: enrollment order, alphabetical ties, missing years, and the postdoc group")
 
-        write_paper(entry, minimal.replace("First Author", student_name))
+        paper_awards = ("Fixture Distinguished Paper Award", "Fixture Research Prize")
+        author_metadata = (
+            f'corresponding: ["{student_name}", "Zhuotao Liu"]\n'
+            f'equal_contribution: ["{student_name}"]\n'
+            f'award: ["{paper_awards[0]}", "{paper_awards[1]}"]\n'
+            'selected: true\n'
+        )
+        write_paper(entry, minimal.replace("First Author", student_name), author_metadata)
         output = scratch / "student-paper"
         build(hugo, source, output, base)
         profile = Page(output / "students/fixture-student/index.html")
@@ -608,8 +615,30 @@ def main():
         require(any(text == student_name and attrs.get("href") == "/students/fixture-student/#publications"
                     for attrs, text in detail.links),
                 "The publication author does not link to the student's papers")
+        for relative in ("index.html", "publications/index.html", "students/fixture-student/index.html",
+                         "publications/four-field-check/index.html"):
+            page = Page(output / relative)
+            if relative == "publications/four-field-check/index.html":
+                paper_text = normalized_text(page.text)
+            else:
+                paper_index = article_index(page, title)
+                require(paper_index is not None, f"The author/award fixture is missing from {relative}")
+                paper_text = normalized_text(page.articles[paper_index])
+            require(re.search(re.escape(student_name) + r"\s*†\s*\*", paper_text)
+                    and re.search(r"Zhuotao Liu\s*†", paper_text),
+                    f"{relative}: multiple corresponding authors or overlapping equal contribution lost a marker")
+            require("† Corresponding authors" in paper_text and "* Equal contribution" in paper_text,
+                    f"{relative}: corresponding-author or equal-contribution explanations are missing")
+            for award in paper_awards:
+                require(paper_text.count(award) == 1, f"{relative}: paper award was lost or duplicated: {award}")
+            student_links = [(attrs, text) for attrs, text in page.links
+                             if "student-author" in attrs.get("class", "").split()
+                             and attrs.get("href") == "/students/fixture-student/#publications"]
+            require(len(student_links) == 1 and student_links[0][1] == student_name,
+                    f"{relative}: corresponding-author emphasis changed the student link or included its markers")
         check_links(output, base)
         print("PASS: two-field students, automatic paper lists, and conditional Publications links")
+        print("PASS: multiple corresponding authors, shared contribution markers, and two awards retain student links on all paper views")
 
         student.write_text(
             student_minimal.replace("group: master", 'group: alumni\nauthor_names: ["Fixture Author"]\n'
