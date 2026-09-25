@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{ partial "validate-publication.html" . }}
 <div class="paper-page tone-navy"><a class="back-link" href="{{ "publications/" | relURL }}">← All publications</a>
-  <header class="paper-header"><p class="eyebrow">{{ .Params.venue }} <span aria-hidden="true">/</span> {{ .Params.year }}</p><h1>{{ .Title }}</h1></header>
+  <header class="paper-header"><p class="publication-venue"><span class="venue">{{ .Params.venue }}</span> <span class="publication-year">{{ .Params.year }}</span></p><h1>{{ .Title }}</h1></header>
   <div class="paper-detail"><div class="publication">{{ if .Params.award }}<p class="detail-award">{{ partial "paper-awards.html" . }}</p>{{ end }}{{ partial "authors.html" . }}{{ partial "paper-links.html" (dict "page" . "abstract" false) }}</div>{{ if .Content }}<section class="prose abstract tone-teal" aria-labelledby="abstract-heading"><h2 id="abstract-heading">Abstract</h2>{{ .Content }}</section>{{ end }}</div>
 </div>
 {{ end }}

@@ -371,6 +371,12 @@ Publication rows use 22px titles and 17px author names on desktop, and 20px
 and 16px on smaller screens. The same styles apply to selected publications,
 the complete list, and students' paper lists.
 
+Venue names and years use 18px text (17px on smaller screens). Paper awards
+appear as bold gold badges, and corresponding-author names and their dagger
+markers use bold text in the section's accent color, with a readable explanation
+below the authors. These styles also apply to individual paper pages. Continue
+using the existing `award` and `corresponding` fields; no new metadata is needed.
+
 ## Build checks and recovery
 
 `.github/workflows/redesign-preview.yml` builds only this directory on relevant

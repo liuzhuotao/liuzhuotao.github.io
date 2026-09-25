@@ -51,16 +51,21 @@ h1,h2,h3{font-weight:400;line-height:1.18}
 .research-area p{color:var(--muted);font-size:16px;line-height:1.8}
 .publication{padding:0 0 26px;margin-bottom:25px;border-bottom:1px solid var(--line)}
 .publication:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.publication-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px 13px;color:var(--muted);font-size:14px;margin-bottom:10px;line-height:1.6}
-.venue{color:var(--accent);text-transform:uppercase;letter-spacing:.04em;font-weight:650}
-.paper-award{display:inline-block;color:#725222;background:#f4edde;padding:3px 9px;border-radius:2px;font-size:12px}
+.publication-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px 13px;margin-bottom:10px;line-height:1.6}
+.publication-venue{color:var(--accent);font-size:18px;font-weight:650;line-height:1.55}
+.venue{text-transform:uppercase;letter-spacing:.025em}
+.publication-year{white-space:nowrap}
+.paper-award{display:inline-block;max-width:100%;color:#65440f;background:#f4e8cb;border:1px solid #d4b572;padding:4px 10px;border-radius:4px;font-size:15px;font-weight:650;line-height:1.45}
 .publication h3{font:400 22px/1.45 var(--serif);letter-spacing:-.01em;margin-bottom:9px}
 .publication h3 a{color:var(--ink)}
 .authors{font-size:17px;line-height:1.75;color:var(--muted)}
 .authors strong{font-weight:600;color:var(--ink)}
+.authors .corresponding-author,.authors .corresponding-author strong,.authors .corresponding-author a{font-weight:700;color:var(--accent)}
 .group-author{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--group-line)}
 .authors sup{font-size:12px;padding-left:1px}
-.author-note{font-size:12px;color:var(--muted);margin-top:5px}
+.authors .corresponding-marker{font-size:14px;font-weight:700;color:var(--accent)}
+.author-note{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6}
+.corresponding-note{color:var(--accent);font-weight:600}
 .paper-links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;font-size:14px;font-weight:500}
 .archive-link{font-size:15px;margin-top:26px}
 .award-list,.news-list{list-style:none;margin:0;padding:0}
@@ -166,6 +171,8 @@ h1,h2,h3{font-weight:400;line-height:1.18}
   .research-area p{font-size:15px}
   .prose{font-size:16px;line-height:1.8}
   .publication h3{font-size:20px}
+  .publication-venue{font-size:17px}
+  .paper-award{font-size:14px}
   .authors{font-size:16px}
   .paper-detail .authors{font-size:17px}
   .paper-links a{padding:5px 0}
