@@ -4,7 +4,7 @@
   <div class="hero-copy">
     <h1 id="profile-name">{{ $profile.name }}</h1>
     <p class="profile-role">{{ $profile.role }}</p>
-    <p class="affiliation">{{ $profile.department }}<br>{{ $profile.affiliation }}</p>
+    <p class="affiliation">{{ with $profile.department_url }}<a href="{{ . }}" title="{{ $profile.name }}'s departmental profile">{{ $profile.department }} <span aria-hidden="true">↗</span></a>{{ else }}{{ $profile.department }}{{ end }}<br>{{ $profile.affiliation }}</p>
   </div>
   <figure class="portrait">
     <img src="{{ strings.TrimPrefix "/" $profile.portrait | relURL }}" alt="Portrait of Zhuotao Liu" width="240" height="280" fetchpriority="high">
