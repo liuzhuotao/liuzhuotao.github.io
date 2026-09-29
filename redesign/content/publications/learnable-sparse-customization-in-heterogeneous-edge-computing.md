@@ -7,6 +7,8 @@ paper: "https://ieeexplore.ieee.org/abstract/document/11112971/"
 scholar: "https://scholar.google.com/citations?view_op=view_citation&user=F8gi4rcAAAAJ&citation_for_view=F8gi4rcAAAAJ:B3FOqHPlNUQC"
 # Metadata source: https://openalex.org/W4413349772
 auto_enrich: true
+# Metadata source: https://arxiv.org/abs/2412.07216
+preprint: "https://arxiv.org/abs/2412.07216"
 ---
 
 <!-- Abstract source: https://openalex.org/W4413349772 -->
