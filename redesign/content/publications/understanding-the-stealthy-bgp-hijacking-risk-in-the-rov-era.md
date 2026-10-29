@@ -12,6 +12,8 @@ paper: "https://doi.org/10.14722/ndss.2026.230097"
 auto_enrich: true
 # Metadata source: https://openalex.org/W7161062882
 preprint: "https://arxiv.org/abs/2606.23071"
+# Metadata source: https://openalex.org/W7161062882
+pdf: "https://doi.org/10.14722/ndss.2026.230097"
 ---
 
 <!-- Abstract source: https://openalex.org/W7161062882 -->
